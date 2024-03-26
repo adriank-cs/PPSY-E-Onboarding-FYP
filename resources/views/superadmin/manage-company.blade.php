@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <h1 class="fw-semibold mb-4">Manage Company</h1>
+    <h1 class="fw-semibold mb-4">Manage Companies</h1>
     <div class="row">
         <div class="col-md-11">
             <div class="col-md-4">

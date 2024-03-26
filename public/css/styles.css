@@ -20176,3 +20176,52 @@ ul {
 }
 
 /** login css **/
+
+
+
+/* Onboarding home page css employee */
+.card {
+    border: 1px solid #5D87FF;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    /* Ensure image fills the container */
+    object-fit: cover;
+
+}
+
+.progress {
+    height: 10px;
+    margin-bottom: 5px;
+    width: 600px;
+}
+
+.progress::-webkit-progress-value {
+    background-color: #6A1043;
+    /* For rounded edges */
+    border-radius: 4px;
+}
+
+.blurred-image {
+    /* Adjust blur amount */
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    /* Overlay color */
+    background-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.progress-container {
+    display: flex;
+    /* Vertically align progress bar and percentage */
+    align-items: center;
+}
+
+.progress-percentage {
+    margin-left: 10px;
+
+}

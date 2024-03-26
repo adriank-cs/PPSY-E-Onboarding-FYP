@@ -9,8 +9,8 @@ rm public/storage
 php artisan storage:link
 ```
 
-Push into GitHub
-Note: Make sure your function is done and working well before pushing. DO NOT PUSH HALF DONE FUNCTIONS/CODES
+Push into GitHub <br>
+Note: Make sure your function is done and working well before pushing. <br> DO NOT PUSH HALF DONE FUNCTIONS/CODES
 
 1. Open GitHub Desktop
 2. Change the main branch to your branch

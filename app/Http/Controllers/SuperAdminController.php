@@ -144,6 +144,7 @@ class SuperAdminController extends Controller
 
         // Pass the companies to the view
         return view('superadmin.manage-company', ['companies' => $companies]);
+        
     }
 
 
