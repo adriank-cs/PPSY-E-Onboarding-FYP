@@ -7,7 +7,7 @@
             <div class="text-left">
                 <div class="row">
                     <div class="col-md-3">
-                        <h1> Discussion </h1>
+                        <h1> Discussion Test</h1>
                     </div>
                 </div>
             </div>
