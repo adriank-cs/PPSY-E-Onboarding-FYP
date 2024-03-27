@@ -34,7 +34,7 @@
                     <div class="col-md-2">
                         <a href="{{ route('superadmin.edit_company', ['id' => $company->CompanyID]) }}"
                             class="card-link">Edit</a>
-                            <a href="#" class="card-link" onclick="confirmDelete('')">Delete</a>
+                            <a href="#" class="card-link" onclick="confirmDelete('{{ route('superadmin.delete_company', ['id' => $company->CompanyID]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
     });
 
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this account?')) {
+        if (confirm('Are you sure you want to delete this company?')) {
             // If the user clicks "OK", redirect to the delete URL
             window.location.href = url;
         }
