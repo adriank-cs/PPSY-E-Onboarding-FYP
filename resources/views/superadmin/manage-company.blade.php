@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <h1 class="fw-semibold mb-4">Manage Company</h1>
+    <h1 class="fw-semibold mb-4">Manage Companies</h1>
     <div class="row">
         <div class="col-md-11">
             <div class="col-md-4">
@@ -34,7 +34,7 @@
                     <div class="col-md-2">
                         <a href="{{ route('superadmin.edit_company', ['id' => $company->CompanyID]) }}"
                             class="card-link">Edit</a>
-                            <a href="#" class="card-link" onclick="confirmDelete('')">Delete</a>
+                            <a href="#" class="card-link" onclick="confirmDelete('{{ route('superadmin.delete_company', ['id' => $company->CompanyID]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
     });
 
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this account?')) {
+        if (confirm('Are you sure you want to delete this company?')) {
             // If the user clicks "OK", redirect to the delete URL
             window.location.href = url;
         }

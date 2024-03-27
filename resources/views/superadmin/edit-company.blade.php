@@ -8,10 +8,9 @@
 
         <div class="card-body">
 
-            <form action="{{ route('superadmin.edit_company.post') }}" method="POST">
+        <form action="{{ route('superadmin.edit_company.post', ['id' => $company->CompanyID]) }}" method="POST">
                 @csrf
 
-                <input type="hidden" name="company_id" value="{{ $company->id }}">
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Company Name:</label>
@@ -24,7 +23,7 @@
                         <option value="" disabled>Select Industry</option>
 
                         @foreach($industries as $industry)
-                            <option value="{{ $industry }}" {{ $company->industry == $industry ? 'selected' : '' }}>
+                            <option value="{{ $industry }}" {{ $company->Industry == $industry ? 'selected' : '' }}>
                                 {{ $industry }}
                             </option>
                         @endforeach
