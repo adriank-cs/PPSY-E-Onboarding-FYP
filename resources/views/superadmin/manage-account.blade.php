@@ -32,9 +32,9 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ $admin->profile->employee_id }}</h6>
                     </div>
                     <div class="col-md-2">
-                        <a href=""
+                        <a href="{{ route('superadmin.edit_account', ['id' => $admin->profile->user_id]) }}"
                             class="card-link">Edit</a>
-                            <a href="#" class="card-link" onclick="confirmDelete('')">Delete</a>
+                            <a href="#" class="card-link" onclick="confirmDelete('{{ route('superadmin.delete_account', ['id' => $admin->profile->user_id]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
