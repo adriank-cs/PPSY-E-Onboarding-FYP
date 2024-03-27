@@ -17,13 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             $table->primary(['UserID', 'CompanyID']); // Combined primary key
-
-            // Foreign key relationship with the users table
-            $table->foreign('UserID')->references('id')->on('users');
-
-            // Foreign key relationship with the companies table
-            $table->foreign('CompanyID')->references('CompanyID')->on('companies');
-
+            // Is Admin column
+            $table->boolean('isAdmin')->default(false);
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companyuser');
+        Schema::dropIfExists('companyusers');
     }
 };
