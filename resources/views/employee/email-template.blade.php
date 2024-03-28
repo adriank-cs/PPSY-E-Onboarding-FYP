@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>People Psynece Login Page (Need to include Google API)</title>
+    <title>Reset Password</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 
     <style>
 
 	body{
-		background-image: url('images/loginBG.png');
+		background-image: url('../images/loginBG.png');
 		background-repeat: no-repeat;
   		background-attachment: fixed;
   		background-size: 100% 100%;
@@ -56,19 +57,16 @@
         text-align: center; /* Added text-align:center to center the text within the container */
     }
 	
-	.Container input[type=email],
-	.Container input[type=password]{
+	.Container input{
 		border: 2px solid #6A1043;
   		border-radius: 30px;
-		padding: 10px;
-		margin:10px 0; 
+		padding: 10px 10px;
+		margin: 5px 0; 
 		width: 80%;
-		box-sizing: border-box;
-        
-        
+		box-sizing: border-box;     
 	}
 	
-	.Container input[type=submit]{
+	.Container button{
 		border: 2px solid #6A1043;
 		color: #fff;
 		background-color:#A6708E;
@@ -77,26 +75,71 @@
 		margin:10px 0; 
 		width: 80%;
 	}
+
+	.show-hide-checkbox {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center; /* Center horizontally */ 
+			
+    }
+
+	
+
 	
 	</style>
 </head>
 
 <body>
-
     <div class="Container">
-		<!--<img src="ppLogo.png" alt="PP Logo" height="100" width="200"/>-->
 		<br>
-
         <div class = "ResetPassword">
-			<input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="reset passsword" placeholder="Password" required>
-            <input type="password" name="confirm reset passsword" placeholder="Confirm Password" required>
-            <br>
-			<a href="{{ route('login_page') }}" class="button">
-            	<button>Reset Password</button>
-        	</a>
-        </div>
+			<form action="{{ route('reset_password') }}" method="POST">
+				@csrf
+				@if(session()->has('error'))
+				<div class="alert-danger" role="alert">
+					{{session('error')}}
+				</div>
+				@endif
 
+				@if(session()->has('success'))
+				<div class="alert-success" role="alert">
+					{{session('success')}}
+				</div>
+				@endif
+
+				<!-- get the reset password token !-->
+				<input type="hidden" name="token" value="{{ $token }}">
+				
+				<input type="email" name="email" placeholder="Email" required>
+				<input type="password" name="password" id="p1" placeholder="Password" required>
+				<input type="password" name="password_confirmation" id="p2" placeholder="Confirm Password" required>
+            	<br>
+
+				<div class="show-hide-checkbox">
+					<input type="checkbox" onclick="myFunction()"> Show Password
+				</div>
+
+				<button type="submit">Reset Password</button>
+			</form>
+
+			<script>
+				function myFunction() {
+                var passwordField = document.getElementById("p1");
+                var confirmPasswordField = document.getElementById("p2");
+
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    confirmPasswordField.type = "text";
+                } else {
+                    passwordField.type = "password";
+                    confirmPasswordField.type = "password";
+                }
+            }
+				
+				
+			</script>	
+        </div>
     </div>
     
 </body>

@@ -1,10 +1,10 @@
 <?php
-
+/* 2024_02_29_082538_create_modules_table */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+return new class extends Migration 
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('superadmins', function (Blueprint $table) {
-            $table->id('AdminID');
-            $table->unsignedBigInteger('UserID');
-            // Add other columns as needed
-
-            //TODO: CAN ADD FURTHER SECURITY MEASURES. E.G. TWO FACTOR AUTHENTICATION, PRIVATE KEY ETC.
-
+        Schema::create('modules', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 255);
+            $table->string('image_path', 255);
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('superadmins');
+        Schema::dropIfExists('modules');
     }
 };
