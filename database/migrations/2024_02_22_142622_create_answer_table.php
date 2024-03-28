@@ -18,13 +18,9 @@ class CreateAnswerTable extends Migration
             $table->unsignedBigInteger('CompanyID');
             $table->unsignedBigInteger('PostID');
             $table->primary(['UserID', 'CompanyID', 'PostID']);
-
-            $table->foreign('UserID')->references('UserID')->on('companyusers');
-            $table->foreign('CompanyID')->references('CompanyID')->on('companyusers');
-            $table->foreign('PostID')->references('PostID')->on('post');
-
-            $table->text('content');
+            $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
             $table->timestamps();
+            $table->boolean('is_anonymous')->default(false)->nullable(); //Moved to table creation
         });
     }
 
