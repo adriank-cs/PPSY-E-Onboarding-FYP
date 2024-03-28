@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class AddProfilePictureToProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
-            $table->id('CompanyID'); // Primary Key
-            $table->string('Name');
-            $table->string('Industry');
-            $table->text('Address');
-            $table->timestamps();
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->string('profile_picture')->nullable()->after('address');
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->dropColumn('profile_picture');
+        });
     }
-};
+}

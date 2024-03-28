@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('superadmins', function (Blueprint $table) {
             $table->id('AdminID');
             $table->unsignedBigInteger('UserID');
+            $table->foreign('UserID')->references('id')->on('users');
             // Add other columns as needed
-
-            //TODO: CAN ADD FURTHER SECURITY MEASURES. E.G. TWO FACTOR AUTHENTICATION, PRIVATE KEY ETC.
 
             $table->timestamps();
         });

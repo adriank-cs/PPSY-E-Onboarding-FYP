@@ -12,15 +12,11 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::create('companies', function (Blueprint $table) {
-            $table->id('CompanyID'); // Primary Key
-            $table->string('Name');
-            $table->string('Industry');
-            $table->text('Address');
-            $table->timestamps();
-        });
-    }
+{
+    Schema::table('companyusers', function (Blueprint $table) {
+        $table->boolean('isAdmin')->default(false);
+    });
+}
 
     /**
      * Reverse the migrations.
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::table('companyusers', function (Blueprint $table) {
+            //
+        });
     }
 };
