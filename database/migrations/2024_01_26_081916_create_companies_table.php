@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('Name');
             $table->string('Industry');
             $table->text('Address');
+            $table->string('Website');
             $table->timestamps();
         });
     }

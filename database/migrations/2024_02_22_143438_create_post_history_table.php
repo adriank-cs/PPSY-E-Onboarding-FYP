@@ -17,14 +17,9 @@ class CreatePostHistoryTable extends Migration
             $table->id('HistoryID');
             $table->unsignedBigInteger('PostID');
             $table->unsignedBigInteger('UserID');
-            $table->unsignedBigInteger('CompanyID');
-
-            $table->foreign('PostID')->references('PostID')->on('post');
-            $table->foreign('UserID')->references('UserID')->on('companyusers');
-            $table->foreign('CompanyID')->references('CompanyID')->on('companyusers');
-            
+            $table->unsignedBigInteger('CompanyID');            
             $table->string('title');
-            $table->text('content');
+            $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
             $table->boolean('is_answered')->default(false);
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_archived')->default(false);
