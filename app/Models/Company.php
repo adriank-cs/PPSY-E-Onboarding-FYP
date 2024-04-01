@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     use HasFactory;
+    
+    protected $table = 'companies';
 
     protected $primaryKey = 'CompanyID';
 
@@ -16,5 +18,6 @@ class Company extends Model
         'Name',
         'Industry',
         'Address',
+        'Website',
     ];
 }
