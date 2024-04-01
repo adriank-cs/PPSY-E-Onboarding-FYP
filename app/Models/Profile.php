@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class Profile extends Model
 {
+
     protected $table = 'profiles';
     protected $primaryKey = 'profile_id';
 
 
-    protected $fillable = [
+    protected $fillable = [ //TODO: The fillable field should be reserved for non-critical attributes.
+        'profile_id',
         'user_id',
         'employee_id',
         'name',
