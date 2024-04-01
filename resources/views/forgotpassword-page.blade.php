@@ -1,6 +1,11 @@
-<!-- login css style -->
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
 
+    <style>
 	body{
 		background-image: url('images/loginBG.png');
 		background-repeat: no-repeat;
@@ -38,61 +43,29 @@
         margin: auto; /* Added margin:auto to center the container horizontally */
         position: relative;
 	}
-    
-    .ForgotPassword{
-        align-items: center;
-        justify-content: center;
-        display: flex;
-    }
 	
 	.Container img{
 		object-fit: contain;
 		width: 80%;
 	}
 
-    .Login {
+    .SubmitEmail{
         flex-direction: column;
         align-items: center;
         text-align: center; /* Added text-align:center to center the text within the container */
     }
-
-	.alert-danger{
-		width: 200px;
-        text-align: center;
-		margin: auto;
-		flex-direction: column;	
-		background-color: #ffcccc;
-		padding: 5px;
-		margin-top: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-	}
-
-	.alert-success{
-		width: 200px;
-        text-align: center;
-		margin: auto;
-		flex-direction: column;	
-		background-color: #7CFC00;
-		padding: 5px;
-		margin-top: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-	}
 	
-	.Container input[type=text],
-	.Container input[type=password]{
+	.Container input[type=email]{
 		border: 2px solid #6A1043;
   		border-radius: 30px;
 		padding: 10px;
 		margin:10px 0; 
 		width: 80%;
 		box-sizing: border-box;
-        
-        
+		
 	}
 	
-	.Container input[type=submit]{
+	.Container button[type=submit]{
 		border: 2px solid #6A1043;
 		color: #fff;
 		background-color:#A6708E;
@@ -102,20 +75,39 @@
 		width: 80%;
 	}
 	
-	.GoogleLogin{
-		display: flex;
-        justify-content: center;
-        align-items: center;
-		margin-top:20px;
+	.ReturnLogIn{
+		padding-bottom:25px;
 	}
 	
-	.GoogleLogin button {
-		background-color: #4285F4;
-		color: #fff;
-		border: none;
-		border-radius: 30px;
-		padding: 10px 20px;
-		cursor: pointer;
-		margin-bottom:25px;
-	}
-</style>
+	</style>
+</head>
+
+<body>
+<div class="Container">
+        <!--<img src="ppLogo.png" alt="PP Logo" height="100" width="200"/>-->
+		<!--Will use the logo from the database-->
+		<br>
+
+        <div class = "SubmitEmail">
+            <p>Don't worry, mistake happen!</p>
+            <p>Please enter your email address.</p>
+            <p>We'll send you a link to resets your password.</p>
+            
+            <form action="{{ route('email_notify_page') }}" method="post">
+				@csrf
+                <input type="email" name="email" placeholder="Email" required>
+                <br>
+                <button type="submit">Request Email</button>
+            </form>
+                
+        </div>
+    
+        <div class="ReturnLogIn">
+            <a href="{{ route('login') }}" style="color:black" class="btn">Log In</a>
+        </div>
+
+    </div>
+
+   
+</body>
+</html>

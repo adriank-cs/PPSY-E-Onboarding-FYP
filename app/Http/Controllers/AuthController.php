@@ -29,8 +29,7 @@ class AuthController extends Controller {
         return view('login');
     }
 
-    public function loginPost(Request $request)
-{
+    public function loginPost(Request $request){
     // Validate login request data
     $request->validate([
         'email' => 'required|email',

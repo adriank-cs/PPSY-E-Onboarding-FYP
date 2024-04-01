@@ -27,16 +27,25 @@ class GoogleAuthController extends Controller
 
             //$user = User::where('google_id',$google_user->getId())->first(); //check the user by using google id
             $user = User::where('email',$google_user->getEmail())->first();
+
             //if user not inside the database display error message 
             if (!$user) {
-               // echo "<script>alert('Invalid user');</script>";
-                return redirect()->route('login_page')->with('error', 'Invalid User');
+                 return redirect()->route('login')->with('error', 'Invalid User');
             }
-            
-            //if the google acc already in database can direct to the progile page
+
             Auth::login($user);
-            return redirect()->intended('/employee/profile-page');
-            
+
+            if (Auth::check()) {
+                $user = Auth::user();
+                if ($user->isSuperadmin()) {
+                    return redirect()->route('superadmin.profile_page');
+                } elseif ($user->companyUser && $user->companyUser->isAdmin){
+                    return redirect()->route('admin.profile_page');
+                } else {
+                    return redirect()->route('employee.profile_page');
+                }
+            }
+          
 
         } catch(\Throwable $th){
             dd('something went wrong!'.$th->getMessage());
