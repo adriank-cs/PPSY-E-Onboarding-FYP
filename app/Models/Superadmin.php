@@ -13,6 +13,11 @@ class Superadmin extends Model
 
     protected $primaryKey = 'AdminID'; // Specify the primary key if it's different
 
+    protected $fillable = [
+        'AdminID',
+        'UserID',
+    ];
+
     // Define any relationships or additional properties here
     public function user()
     {
