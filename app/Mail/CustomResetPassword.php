@@ -32,7 +32,7 @@ class CustomResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->view('employee.reset-password-emailtemplate')
+        return $this->view('reset-password-emailtemplate')
                     ->subject('Reset Your Password');
     }
 
@@ -44,7 +44,7 @@ class CustomResetPassword extends Mailable
     public function content()
     {
         return new Content(
-            view: 'employee.reset-password-emailtemplate',
+            view: 'reset-password-emailtemplate',
         );
     }
 
