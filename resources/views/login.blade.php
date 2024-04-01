@@ -12,26 +12,16 @@
 	<div class="Container">
 		<form action="{{route('login.post')}}" method="POST">
 			@csrf
-			@if($errors->any())
-			<div class="col-12">
-				@foreach($errors->all() as $error)
-				<div class="alert alert-danger" role="alert">
-					{{$error}}
-				</div>
-				@endforeach
-			</div>
-			@endif
-
 			@if(session()->has('error'))
 			<div class="alert-danger" role="alert">
 				{{session('error')}}
 			</div>
 			@endif
-
+			
 			@if(session()->has('success'))
-			<div class="alert-success" role="alert">
-				{{session('success')}}
-			</div>
+				<div class="alert-success" role="alert">
+					{{session('success')}}
+				</div>
 			@endif
 
 			<div class="Login">
