@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 
 class EmployeeController extends Controller {
+
+    //Dashboard
+    function dashboard()
+    {
+        return view('employee.dashboard');
+    }
     function profile_page() {
         // Get the authenticated user
         $user = auth()->user();
