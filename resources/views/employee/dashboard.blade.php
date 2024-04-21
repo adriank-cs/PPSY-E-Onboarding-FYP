@@ -1,4 +1,4 @@
-@extends('superadmin-layout')
+@extends('employee-layout')
 
 @section('content')
 <div class="container-fluid">
@@ -11,13 +11,13 @@
 
             <div class="row">
                 <!-- Dashboard Charts -->
-                <livewire:superadmin.super-admin-charts/>
+                <livewire:employee.employee-charts/>
                 <livewire:scripts />
                 @livewireChartsScripts
             </div>
             <div class="row">
                 <!-- Table -->
-                <livewire:superadmin.super-admin-dashboard-table theme="bootstrap-5" /> <!-- https://rappasoft.com/docs/laravel-livewire-tables/v3/introduction -->
+                <livewire:employee.employee-dashboard-table theme="bootstrap-5" /> <!-- https://rappasoft.com/docs/laravel-livewire-tables/v3/introduction -->
             </div>
 
         </div>
