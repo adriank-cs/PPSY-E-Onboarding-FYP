@@ -49,7 +49,7 @@ class AuthController extends Controller {
         } elseif ($user->companyUser && $user->companyUser->isAdmin) {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('employee.dashboard'); //TODO: Ensure redicrect works
+            return redirect()->route('employee.dashboard');
         }
     }
 
