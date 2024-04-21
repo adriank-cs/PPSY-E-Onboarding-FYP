@@ -44,7 +44,7 @@ class EmployeeController extends Controller {
 
         // Handle the case when the user doesn't have a company user record
         return redirect()->route('login')->with('error', 'User does not have a company association.');
-        return view('employee.profile-page');
+        return view('employee.profile-page'); //BUG: This line is unreachable
     }
 
 }
