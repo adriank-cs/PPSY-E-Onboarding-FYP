@@ -18,11 +18,19 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('employee.profile_page') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('employee.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
-                        <span class="hide-menu">Profile Page</span>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('employee.profile_page') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user-circle"></i>
+                        </span>
+                        <span class="hide-menu">Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

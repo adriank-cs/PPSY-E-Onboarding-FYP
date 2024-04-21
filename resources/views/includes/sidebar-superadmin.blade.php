@@ -30,7 +30,7 @@
                         <span>
                             <i class="ti ti-user-circle"></i>
                         </span>
-                        <span class="hide-menu">Profile Page</span>
+                        <span class="hide-menu">Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
