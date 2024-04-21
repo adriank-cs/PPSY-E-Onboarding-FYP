@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\DB;
 
 class SuperAdminController extends Controller
 {
+    //Dashboard
+    function dashboard()
+    {
+        return view('superadmin.dashboard');
+    }
+
     public function manageAccount()
     {
         // Fetch profiles of all admins

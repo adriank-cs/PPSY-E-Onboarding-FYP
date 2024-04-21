@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    //Dashboard
+    function dashboard()
+    {
+        return view('admin.dashboard');
+    }
+
     function manage_account()
     {
         $user = Auth::user();

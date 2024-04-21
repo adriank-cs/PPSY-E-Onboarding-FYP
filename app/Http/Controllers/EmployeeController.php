@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\DB;
 
 
 class EmployeeController extends Controller {
+
+    //Dashboard
+    function dashboard()
+    {
+        return view('employee.dashboard');
+    }
     function profile_page() {
         // Get the authenticated user
         $user = auth()->user();
@@ -38,7 +44,7 @@ class EmployeeController extends Controller {
 
         // Handle the case when the user doesn't have a company user record
         return redirect()->route('login')->with('error', 'User does not have a company association.');
-        return view('employee.profile-page');
+        return view('employee.profile-page'); //BUG: This line is unreachable
     }
 
 }

@@ -8,8 +8,7 @@ use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class CompanyUser extends Model
 {
-    use HasFactory;
-    use HasCompositeKey;
+    use HasFactory, HasCompositeKey;
 
     protected $table = 'companyusers';
 
@@ -17,7 +16,7 @@ class CompanyUser extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
+    protected $fillable = [ //TODO: Define relations for models
         'UserID',
         'CompanyID',
         'isAdmin',
