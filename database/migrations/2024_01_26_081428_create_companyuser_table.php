@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('companyusers', function (Blueprint $table) {
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
-            $table->primary(['UserID', 'CompanyID']); // Combined primary key
+            $table->primary(['UserID', 'CompanyID']); //TODO: Change composite key since company user cannot be truncated
             // Is Admin column
             $table->boolean('isAdmin')->default(false);
             $table->timestamps();
