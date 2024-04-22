@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('companyusers', function (Blueprint $table) {
-            $table->ulid('CUID');
+            //$table->ulid('CUID');
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             //Unique ULID Column
-            $table->primary('CUID');
+            //$table->primary('CUID');
+            $table->primary(['UserID', 'CompanyID']);
             // Is Admin column
             $table->boolean('isAdmin')->default(false);
             $table->timestamps();

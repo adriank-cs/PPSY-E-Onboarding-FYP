@@ -8,19 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Symfony\Component\Uid\Ulid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class CompanyUser extends Model
 {
-    use HasFactory, HasUlids, SoftDeletes;
+    use HasFactory, HasUlids, SoftDeletes, HasCompositeKey;
 
     protected $table = 'companyusers';
 
-    protected $primaryKey = 'CUID';
+    //protected $primaryKey = 'CUID';
+    protected $primaryKey = ['UserID', 'CompanyID'];
 
     public $incrementing = false;
 
     protected $fillable = [ //TODO: Define relations for models
-        'CUID',
+        //'CUID',
         'UserID',
         'CompanyID',
         'isAdmin',
