@@ -24,6 +24,8 @@ class CreatePostTable extends Migration
             $table->boolean('is_archived')->default(false);
             $table->boolean('is_anonymous')->default(false)->nullable(); //Moved to table creation
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

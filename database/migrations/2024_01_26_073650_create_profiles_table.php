@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('profile_picture')->nullable();
             $table->nullableTimestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

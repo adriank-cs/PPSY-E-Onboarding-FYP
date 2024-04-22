@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('image');
             $table->integer('completion_percentage');
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 
