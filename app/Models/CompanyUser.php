@@ -3,20 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
-use Thiagoprz\CompositeKey\HasCompositeKey;
+use Illuminate\Support\Str;
+use Symfony\Component\Uid\Ulid;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompanyUser extends Model
 {
-    use HasFactory, HasCompositeKey;
+    use HasFactory, HasUlids, SoftDeletes;
 
     protected $table = 'companyusers';
 
-    protected $primaryKey = ['UserID', 'CompanyID'];
+    protected $primaryKey = 'CUID';
 
     public $incrementing = false;
 
     protected $fillable = [ //TODO: Define relations for models
+        'CUID',
         'UserID',
         'CompanyID',
         'isAdmin',
@@ -33,4 +37,16 @@ class CompanyUser extends Model
     {
         return $this->belongsTo(Company::class, 'CompanyID', 'id');
     }
+
+    //Generate a new ULID for the model
+    public static function generateUlid()
+    {
+        return Str::ulid();
+    }
+
+    //Get the ULID attribute
+    protected function getUlidAttribute() {
+        return Ulid::fromString($this->attributes['CUID']);
+    }
+
 }
