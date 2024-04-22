@@ -63,6 +63,22 @@ return new class extends Migration
             $table->foreign('CompanyID')->references('CompanyID')->on('companyusers');
             $table->foreign('PostID')->references('PostID')->on('post');
         });
+
+        //MODULE QUESTIONS
+        Schema::table('module_questions', function (Blueprint $table) {
+            // Foreign key relationship with the modules table
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+        });
+
+        //USER RESPONSE
+        Schema::table('user_responses', function (Blueprint $table) {
+            // Foreign key relationship with the users table
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            // Foreign key relationship with the module_questions table
+            $table->foreign('module_question_id')->references('id')->on('module_questions')->onDelete('cascade');
+        });
+
     }
 
     /**

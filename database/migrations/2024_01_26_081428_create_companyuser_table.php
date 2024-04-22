@@ -14,12 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('companyusers', function (Blueprint $table) {
+            //$table->ulid('CUID');
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
-            $table->primary(['UserID', 'CompanyID']); //TODO: Change composite key since company user cannot be truncated
+            //Unique ULID Column
+            //$table->primary('CUID');
+            $table->primary(['UserID', 'CompanyID']);
             // Is Admin column
             $table->boolean('isAdmin')->default(false);
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes(); 
         });
     }
 
