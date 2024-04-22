@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('image_path', 255);
             $table->unsignedBigInteger('CompanyID');
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

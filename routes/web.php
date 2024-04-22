@@ -60,6 +60,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         // Routes specific to admin
+        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard'); 
         Route::get('/admin/profile-page', [AdminController::class, 'profile_page'])->name('admin.profile_page');
         Route::get('/admin/manage-account', [AdminController::class, 'manage_account'])->name('manage_account');
         Route::get('/admin/add-account', [AdminController::class, 'add_account'])->name('add_account');
@@ -80,6 +81,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::middleware(['employee'])->group(function () {
         // Routes specific to employee
+        Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard'); 
         Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
         Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
 
@@ -87,7 +89,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::middleware(['superadmin'])->group(function () {
         // Routes specific to superadmin
-        Route::get('/superadmin/profile-page', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
+        Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard'); 
+        Route::get('/superadmin/profile', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
         Route::get('/superadmin/manage-account', [SuperAdminController::class,'manageAccount'])->name('superadmin.manage_account');
         Route::get('/superadmin/add-account', [SuperAdminController::class, 'add_account'])->name('superadmin.add_account');
         Route::post('/superadmin/add-account', [SuperAdminController::class, 'add_accountPost'])->name('superadmin.add_account.post');

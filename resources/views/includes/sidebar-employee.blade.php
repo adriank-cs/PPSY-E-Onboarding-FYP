@@ -3,7 +3,7 @@
     <!--Sidebar Scroll -->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index.html" class="text-nowrap logo-img">
+            <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
                 <img src="{{asset('images/pp-logo.png')}}" width="180" alt="" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -18,11 +18,19 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('employee.profile_page') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('employee.dashboard') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-layout-dashboard"></i>
                         </span>
-                        <span class="hide-menu">Profile Page</span>
+                        <span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('employee.profile_page') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user-circle"></i>
+                        </span>
+                        <span class="hide-menu">Profile</span>
                     </a>
                 </li>
                 <li class="sidebar-item">

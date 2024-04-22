@@ -21,6 +21,8 @@ class CreateAnswerTable extends Migration
             $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
             $table->timestamps();
             $table->boolean('is_anonymous')->default(false)->nullable(); //Moved to table creation
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

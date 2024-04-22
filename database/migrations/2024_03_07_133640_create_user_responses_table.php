@@ -18,9 +18,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('module_question_id'); // Reference module_question table instead of question_id
             $table->text('answer')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('module_question_id')->references('id')->on('module_questions')->onDelete('cascade');
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

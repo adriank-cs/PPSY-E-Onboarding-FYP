@@ -67,6 +67,18 @@
         margin-bottom: 10px;
         border-radius: 5px;
 	}
+
+	.alert-success{
+		width: 200px;
+        text-align: center;
+		margin: auto;
+		flex-direction: column;	
+		background-color: #7CFC00;
+		padding: 5px;
+		margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+	}
 	
 	.Container input[type=text],
 	.Container input[type=password]{

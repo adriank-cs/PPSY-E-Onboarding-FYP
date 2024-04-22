@@ -24,6 +24,8 @@ class CreatePostHistoryTable extends Migration
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_archived')->default(false);
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

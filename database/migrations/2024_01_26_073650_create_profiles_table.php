@@ -16,18 +16,20 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id('profile_id'); //Profile ID as primary key
             $table->unsignedBigInteger('user_id'); //ID as foreign key linked to the users table
-            $table->string('employee_id');
+            $table->string('employee_id')->nullable(); //TODO: Best to keep Employee ID as non-nullable
             $table->string('name');
-            $table->string('gender');
-            $table->date('dob');
-            $table->integer('age');
-            $table->string('position');
-            $table->string('dept');
-            $table->text('bio');
-            $table->string('phone_no');
-            $table->string('address');
+            $table->string('gender')->nullable();
+            $table->date('dob')->nullable();
+            $table->integer('age')->nullable();
+            $table->string('position')->nullable();
+            $table->string('dept')->nullable();
+            $table->text('bio')->nullable();
+            $table->string('phone_no')->nullable();
+            $table->string('address')->nullable();
             $table->string('profile_picture')->nullable();
-            $table->timestamps();
+            $table->nullableTimestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 
