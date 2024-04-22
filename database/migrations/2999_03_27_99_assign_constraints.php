@@ -63,6 +63,12 @@ return new class extends Migration
             $table->foreign('CompanyID')->references('CompanyID')->on('companyusers');
             $table->foreign('PostID')->references('PostID')->on('post');
         });
+
+        //MODULES
+        Schema::table('modules', function (Blueprint $table) {
+            // Foreign key relationship with the users table
+            $table->foreign('CompanyID')->references('CompanyID')->on('companyusers');
+        });
     }
 
     /**

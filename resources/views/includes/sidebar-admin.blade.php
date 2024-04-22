@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('admin.manage_modules') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-book-2"></i>
                         </span>

@@ -69,11 +69,20 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/delete_account/{id}', [AdminController::class, 'deleteAccount'])->name('admin.delete_account');
         Route::post('/admin/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
 
+        Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
+        Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
+        Route::post('/admin/add-modules', [ModuleController::class, 'add_modulePost'])->name('admin.add_module.post');
+        Route::get('/admin/configure-module/{id}', [ModuleController::class, 'configureModule'])->name('admin.configure_module');
+        Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
+        Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
+
     });
 
     Route::middleware(['employee'])->group(function () {
         // Routes specific to employee
         Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
+        Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
+
     });
 
     Route::middleware(['superadmin'])->group(function () {
@@ -98,12 +107,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
 
-Route::post('/modules', ModuleController::class, 'store')->name('modules.store');
-Route::resource('modules', ModuleController::class);
-Route::get('/employee/onboarding-home-page', [ModuleController::class, 'index'])->name('employee.onboarding-home-page');
-
-Route::get('/modules/{module}/show', [ModuleController::class, 'show'])->name('modules.show');
-Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
-
-
-Route::post('/modules/{module}/submit-answers', [ModuleController::class, 'submitAnswers'])->name('modules.submit-answers');
+// Route::post('/modules', ModuleController::class, 'store')->name('modules.store');
+// Route::resource('modules', ModuleController::class);
+// Route::get('/modules/{module}/show', [ModuleController::class, 'show'])->name('modules.show');
+// Route::get('/onboarding-modules/create', [ModuleController::class, 'create'])->name('modules.create');
+// Route::post('/modules/{module}/submit-answers', [ModuleController::class, 'submitAnswers'])->name('modules.submit-answers');

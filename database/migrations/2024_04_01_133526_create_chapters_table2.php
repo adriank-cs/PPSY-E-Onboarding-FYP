@@ -1,10 +1,10 @@
 <?php
-/* 2024_02_29_082538_create_modules_table */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration 
+class CreateChaptersTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('image_path', 255);
-            $table->unsignedBigInteger('CompanyID');
+            $table->foreignId('module_id')->constrained()->onDelete('cascade');
+            $table->string('title');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('chapters');
     }
-};
+}
