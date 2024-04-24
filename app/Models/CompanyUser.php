@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class CompanyUser extends Model
@@ -16,20 +17,21 @@ class CompanyUser extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [ //TODO: Define relations for models
+    protected $fillable = [ 
         'UserID',
         'CompanyID',
         'isAdmin',
     ];
 
+    //TODO: Define relations for models with modules
     // Relationship with the User model
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'UserID', 'id');
     }
 
     // Relationship with the Company model
-    public function company()
+    public function company() : BelongsTo
     {
         return $this->belongsTo(Company::class, 'CompanyID', 'id');
     }
