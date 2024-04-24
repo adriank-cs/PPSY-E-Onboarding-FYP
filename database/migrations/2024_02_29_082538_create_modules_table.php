@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('image_path', 255);
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 
