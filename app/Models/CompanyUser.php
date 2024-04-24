@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Symfony\Component\Uid\Ulid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Thiagoprz\CompositeKey\HasCompositeKey;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class CompanyUser extends Model
 {
-    use HasFactory, HasUlids, SoftDeletes, HasCompositeKey;
+    use HasFactory, SoftDeletes, HasCompositeKey, LogsActivity;
 
     protected $table = 'companyusers';
 
@@ -51,6 +52,13 @@ class CompanyUser extends Model
     //Get the ULID attribute
     protected function getUlidAttribute() {
         return Ulid::fromString($this->attributes['CUID']);
+    }
+
+    //Logging model changes
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['UserID', 'CompanyID', 'isAdmin']);
     }
 
 }
