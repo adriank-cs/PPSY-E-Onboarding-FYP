@@ -42,7 +42,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -70,7 +70,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -98,7 +98,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -126,7 +126,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -154,7 +154,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -182,7 +182,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->

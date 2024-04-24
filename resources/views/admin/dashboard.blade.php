@@ -30,6 +30,7 @@
 
             <!-- Timeline Start -->
             <!-- TODO: Add looping logic for each event in timeline -->
+            <!-- TODO: Implement activity log https://spatie.be/docs/laravel-activitylog/v4/introduction -->
 
             <!-- Timeline Card -->
             <div class="card text-bg-light mb-3">
@@ -42,7 +43,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> 
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -70,7 +71,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -126,7 +127,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -154,7 +155,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
@@ -182,7 +183,7 @@
 
                         <!-- Activity Description -->
                         <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> <!-- TODO: Input dynamic text and activities according to database changes -->
+                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5> 
                         </div>
                     </div>
                     <!-- Timestamp and Relevant Info -->
