@@ -2,6 +2,16 @@
 
 @section('content')
 
+<style>
+    .editor-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .editor-content {
+        margin-top: 20px;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
@@ -16,16 +26,26 @@
             <!-- Include the TinyMCE configuration component -->
             <x-head.tinymce-config/>
 
-            <!-- entry box and search button -->
+            <!-- Entry form for creating a new post -->
             <br>
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-body">
-                        <!-- Include the TinyMCE editor form component -->
-                        <x-forms.tinymce-editor/>
-                    </div>
+            <form action="{{ route('discussion.createPost') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <!-- Title Field -->
+                <div class="form-group editor-title" id="title-field">
+
+                    <label for="title">Title</label>
+                    <textarea id="content" name="title"></textarea>
                 </div>
-            </div>
+                
+                <!-- Content Field -->
+                <div class="form-group editor-content" id="content-fields">
+                    <label for="content">Content</label>
+                    <textarea id="content" name="content"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary float-end">Submit</button>
+            </form>
         </div>
     </div>
 </div>
