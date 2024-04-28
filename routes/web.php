@@ -48,12 +48,15 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
-//***************************//
+//Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
+Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
+Route::get('/discussion/typeown', [DiscussionController::class, 'typeown'])->name('discussion.typeown'); // Display discussion searched question page
+Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
+Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
+Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
 
-//Route::get('/discussion/homepage', [DiscussionController::class, 'homepage']) -> name('homepage');; //display discussion homepage
-Route::get('/discussion/searched', [DiscussionController::class, 'searched']) -> name('searched');; //display discussion searched question page
-Route::get('/discussion/typeown', [DiscussionController::class, 'typeown']) -> name('typeown');; //display discussion searched question page
-Route::get('/discussion/homepage', [PostController::class, 'homepageName']) -> name('randomPost');;
+// Display individual post with a specific post ID
+Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay');
 
 Route::middleware(['web', 'auth'])->group(function () {
     // Common authenticated user routes (both admin and employee)
