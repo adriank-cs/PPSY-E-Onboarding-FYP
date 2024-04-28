@@ -192,6 +192,7 @@ class SuperAdminController extends Controller
             'name' => 'required|string',
             'industry' => 'required|string',
             'address' => 'required|string',
+            'website' => 'required|string',
         ]);
 
         // Update the company details in the database
@@ -201,6 +202,7 @@ class SuperAdminController extends Controller
             'Name' => $request->input('name'),
             'Industry' => $request->input('industry'),
             'Address' => $request->input('address'),
+            'Website' => $request->input('website'),
         ]);
 
         return redirect()->route('superadmin.manage_company')->with('success', 'Company updated successfully.');
@@ -217,12 +219,14 @@ class SuperAdminController extends Controller
             'name' => 'required|string',
             'industry' => 'required|string',
             'address' => 'required|string',
+            'website' => 'required|string',
         ]);
 
         $company = Company::create([
             'Name' => $request->input('name'),
             'Industry' => $request->input('industry'),
             'Address' => $request->input('address'),
+            'Website' => $request->input('website'),
         ]);
 
         return redirect()->route('superadmin.manage_company')->with('success', 'Account created successfully.');

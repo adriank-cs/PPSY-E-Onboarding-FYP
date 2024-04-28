@@ -13,27 +13,24 @@ class Module extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'image_path'];
+    protected $fillable = ['title', 'image_path', 'CompanyID'];
 
-    /**
-     * Get the path to the image file.
-     *
-     * @return string
-     */
+    // Define the relationship with the Company model
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'CompanyID');
+    }
+
     public function getImageUrlAttribute()
     {
         if (empty($this->image_path)) {
             return asset('images/placeholder.jpg'); // Or default image path
         }
 
-        // Use Storage if you're saving images in storage:
-        //return Storage::disk('local')->url($this->image_path);
-
         return asset('storage/' . $this->image_path); // Adjust path if different
 
     }
-    public function questions()
-    {
-        return $this->hasMany(ModuleQuestion::class); // Define the relationship: module has many questions
-    }
+
+
+
 }

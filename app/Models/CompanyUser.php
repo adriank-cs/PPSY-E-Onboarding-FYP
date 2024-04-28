@@ -12,7 +12,7 @@ use Thiagoprz\CompositeKey\HasCompositeKey;
 
 class CompanyUser extends Model
 {
-    use HasFactory, HasUlids, SoftDeletes, HasCompositeKey;
+    use HasFactory, SoftDeletes, HasCompositeKey;
 
     protected $table = 'companyusers';
 
@@ -41,14 +41,14 @@ class CompanyUser extends Model
     }
 
     //Generate a new ULID for the model
-    public static function generateUlid()
-    {
-        return Str::ulid();
-    }
+    // public static function generateUlid()
+    // {
+    //     return Str::ulid();
+    // }
 
-    //Get the ULID attribute
-    protected function getUlidAttribute() {
-        return Ulid::fromString($this->attributes['CUID']);
-    }
+    // //Get the ULID attribute
+    // protected function getUlidAttribute() {
+    //     return Ulid::fromString($this->attributes['CUID']);
+    // }
 
 }
