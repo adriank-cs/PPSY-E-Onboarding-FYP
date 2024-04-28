@@ -3,135 +3,147 @@
 namespace App\Http\Controllers;
 
 use App\Models\Module;
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Import Storage for image handling
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CompanyUser;
 use App\Models\UserResponse;
 use App\Models\ModuleQuestion;
 use App\Http\Requests\StoreModuleRequest;
 
 class ModuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function modules()
     {
         $modules = Module::all();
         return view('employee.onboarding-home-page', compact('modules')); // Return the view
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('employee.create-modules'); // Return the view
+        return view('admin.create-modules'); // Return the view
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    function manage_modules()
     {
+        $adminUser = auth()->user();
+
+        // Fetch modules belonging to the company ID of the currently logged-in admin
+        $modules = Module::where('CompanyID', $adminUser->companyUser->CompanyID)->get();
+
+        // Pass the profiles to the view
+        return view('admin.manage-modules', ['modules' => $modules]);
+
+    }
+
+    function add_module()
+    {
+        return view('admin.add-modules');
+    }
+
+    public function add_modulePost(Request $request)
+    {
+        $adminUser = auth()->user();
+        // Validate the form data
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'questions' => 'required|array|min:1',
-            'questions.*' => 'required|string|min:3',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
-
-        $fileName = uniqid() . '.' . $request->file('image')->getClientOriginalExtension();
-
-        // Use Storage to store the image:
-        $path = $request->file('image')->storeAs('modules', $fileName, 'public');
-
-        // dump the path:
-        //dd($path);
-
-        $module = Module::create([
-            'title' => $request->input('title'),
-            'image_path' => $path, // Store the stored path
-        ]);
-
-        //$module = Module::create($request->validated());
-
+    
+        // Store the uploaded image
         $fileName = time() . '.' . $request->image->getClientOriginalExtension();
-        $request->image->storeAs('modules', $fileName); 
-
-        $module->save();
-        // Add questions to the module
-        foreach ($request->questions as $question) {
-            $moduleQuestion = new ModuleQuestion;
-            $moduleQuestion->module_id = $module->id;
-            $moduleQuestion->question = $question;
-            $moduleQuestion->type = 'multiple_choice'; // Set default type to multiple choice (modify as needed)
-            $moduleQuestion->save();
-        }
-
-        return redirect()->route('employee.onboarding-home-page')->with('success', 'Module created successfully!');
+        $request->image->storeAs('modules', $fileName, 'public');
+        $path = 'modules/'. $fileName;
+        
+        // Insert the record into the database
+        Module::create([
+            'title' => $request->title,
+            'image_path' => $path,
+            'CompanyID' => $adminUser->companyUser->CompanyID,
+        ]);
+    
+        // Redirect back with success message
+        return redirect()->route('admin.manage_modules')->with('success', 'Module created successfully!');
     }
 
-    public function __invoke(Request $request)
+    public function configureModule($id){
+
+        $moduleId = $id;
+
+        // Fetch modules belonging to the company ID of the currently logged-in admin
+        $chapters = Chapter::where('module_id', $moduleId)->get();
+
+        // Pass the profiles to the view
+        return view('admin.configure-module', ['chapters' => $chapters, 'moduleId' => $moduleId]);
+
+    }
+
+    public function add_chapter($moduleId)
     {
-        // Logic for the route action in this case (e.g., display a welcome message)
-        return view('welcome');
+        return view('admin.add-chapters', compact('moduleId'));
     }
-
-    public function show(Module $module)
+    
+    public function add_chapterPost(Request $request, $moduleId)
     {
-        $user = auth()->user(); // Assuming you have a user authentication system
-        if (auth()->check()) {
-            $answeredQuestions = $user->responses()
-                ->whereIn('module_question_id', $module->questions->pluck('id'))
-                ->count();
-
-            $completionPercentage = round(($answeredQuestions / $module->questions->count()) * 100);
-
-            $userResponses = []; // Initialize an empty array to store user responses
-            if ($user) {
-                $userResponses = $user->responses()
-                    ->whereIn('module_question_id', $module->questions->pluck('id'))
-                    ->get();
-            }
-
-            return view('employee.module-details', compact('module', 'completionPercentage', 'userResponses'));
-        } else {
-            // Redirect to login or handle unauthenticated user scenario
-            return redirect()->route('login');
-        }
+        // Validate the form data
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+    
+        // Create and save the chapter
+        Chapter::create([
+            'title' => $request->title,
+            'module_id' => $moduleId,
+        ]);
+    
+        // Redirect back to the configure module page
+        return redirect()->route('admin.configure_module', ['id' => $moduleId])
+                         ->with('success', 'Chapter added successfully!');
     }
 
-    // New route for submitting answers 
-    public function submitAnswers(Module $module, Request $request)
-    {
-        $user = auth()->user();
+    // public function editModulePost(Request $request, $id)
+    // {
 
-        if ($user) {
-            foreach ($request->input('answers') as $questionId => $answer) {
-                $userResponse = UserResponse::updateOrCreate([
-                    'user_id' => $user->id,
-                    'module_question_id' => $questionId,
-                ], [
-                    'answer' => $answer,
-                ]);
-            }
+    //     // Validate the form data
+    //     $request->validate([
+    //         'name' => 'required|string',
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //         'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
 
-            // Add a success message using flash session
-            session()->flash('success', 'Answers submitted successfully!');
-        }
+    
 
-        return redirect()->route('modules.show', $module->id);
-    }
+    //     if ($request->hasFile('image')) {
+    //         $image = $request->file('image');
+    //         $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
+
+    //         $module->update(['image_path' => $imagePath]);
+
+    //     }
+
+
+    //     return redirect()->route('manage_account')->with('success', 'Account updated successfully.');
+
+    // }
+
+
+
+
+    // public function show(Module $module)
+    // {
+    //     $user = auth()->user(); // Assuming you have a user authentication system
+    //     if (auth()->check()) {
+
+    //         return view('employee.module-details', compact('module', 'completionPercentage', 'userResponses'));
+    //     } else {
+    //         // Redirect to login or handle unauthenticated user scenario
+    //         return redirect()->route('login');
+    //     }
+    // }
 
 
 }

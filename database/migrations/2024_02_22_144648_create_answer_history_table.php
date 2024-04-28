@@ -20,6 +20,8 @@ class CreateAnswerHistoryTable extends Migration
             $table->unsignedBigInteger('PostID');
             $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

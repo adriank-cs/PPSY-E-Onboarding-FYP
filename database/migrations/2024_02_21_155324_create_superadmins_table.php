@@ -21,6 +21,8 @@ return new class extends Migration
             //TODO: CAN ADD FURTHER SECURITY MEASURES. E.G. TWO FACTOR AUTHENTICATION, PRIVATE KEY ETC.
 
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 
