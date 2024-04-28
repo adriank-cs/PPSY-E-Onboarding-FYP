@@ -19,6 +19,8 @@ class SuperAdminCharts extends Component
         'Bae Suzy' => '#90cdf4',
         'Lee Dong Wook' => '#66DA26',
         'Super Admin' => '#cbd5e0',
+        'Testing Employee' => '#cbd5e0',
+        'Test' => '#cbd5e0',
     ];
     public $showDataLabels = false;
     public $firstRun = true;

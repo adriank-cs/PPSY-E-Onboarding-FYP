@@ -50,7 +50,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 //***************************//
 
-Route::get('/discussion/homepage', [DiscussionController::class, 'homepage']) -> name('homepage');; //display discussion homepage
+//Route::get('/discussion/homepage', [DiscussionController::class, 'homepage']) -> name('homepage');; //display discussion homepage
 Route::get('/discussion/searched', [DiscussionController::class, 'searched']) -> name('searched');; //display discussion searched question page
 Route::get('/discussion/typeown', [DiscussionController::class, 'typeown']) -> name('typeown');; //display discussion searched question page
 Route::get('/discussion/homepage', [PostController::class, 'homepageName']) -> name('randomPost');;
