@@ -23,14 +23,13 @@ class CompanyUser extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [ //TODO: Define relations for models
+    protected $fillable = [ 
         //'CUID',
         'UserID',
         'CompanyID',
         'isAdmin',
     ];
 
-    //TODO: Define relations for models with modules
     // Relationship with the User model
     public function user() : BelongsTo
     {
@@ -41,17 +40,6 @@ class CompanyUser extends Model
     public function company() : BelongsTo
     {
         return $this->belongsTo(Company::class, 'CompanyID', 'id');
-    }
-
-    //Generate a new ULID for the model
-    public static function generateUlid()
-    {
-        return Str::ulid();
-    }
-
-    //Get the ULID attribute
-    protected function getUlidAttribute() {
-        return Ulid::fromString($this->attributes['CUID']);
     }
 
     //Logging model changes
