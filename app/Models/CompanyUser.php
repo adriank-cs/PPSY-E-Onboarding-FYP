@@ -22,7 +22,6 @@ class CompanyUser extends Model
     public $incrementing = false;
 
     protected $fillable = [ 
-        //'CUID',
         'UserID',
         'CompanyID',
         'isAdmin',
