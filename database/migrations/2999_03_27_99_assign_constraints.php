@@ -13,6 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
+        //USERS
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('last_active_session')->references('id')->on('user_session')->onDelete('cascade');
+        });
+
         //PROFILES
         Schema::table('profiles', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
@@ -126,6 +131,12 @@ return new class extends Migration
             $table->foreign('ItemID')->references('id')->on('item')->onDelete('cascade');  
         });
 
+        //USER SESSION
+        Schema::table('user_session', function (Blueprint $table) {
+            // Foreign key relationship with the company users table
+            $table->foreign('UserID')->references('id')->on('users')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -137,6 +148,11 @@ return new class extends Migration
     {
         // //Turn off foreign key checks
         // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        //USERS
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['last_active_session']);
+        });
 
         //PROFILES
         Schema::table('profiles', function (Blueprint $table) {
@@ -229,6 +245,11 @@ return new class extends Migration
             $table->dropForeign(['CompanyID']); 
             $table->dropForeign(['ModuleID']);   
             $table->dropForeign(['ItemID']);  
+        });
+
+        //USER SESSION
+        Schema::table('user_session', function (Blueprint $table) {
+            $table->dropForeign(['UserID']);
         });
 
         // //Turn back on foreign key checks
