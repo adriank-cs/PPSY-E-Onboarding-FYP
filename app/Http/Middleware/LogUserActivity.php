@@ -4,10 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Models\UserSession;
 use Closure;
-use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\CompanyUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
