@@ -90,7 +90,7 @@ class AdminDashboardTable extends DataTableComponent
         ->map(fn ($dept) => $dept->dept)
         ->toArray();
 
-        Log::info($query);
+        //Log::info($query);
 
         return [
             MultiSelectFilter::make('Department')

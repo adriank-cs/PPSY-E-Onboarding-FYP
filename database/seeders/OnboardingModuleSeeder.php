@@ -6,8 +6,6 @@ use App\Models\OnboardingModule;
 
 class OnboardingModuleSeeder extends Seeder
 {
-
-
     public function run()
     {
         OnboardingModule::create([

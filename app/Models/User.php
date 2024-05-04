@@ -98,7 +98,9 @@ class User extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'password']);
+            ->logOnly(['name', 'email', 'password'])
+            ->dontLogIfAttributesChangedOnly(['updated_at', 'created_at', 'last_active_session'])
+            ->setDescriptionForEvent(fn(string $eventName) => "User account {$eventName}"); //User account updated/deleted/created
     }
 
 }
