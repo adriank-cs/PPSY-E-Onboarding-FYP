@@ -73,9 +73,11 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
         Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
         Route::post('/admin/add-modules', [ModuleController::class, 'add_modulePost'])->name('admin.add_module.post');
-        Route::get('/admin/configure-module/{id}', [ModuleController::class, 'configureModule'])->name('admin.configure_module');
+        Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
         Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
+
+        Route::get('/admin/manage-page/{id}', [ModuleController::class, 'managePage'])->name('admin.manage_page');
 
     });
 
