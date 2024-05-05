@@ -257,7 +257,6 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2024-01-28 07:21:47',
                 'updated_at' => '2024-01-28 07:21:47',
                 'isAdmin' => '0',
-                
             ]
         ];
 
@@ -328,7 +327,6 @@ class DatabaseSeeder extends Seeder
                 'is_anonymous' => '0',
                 'created_at' => '2024-03-02 08:31:31',
                 'updated_at' => NULL,
-
             ]
         ];
 
@@ -348,5 +346,11 @@ class DatabaseSeeder extends Seeder
         ];
 
         DB::table('answer')->insert($answers);
+
+        //Call other seeder classes
+        $this->call([
+            OnboardingModuleSeeder::class,
+            ActivitySeeder::class,
+        ]);
     }
 }

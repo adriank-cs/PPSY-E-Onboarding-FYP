@@ -42,11 +42,13 @@ Route::post('/email-notify-page', [ForgetPassController::class, 'email_notify_pa
 //for direct to reset password page 
 Route::get('/reset-password/{token}', [ForgetPassController::class, 'reset_password_page']) -> name('reset_password_page'); 
 Route::post('/reset-password', [ForgetPassController::class,'reset_password'])->name('reset_password');
+
 //For reset passsword
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+//BUG: ForgetPasswordController are not available routes. Commented out for now
+// Route::get('password/reset', 'Auth\ForgetPasswordController@showLinkRequestForm')->name('password.request');
+// Route::post('password/email', 'Auth\ForgetPasswordController@sendResetLinkEmail')->name('password.email');
+// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+// Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 //Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
 Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
@@ -79,6 +81,9 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/configure-module/{id}', [ModuleController::class, 'configureModule'])->name('admin.configure_module');
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
         Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
+
+        //TEST ACTIONS
+        Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
     });
 
