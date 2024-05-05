@@ -18,14 +18,17 @@
         </div>
     </div>
 
-    <!-- Secondary Charts -->
+    <!-- Secondary Charts TODO: Update charts -->
     <div class="col-3">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title>">Current Engagement</h6>
+                <h6 class="card-title>">Create Activity in Timeline</h6>
             </div>
             <div class="card-body">
-                <p>{{rand(10,95)}}%</p>
+                <form method="POST" action="{{ route('admin.create-activity') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
             </div>
         </div>
     </div>

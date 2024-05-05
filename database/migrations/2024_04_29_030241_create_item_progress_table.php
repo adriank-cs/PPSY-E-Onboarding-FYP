@@ -8,30 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('companyusers', function (Blueprint $table) {
+        Schema::create('item_progress', function (Blueprint $table) {
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
-            $table->primary(['UserID', 'CompanyID']);
-            // Is Admin column
-            $table->boolean('isAdmin')->default(false);
+            $table->unsignedBigInteger('ModuleID');
+            $table->unsignedBigInteger('ItemID');
+            $table->primary(['UserID', 'CompanyID', 'ModuleID', 'ItemID']);
+            $table->boolean('IsCompleted')->nullable();
             $table->timestamps();
-            //Soft Delete Column
-            $table->softDeletes(); 
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('companyusers');
+        Schema::dropIfExists('item_progress');
     }
 };

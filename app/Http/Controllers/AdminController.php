@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModuleQuestion;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\CompanyUser;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class AdminController extends Controller
 {
@@ -248,6 +250,24 @@ class AdminController extends Controller
         return redirect()->route('manage_account')->with('success', 'Account deleted successfully.');
     }
 
+    //TODO: Test create event (To be removed)
+    public function createActivity(Request $request)
+    {
+        $user = Auth::user();
+
+        //Sample activity
+        activity()
+            ->causedBy($user)
+            ->withProperties([
+                'chapter' => '1',
+                'quiz' => '5',
+                'module' => 'HR Onboarding Module'
+                ])
+            ->event('Quiz Completion')
+            ->log('Quiz Completion');
+
+        return redirect()->route('admin.dashboard')->with('success', 'Activity created successfully.');
+    }
 
 }
 

@@ -34,7 +34,7 @@ class AdminCharts extends Component
         ->reduce(function ($pieChartModel, $data) {
             $name = $data->name;
             $value = 1;
-            return $pieChartModel->addSlice($name, $value, $this->colors[$name]);
+            return $pieChartModel->addSlice($name, $value, '#0000ff'); //TODO: Reprogram for actual purpose $this->colors[$name]
         }, LivewireCharts::pieChartModel()
             //->setTitle('Expenses by Type')
             ->setAnimated($this->firstRun)
