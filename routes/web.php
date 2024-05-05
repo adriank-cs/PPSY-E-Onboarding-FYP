@@ -82,7 +82,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
         Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
 
-        //TEST ACTIONS
+        //TODO: REMOVE TEST ACTIONS
         Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
     });
