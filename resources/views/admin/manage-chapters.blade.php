@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <h1 class="fw-semibold mb-4">Manage Modules</h1>
+    <h1 class="fw-semibold mb-4">Manage Chapters</h1>
     <div class="row">
         <div class="col-md-11">
             <div class="col-md-4">
@@ -11,27 +11,27 @@
                     <span class="input-group-text">
                         <i class="ti ti-search"></i>
                     </span>
-                    <input type="text" class="form-control" id="searchField" placeholder="Enter Module Name"
-                        aria-label="Enter Module Name" aria-describedby="searchButton">
+                    <input type="text" class="form-control" id="searchField" placeholder="Enter Chapter Name"
+                        aria-label="Enter Chapter Name" aria-describedby="searchButton">
                 </div>
             </div>
         </div>
         <div class="col-md-1">
             <button type="button" class="btn btn-primary m-1"
-                onclick="window.location.href='{{ route('admin.add_module') }}'">Add</button>
+                onclick="window.location.href='{{ route('admin.add_chapter', ['moduleId' => $moduleId]) }}'">Add</button>
         </div>
     </div>
     <br>
-    @foreach($modules as $module)
+    @foreach($chapters as $chapter)
     <div class="col-md-12 profile-card">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-9">
-                        <h5 class="card-title">{{ $module->title }}</h5>
+                        <h5 class="card-title">{{ $chapter->title }}</h5>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}" class="card-link">Configure</a>
+                        <a href="{{ route('admin.configure_pages', ['id' => $page->id]) }}" class="card-link">Configure</a>
                         <a href="#" class="card-link">Edit</a>
                         <a href="#" class="card-link" onclick="">Delete</a>
                     </div>
