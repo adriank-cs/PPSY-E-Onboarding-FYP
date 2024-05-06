@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\CompanyUser;
 
 class DatabaseSeeder extends Seeder
 {
@@ -226,6 +227,7 @@ class DatabaseSeeder extends Seeder
         //CompanyUser table seeding
         $companyusers = [
             [
+                //'CUID' => CompanyUser::generateUlid(),
                 'UserID' => '1',
                 'CompanyID' => '1',
                 'created_at' => '2024-01-26 08:26:22',
@@ -233,6 +235,7 @@ class DatabaseSeeder extends Seeder
                 'isAdmin' => '1',
             ],
             [
+                //'CUID' => CompanyUser::generateUlid(),
                 'UserID' => '2',
                 'CompanyID' => '1',
                 'created_at' => '2024-01-26 08:44:48',
@@ -240,6 +243,7 @@ class DatabaseSeeder extends Seeder
                 'isAdmin' => '0',
             ],
             [
+                //'CUID' => CompanyUser::generateUlid(),
                 'UserID' => '3',
                 'CompanyID' => '2',
                 'created_at' => '2024-01-26 08:44:59',
@@ -247,12 +251,12 @@ class DatabaseSeeder extends Seeder
                 'isAdmin' => '0',
             ],
             [
+                //'CUID' => CompanyUser::generateUlid(),
                 'UserID' => '4',
                 'CompanyID' => '1',
                 'created_at' => '2024-01-28 07:21:47',
                 'updated_at' => '2024-01-28 07:21:47',
                 'isAdmin' => '0',
-                
             ]
         ];
 
@@ -323,7 +327,6 @@ class DatabaseSeeder extends Seeder
                 'is_anonymous' => '0',
                 'created_at' => '2024-03-02 08:31:31',
                 'updated_at' => NULL,
-
             ]
         ];
 
@@ -343,5 +346,11 @@ class DatabaseSeeder extends Seeder
         ];
 
         DB::table('answer')->insert($answers);
+
+        //Call other seeder classes
+        $this->call([
+            OnboardingModuleSeeder::class,
+            ActivitySeeder::class,
+        ]);
     }
 }

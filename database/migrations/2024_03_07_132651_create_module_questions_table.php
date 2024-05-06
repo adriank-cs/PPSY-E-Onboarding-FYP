@@ -22,8 +22,9 @@ return new class extends Migration {
             if (!empty (config('broadcasting.connections.pusher'))) {
                 $table->timestamps();
             }
+            //Soft Delete Column
+            $table->softDeletes();
             //$table->timestamps(1);
-            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
         });
     }
 

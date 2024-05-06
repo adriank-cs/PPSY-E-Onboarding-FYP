@@ -19,8 +19,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            //Tracks user last active session (ULID of user_session table)
+            $table->ulid('last_active_session')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes(); 
         });
     }
 

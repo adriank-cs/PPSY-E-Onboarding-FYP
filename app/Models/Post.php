@@ -5,24 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Thiagoprz\CompositeKey\HasCompositeKey;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
-    use HasCompositeKey;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use HasFactory, HasCompositeKey, SoftDeletes;
 
     protected $table = 'post';
 
-    protected $primaryKey = ['PostID', 'UserID', 'CompanyID'];
+    protected $primaryKey = ['PostID'];
 
     protected $fillable = [ //TODO: Fix atrributes to match the database table
-        'PostID',
         'UserID',
         'CompanyID',
         'title',
@@ -38,7 +31,7 @@ class Post extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'userid');
+        return $this->belongsTo(User::class, 'UserID');
     }
 
     /**
@@ -46,7 +39,6 @@ class Post extends Model
      */
     public function company()
     {
-        return $this->belongsTo(Company::class, 'companyid');
+        return $this->belongsTo(Company::class, 'CompanyID');
     }
 }
-
