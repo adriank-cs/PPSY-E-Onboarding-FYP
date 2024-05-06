@@ -349,7 +349,6 @@ class DatabaseSeeder extends Seeder
 
         //Call other seeder classes
         $this->call([
-            OnboardingModuleSeeder::class,
             ActivitySeeder::class,
         ]);
     }
