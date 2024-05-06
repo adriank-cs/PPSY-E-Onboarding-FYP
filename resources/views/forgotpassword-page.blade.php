@@ -79,6 +79,17 @@
 		padding-bottom:25px;
 	}
 	
+	.alert-danger{
+		width: 200px;
+        text-align: center;
+		margin: auto;
+		flex-direction: column;	
+		background-color: #ffcccc;
+		padding: 5px;
+		margin-top: 5px;
+        border-radius: 5px;
+	}
+
 	</style>
 </head>
 
@@ -87,8 +98,12 @@
         <!--<img src="ppLogo.png" alt="PP Logo" height="100" width="200"/>-->
 		<!--Will use the logo from the database-->
 		<br>
-
         <div class = "SubmitEmail">
+			@if(session()->has('error'))
+				<div class="alert-danger" role="alert">
+					{{session('error')}}
+				</div>
+			@endif
             <p>Don't worry, mistake happen!</p>
             <p>Please enter your email address.</p>
             <p>We'll send you a link to resets your password.</p>
@@ -105,7 +120,6 @@
         <div class="ReturnLogIn">
             <a href="{{ route('login') }}" style="color:black" class="btn">Log In</a>
         </div>
-
     </div>
 
    
