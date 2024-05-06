@@ -11,6 +11,7 @@ use App\Http\Controllers\ForgetPassController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Requests\StoreModuleRequest;
+use App\Http\Controllers\ColorPreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,11 +45,15 @@ Route::get('/reset-password/{token}', [ForgetPassController::class, 'reset_passw
 Route::post('/reset-password', [ForgetPassController::class,'reset_password'])->name('reset_password');
 
 //For reset passsword
-//BUG: ForgetPasswordController are not available routes. Commented out for now
-// Route::get('password/reset', 'Auth\ForgetPasswordController@showLinkRequestForm')->name('password.request');
-// Route::post('password/email', 'Auth\ForgetPasswordController@sendResetLinkEmail')->name('password.email');
-// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-// Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+
+Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
+Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
+
 
 //Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
 Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page

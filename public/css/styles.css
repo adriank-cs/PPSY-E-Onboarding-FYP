@@ -148,7 +148,7 @@
     --bs-breakpoint-md: 768px;
     --bs-breakpoint-lg: 992px;
     --bs-breakpoint-xl: 1200px;
-    --bs-breakpoint-xxl: 1400px
+    --bs-breakpoint-xxl: 1400px;
 }
 
 [data-bs-theme=dark] {
@@ -4114,9 +4114,11 @@ fieldset:disabled .btn {
     box-shadow: none
 }
 
+/*button at profile page*/
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-bg: var(--custom-button-color);
+    /*--bs-btn-bg: var(--bs-primary);*/
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: rgba(var(--bs-primary-rgb),0.5);

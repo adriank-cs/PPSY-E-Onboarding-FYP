@@ -40,6 +40,7 @@
 <body>
     <!--<img src="pp-logo.png" alt="PP Logo" height="100" width="200"/>-->
     <center>
+        <p>Dear employee,</p>
         <p>Click the button below to reset your password:</p>
         <div class="button-container">
             <a href="{{ $resetLink }}" class="button">

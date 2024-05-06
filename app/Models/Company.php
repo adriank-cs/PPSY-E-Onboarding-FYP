@@ -22,6 +22,8 @@ class Company extends Model
         'Industry',
         'Address',
         'Website',
+        'sidebar_color',
+        'button_color',
     ];
 
     //Relationship
@@ -34,5 +36,10 @@ class Company extends Model
     public function module() : HasMany
     {
         return $this->hasMany(Module::class, 'CompanyID', 'CompanyID');
+    }
+
+    public static function getButtonColor()
+    {
+        return \DB::table('companies')->value('button_color');
     }
 }
