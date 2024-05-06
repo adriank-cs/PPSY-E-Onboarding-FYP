@@ -16,9 +16,14 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tabler-icons/tabler-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/simplebar/dist/simplebar.css') }}">
-
-
 </head>
+
+<style>
+    .btn-primary {
+        --custom-button-color: {{ $buttonColor }};
+    }
+
+</style>
 
 <body>
     <!--  Body Wrapper -->
