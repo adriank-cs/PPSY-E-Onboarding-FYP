@@ -1,5 +1,4 @@
 <div>
-    <!-- TODO: Implement activity log https://spatie.be/docs/laravel-activitylog/v4/introduction -->
 
     @use('Illuminate\Support\Str')
     @use('Illuminate\Support\Facades\Storage')
@@ -55,7 +54,7 @@
             $subject = Profile::all()->find($activity->subject_id);
             $subjectAccount = $subject->user;
         @endphp
-        
+
         <!-- Timeline Card -->
         <div class="card text-bg-light mb-3">
             <div class="card-body">
