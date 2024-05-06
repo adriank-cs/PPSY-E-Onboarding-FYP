@@ -11,6 +11,7 @@ use App\Http\Controllers\ForgetPassController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Requests\StoreModuleRequest;
+use App\Http\Controllers\ColorPreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,11 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+
+Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
+Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
+
 
 //***************************//
 

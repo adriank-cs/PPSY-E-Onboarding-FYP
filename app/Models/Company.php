@@ -19,5 +19,12 @@ class Company extends Model
         'Industry',
         'Address',
         'Website',
+        'sidebar_color',
+        'button_color',
     ];
+
+    public static function getButtonColor()
+    {
+        return \DB::table('companies')->value('button_color');
+    }
 }
