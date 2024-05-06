@@ -36,7 +36,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="questions" class="form-label">Module Questions:</label>
+        <label for="questions" class="form-label">Quiz Questions:</label>
         <div class="input-group">
 <!--             <input type="text" class="form-control" id="questions" name="questions[]" placeholder="Enter question" required> -->
             <button type="button" class="btn btn-success" onclick="addQuestionField()">Add Question</button>

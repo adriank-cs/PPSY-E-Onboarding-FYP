@@ -20225,3 +20225,10 @@ ul {
     margin-left: 10px;
 
 }
+
+.answer-option {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}

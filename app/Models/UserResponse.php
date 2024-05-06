@@ -12,8 +12,8 @@ class UserResponse extends Model
 
     protected $fillable = [
         'user_id',
-        'module_question_id',
-        'answer',
+        'quiz_question_id',
+        'answer', // Store all answers as JSON string
     ];
 
     public function user()
@@ -23,10 +23,10 @@ class UserResponse extends Model
 
     public function question()
     {
-        return $this->belongsTo(ModuleQuestion::class); // Define relationship with module_questions table
+        return $this->belongsTo(QuizQuestion::class); // Define relationship with module_questions table
     }
 
-    public $module_question_id;
+    public $quiz_question_id;
 
     
 }
