@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 class SuperAdminController extends Controller
 {
+    public $buttonColor;
+
     //Dashboard
     function dashboard()
     {
@@ -25,7 +27,7 @@ class SuperAdminController extends Controller
 
     public function manageAccount()
     {
-        $buttonColor = Company::getButtonColor();
+        $buttonColor = \DB::table('companies')->value('button_color');
 
         // Fetch profiles of all admins
         $admins = User::whereHas('companyUser', function ($query) {
@@ -38,7 +40,7 @@ class SuperAdminController extends Controller
 
     function profile_page()
     {
-        $buttonColor = Company::getButtonColor();
+        $buttonColor = \DB::table('companies')->value('button_color');
         $user = auth()->user();
 
         // Assuming you have a 'profile' relationship in your User model
