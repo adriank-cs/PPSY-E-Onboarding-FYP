@@ -31,7 +31,7 @@
                         <h5 class="card-title">{{ $module->title }}</h5>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('admin.configure_module', ['id' => $module->id]) }}" class="card-link">Configure</a>
+                        <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}" class="card-link">Configure</a>
                         <a href="#" class="card-link">Edit</a>
                         <a href="#" class="card-link" onclick="">Delete</a>
                     </div>

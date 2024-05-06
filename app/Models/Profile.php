@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,11 +32,6 @@ class Profile extends Model
         'profile_picture',
     ];
 
-    function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     // Accessor to get the full URL of the profile picture
     public function getProfilePictureUrlAttribute()
     {
@@ -47,11 +43,17 @@ class Profile extends Model
 
     // Mutator to store the profile picture in storage
     public function setProfilePictureAttribute($file)
-{
-    $this->attributes['profile_picture'] = $file
+    {
+        $this->attributes['profile_picture'] = $file
         ? Storage::disk('public')->put('profile_pictures', $file)
         : null;
-}
+    }
+
+    //Relationship
+    function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }
 

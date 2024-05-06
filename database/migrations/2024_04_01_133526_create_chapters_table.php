@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChaptersTable2 extends Migration
+class CreateChaptersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,12 @@ class CreateChaptersTable2 extends Migration
     {
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('module_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger("module_id"); // Reference module_id from modules table
             $table->string('title');
+            $table->text('description')->nullable();
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 
