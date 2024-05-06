@@ -4117,7 +4117,8 @@ fieldset:disabled .btn {
 /*button at profile page*/
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-bg: var(--custom-button-color);
+    /*--bs-btn-bg: var(--bs-primary);*/
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #4f73d9;
