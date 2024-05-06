@@ -69,7 +69,7 @@ class ModuleController extends Controller
         return redirect()->route('admin.manage_modules')->with('success', 'Module created successfully!');
     }
 
-    public function configureModule($id){
+    public function manageChapter($id){
 
         $moduleId = $id;
 
@@ -77,7 +77,7 @@ class ModuleController extends Controller
         $chapters = Chapter::where('module_id', $moduleId)->get();
 
         // Pass the profiles to the view
-        return view('admin.configure-module', ['chapters' => $chapters, 'moduleId' => $moduleId]);
+        return view('admin.manage-chapters', ['chapters' => $chapters, 'moduleId' => $moduleId]);
 
     }
 
@@ -102,6 +102,18 @@ class ModuleController extends Controller
         // Redirect back to the configure module page
         return redirect()->route('admin.configure_module', ['id' => $moduleId])
                          ->with('success', 'Chapter added successfully!');
+    }
+
+    public function managePage($id){
+
+        $moduleId = $id;
+
+        // Fetch modules belonging to the company ID of the currently logged-in admin
+        $chapters = Chapter::where('module_id', $moduleId)->get();
+
+        // Pass the profiles to the view
+        return view('admin.manage-chapters', ['chapters' => $chapters, 'moduleId' => $moduleId]);
+
     }
 
     // public function editModulePost(Request $request, $id)
