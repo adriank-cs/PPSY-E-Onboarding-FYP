@@ -21,6 +21,8 @@ return new class extends Migration {
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('quiz_question_id')->references('id')->on('quiz_questions')->onDelete('cascade');
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

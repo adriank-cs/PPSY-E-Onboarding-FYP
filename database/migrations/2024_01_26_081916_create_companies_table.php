@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('Address');
             $table->string('Website');
             $table->timestamps();
+            //Soft Delete Column
+            $table->softDeletes();
         });
     }
 

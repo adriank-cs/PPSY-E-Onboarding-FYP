@@ -35,6 +35,11 @@
                     <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter company address" required>{{ $company->Address }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label for="website" class="form-label">Website:</label>
+                    <textarea class="form-control" id="website" name="website" rows="3" placeholder="Enter company website" required>{{ $company->Website }}</textarea>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
 

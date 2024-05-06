@@ -79,7 +79,7 @@
         </div>
     
         <div class="ReturnLogIn">
-            <a href="{{ route('login_page') }}" style="color:black" class="btn">Log In</a>
+            <a href="{{ route('login') }}" style="color:black" class="btn">Log In</a>
         </div>
 
     </div>

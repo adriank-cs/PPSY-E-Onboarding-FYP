@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class ForgetPassController extends Controller
 {
     function forgotpassword_page(){
-        return view('employee.forgotpassword-page');
+        return view('forgotpassword-page');
     }
 
     function email_notify_page(Request $request){
@@ -27,7 +27,7 @@ class ForgetPassController extends Controller
 
             //If user not found 
             if (!$user) {
-                return redirect()->route('forgotpassword_page')->with('error', 'Enter E-mail in correct format.');     
+                return redirect()->route('forgotpassword_page')->with('error', 'Enter valid E-mail.');     
             } 
 
             //generate random token
@@ -54,16 +54,17 @@ class ForgetPassController extends Controller
 
             $resetLink = route('reset_password_page', ['token' => $token]);
             Mail::to($request->email)->send(new CustomResetPassword($resetLink));
-            return view('employee.emailnotification-page');
+            return view('emailnotification-page');
 
         }catch(\Throwable $th){
             dd('something went wrong!'.$th->getMessage());
+            //return redirect()->route('forgotpassword_page')->with('error', 'Enter E-mail in correct format.'); 
         }
         
     }
 
     function reset_password_page($token){
-        return view('employee.email-template',['token' => $token]);
+        return view('email-template',['token' => $token]);
     }
 
     function reset_password(Request $request){
@@ -74,24 +75,23 @@ class ForgetPassController extends Controller
                 'password_confirmation' => 'required'
             ]);
 
-            $updatePassword = DB::table('password_resets')
-                ->where([
+            $updatePassword = DB::table('password_resets')->where([
                     'email' => $request->email, //check if the email is valid
                     'token' => $request->token 
                 ])->first();
             
             if(!$updatePassword) {
-                return redirect()->to(route('reset_password_page'))->with('error', 'Invalid Email or Password format!');
+                return redirect()->route('reset_password_page', ['token' => $request->token])->with('error', 'Invalid Email or Password Format!');
             }
 
             User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
             //Delete the token after password reset
             DB::table('password_resets')->where(['email'=> $request->email])->delete();
-
-            return redirect()->route('login_page', ['token' => $request->token])->with('success', 'Your password has been changed!');
+            
+            return redirect()->route('login', ['token' => $request->token])->with('success', 'Your password has been changed!');
 
         }catch(\Throwable $th){
-            dd('something went wrong!'.$th->getMessage());
+            return redirect()->route('reset_password_page', ['token' => $request->token])->with('error', 'Invalid Email or Password Format!');
         }
     }
     

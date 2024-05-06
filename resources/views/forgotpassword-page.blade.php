@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>People Psynece Login Page</title>
+    <title>Forgot Password</title>
 
     <style>
-
 	body{
 		background-image: url('images/loginBG.png');
 		background-repeat: no-repeat;
@@ -50,25 +49,23 @@
 		width: 80%;
 	}
 
-    .Login {
+    .SubmitEmail{
         flex-direction: column;
         align-items: center;
         text-align: center; /* Added text-align:center to center the text within the container */
     }
 	
-	.Container input[type=text],
-	.Container input[type=password]{
+	.Container input[type=email]{
 		border: 2px solid #6A1043;
   		border-radius: 30px;
 		padding: 10px;
 		margin:10px 0; 
 		width: 80%;
 		box-sizing: border-box;
-        
-        
+		
 	}
 	
-	.Container input[type=submit]{
+	.Container button[type=submit]{
 		border: 2px solid #6A1043;
 		color: #fff;
 		background-color:#A6708E;
@@ -78,54 +75,53 @@
 		width: 80%;
 	}
 	
-	.GoogleLogin{
-		margin-top:20px;
+	.ReturnLogIn{
+		padding-bottom:25px;
 	}
 	
-	.GoogleLogin button {
-		background-color: #4285F4;
-		color: #fff;
-		border: none;
-		border-radius: 30px;
-		padding: 10px 20px;
-		cursor: pointer;
-		margin-bottom:25px;
+	.alert-danger{
+		width: 200px;
+        text-align: center;
+		margin: auto;
+		flex-direction: column;	
+		background-color: #ffcccc;
+		padding: 5px;
+		margin-top: 5px;
+        border-radius: 5px;
 	}
+
 	</style>
 </head>
 
 <body>
-
-    <div class="Container">
-		<!--<img src="ppLogo.png" alt="PP Logo" height="100" width="200"/>-->
+<div class="Container">
+        <!--<img src="ppLogo.png" alt="PP Logo" height="100" width="200"/>-->
 		<!--Will use the logo from the database-->
 		<br>
-
-        <div class = "Login">
-            <input type="text" name="email" placeholder="Email" required>
-            <input type="password" name="passsword" placeholder="Password" required>
-            <br>
-            <input type="submit" value="Login">
-
+        <div class = "SubmitEmail">
+			@if(session()->has('error'))
+				<div class="alert-danger" role="alert">
+					{{session('error')}}
+				</div>
+			@endif
+            <p>Don't worry, mistake happen!</p>
+            <p>Please enter your email address.</p>
+            <p>We'll send you a link to resets your password.</p>
+            
+            <form action="{{ route('email_notify_page') }}" method="post">
+				@csrf
+                <input type="email" name="email" placeholder="Email" required>
+                <br>
+                <button type="submit">Request Email</button>
+            </form>
+                
         </div>
     
-        <div class="Forgot Password">
-            <a href="/forgot-password-page" style="color:black" class="btn">Forgot Password</a>
+        <div class="ReturnLogIn">
+            <a href="{{ route('login') }}" style="color:black" class="btn">Log In</a>
         </div>
-        
-        <div class="GoogleLogin">
-			<a href="{{ route('google-auth') }}">
-                <button>Continue with Google</button>
-            </a>
-        </div>
-		
-		<?php
-			if(session('error')){
-				echo "<script>alert('INVALID USER.');</script>";
-			}
-		?>
-
     </div>
-    
+
+   
 </body>
 </html>

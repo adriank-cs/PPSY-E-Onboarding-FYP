@@ -5,14 +5,19 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\UserResponse;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, LogsActivity;
 
 
     /**
@@ -24,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'last_active_session',
     ];
 
     /**
@@ -45,16 +51,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function companyUser()
-    {
-        return $this->hasOne(CompanyUser::class, 'UserID', 'id');
-    }
-
-    public function profile()
-    {
-        return $this->hasOne(Profile::class, 'user_id');
-    }
-
     public function isAdmin()
     {
         return $this->companyUser && $this->companyUser->isAdmin;
@@ -69,15 +65,42 @@ class User extends Authenticatable
     {
         return $this->superadmin()->exists();
     }
-    
-    public function superadmin()
+
+    //Relationships
+
+    public function companyUser() : HasOne
     {
-        return $this->hasOne(Superadmin::class, 'UserID', 'id');
+        return $this->hasOne(CompanyUser::class, 'UserID');
     }
 
+    public function profile() : HasOne
+    {
+        return $this->hasOne(Profile::class, 'user_id');
+    }
+    
+    public function superadmin() : HasOne
+    {
+        return $this->hasOne(Superadmin::class, 'UserID');
+    }
+
+    public function userSession() : HasMany 
+    {
+        return $this->hasMany(UserSession::class, 'UserID');
+    }
+
+    //TODO: Might be wrong
     public function responses()
     {
         return $this->hasMany(UserResponse::class);
+    }
+
+    //Logging model changes
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'password'])
+            ->dontLogIfAttributesChangedOnly(['updated_at', 'created_at', 'last_active_session'])
+            ->setDescriptionForEvent(fn(string $eventName) => "User account {$eventName}"); //User account updated/deleted/created
     }
 
 }
