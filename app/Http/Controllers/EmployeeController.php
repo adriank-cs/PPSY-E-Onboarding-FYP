@@ -20,8 +20,10 @@ class EmployeeController extends Controller {
     //Dashboard
     function dashboard()
     {
-        return view('employee.dashboard');
+        $buttonColor = \DB::table('companies')->value('button_color');
+        return view('employee.dashboard', ['buttonColor' => $buttonColor]); 
     }
+
     function profile_page() {
         // Get the authenticated user
         $user = auth()->user();
