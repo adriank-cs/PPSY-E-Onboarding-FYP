@@ -20,10 +20,30 @@
 
 </head>
 
+?php
+use App\Models\Company;
+
+$user = auth()->user();
+
+$companyId = $user->companyUser->CompanyID;
+
+$company = Company::find($companyId);
+
+$buttonColor = $company->button_color;
+
+$sidebarColor = $company->sidebar_color;
+?>
+
 <style>
-    .btn-primary {
+
+   .btn-primary {
         --custom-button-color: {{ $buttonColor }};
     }
+
+    .left-sidebar {
+        --custom-sidebar-color: {{ $sidebarColor }};
+    }
+
 </style>
 
 <body>
