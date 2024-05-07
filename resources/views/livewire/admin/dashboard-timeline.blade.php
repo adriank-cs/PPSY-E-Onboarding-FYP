@@ -35,11 +35,11 @@
                 </div>
                 <!-- Timestamp and Relevant Info -->
                 <div class="row gx-3 mt-2">
-                    <div class="col-lg-8 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-start text-start">
                         <!-- Timestamp -->
                         <p class="card-subtitle">{{Carbon::parse($activity->activity_created_at)->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString()}}</p>
                     </div>
-                    <div class="col-lg-4 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-end text-end">
                         <!-- Info -->
                         <p class="card-subtitle">{{$subjectProfile->dept}}</p>
                     </div>
@@ -71,11 +71,11 @@
                 </div>
                 <!-- Timestamp and Relevant Info -->
                 <div class="row gx-3 mt-2">
-                    <div class="col-lg-8 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-start text-start">
                         <!-- Timestamp -->
                         <p class="card-subtitle">{{Carbon::parse($activity->activity_created_at)->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString()}}</p>
                     </div>
-                    <div class="col-lg-4 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-end text-end">
                         <!-- Info -->
                         <p class="card-subtitle">{{$subject->dept}}</p>
                     </div>
@@ -101,11 +101,11 @@
                 </div>
                 <!-- Timestamp and Relevant Info -->
                 <div class="row gx-3 mt-2">
-                    <div class="col-lg-8 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-start text-start">
                         <!-- Timestamp -->
                         <p class="card-subtitle">{{Carbon::parse($activity->activity_created_at)->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString()}}</p>
                     </div>
-                    <div class="col-lg-4 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-end text-end">
                         <!-- Info -->
                         <p class="card-subtitle">{{Arr::get($activity->properties,'module')}}</p>
                     </div>
@@ -131,11 +131,11 @@
                 </div>
                 <!-- Timestamp and Relevant Info -->
                 <div class="row gx-3 mt-2">
-                    <div class="col-lg-8 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-start text-start">
                         <!-- Timestamp -->
                         <p class="card-subtitle">{{Carbon::parse($activity->activity_created_at)->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString()}}</p>
                     </div>
-                    <div class="col-lg-4 d-flex align-items-center">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-end text-end">
                         <!-- Info -->
                         <p class="card-subtitle">{{Arr::get($activity->properties,'module')}}</p>
                     </div>
