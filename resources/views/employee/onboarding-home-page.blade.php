@@ -3,6 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="mb-4">Onboarding Modules</h1>
+       
         @foreach ($modules as $module)
         <div class="col-md-6">
             <div class="card mb-4">
@@ -19,6 +20,7 @@
 
                  <div class="card-footer">
                   <a href="" class="btn btn-primary">View Module</a>
+                  
                  </div>
 
             </div>

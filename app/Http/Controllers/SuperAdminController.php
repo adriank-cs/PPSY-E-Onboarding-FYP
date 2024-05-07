@@ -36,7 +36,6 @@ class SuperAdminController extends Controller
 
     function profile_page()
     {
-
         $user = auth()->user();
 
         // Assuming you have a 'profile' relationship in your User model
@@ -52,10 +51,10 @@ class SuperAdminController extends Controller
 
     function add_account()
     {
-
         // Fetch all companies to populate the dropdown
-    $companies = Company::all();
-        return view('superadmin.add-account', compact('companies'));
+        $companies = Company::all();
+        $buttonColor = Company::getButtonColor();
+        return view('superadmin.add-account', compact('companies', 'buttonColor'));
     }
 
     function add_accountPost(Request $request)
@@ -97,8 +96,9 @@ class SuperAdminController extends Controller
     {
         $user = User::findOrFail($id);
         $profile = $user->profile;
+        $buttonColor = Company::getButtonColor();
 
-        return view('superadmin.edit-account', compact('user', 'profile'));
+        return view('superadmin.edit-account', compact('user', 'profile', 'buttonColor'));
     }
 
     public function editAccountPost(Request $request, $id)
@@ -181,6 +181,7 @@ class SuperAdminController extends Controller
     {
         $company = Company::findOrFail($id);
         $industries = ['IT', 'Finance', 'Healthcare', 'Education', 'Manufacturing', 'Retail', 'Telecommunications', 'Transportation', 'Media and Entertainment', 'Hospitality', 'Real Estate', 'Construction'];
+
 
         return view('superadmin.edit-company', compact('company', 'industries'));
     }

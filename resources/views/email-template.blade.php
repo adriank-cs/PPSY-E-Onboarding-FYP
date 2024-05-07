@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+	<!-- FontAwesome for eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
 
@@ -18,7 +19,6 @@
 		justify-content: center;
 		align-items: center;
 		height: 100vh;
-		
 	}
 	
 	body::before{
@@ -30,20 +30,16 @@
 		left: 0;
 		background: rgba(0, 0, 0, 0.5); /* Add dark overlay on the image */
 		z-index:-1; /*make sure the background behind the login container*/
-		
 	}
 	
 	.Container{
         background-color: #ffffff;
         border-radius: 15px;
-        display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 350px;
         font-family: Montserrat;
         margin: auto; /* Added margin:auto to center the container horizontally */
-        position: relative;
 	}
 	
 	.Container img{
@@ -54,16 +50,17 @@
     .ResetPassword {
         flex-direction: column;
         align-items: center;
-        text-align: center; /* Added text-align:center to center the text within the container */
+        text-align: center; 
+		position: relative;
     }
 	
 	.Container input{
 		border: 2px solid #6A1043;
   		border-radius: 30px;
-		padding: 10px 10px;
-		margin: 5px 0; 
+		padding: 10px;
+		margin:10px 0; 
 		width: 80%;
-		box-sizing: border-box;     
+		box-sizing: border-box;  
 	}
 	
 	.Container button{
@@ -72,18 +69,40 @@
 		background-color:#A6708E;
   		border-radius: 30px;
 		padding: 10px 20px;
-		margin:10px 0; 
+		margin: 10px 0; 
 		width: 80%;
+		margin-bottom: 28px;
+		
 	}
 
-	.show-hide-checkbox {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center; /* Center horizontally */ 
-			
+	.toggle-password1 {
+        position: absolute;
+        right: 45px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+		color: #c0c0c0;
     }
 
+	.toggle-password2{
+        position: absolute;
+        right: 45px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+		color: #c0c0c0;
+    }
+
+	.alert-danger{
+		width: 200px;
+        text-align: center;
+		margin: auto;
+		flex-direction: column;	
+		background-color: #ffcccc;
+		padding: 5px;
+		margin-bottom: 5px;
+        border-radius: 5px;
+	}
 	</style>
 </head>
 
@@ -100,42 +119,51 @@
 				</div>
 				@endif
 
-				@if(session()->has('success'))
-				<div class="alert-success" role="alert">
-					{{session('success')}}
-				</div>
-				@endif
-
 				<!-- get the reset password token !-->
 				<input type="hidden" name="token" value="{{ $token }}">
-				
-				<input type="email" name="email" placeholder="Email" required>
-				<input type="password" name="password" id="p1" placeholder="Password" required>
-				<input type="password" name="password_confirmation" id="p2" placeholder="Confirm Password" required>
-            	<br>
+				<input type="text" name="email" placeholder="Email" required>
 
-				<div class="show-hide-checkbox">
-					<input type="checkbox" onclick="myFunction()"> Show Password
+				<div style="position: relative;">
+					<input type="password" name="password" id="p1" placeholder="Password" required>
+					<i class="fa fa-eye-slash toggle-password1" id="toggle-password1"></i>
+				</div>
+
+				<div style="position: relative;">
+					<input type="password" name="password_confirmation" id="p2" placeholder="Confirm Password" required>
+					<i class="fa fa-eye-slash toggle-password2" id="toggle-password2"></i>
 				</div>
 
 				<button type="submit">Reset Password</button>
 			</form>
 
 			<script>
-				function myFunction() {
-                var passwordField = document.getElementById("p1");
-                var confirmPasswordField = document.getElementById("p2");
+				const togglePassword1 = document.getElementById('toggle-password1');
+				const togglePassword2 = document.getElementById('toggle-password2');
+				const passwordInput1 = document.getElementById('p1');
+				const passwordInput2 = document.getElementById('p2');
+				
+				togglePassword1.addEventListener('click', () => {
+					// Toggle the type attribute
+					if (passwordInput1.getAttribute('type') === 'password'){
+						passwordInput1.setAttribute('type', 'text');
+						togglePassword1.classList.replace('fa-eye-slash', 'fa-eye');
+					}else{
+						passwordInput1.setAttribute('type', 'password');
+						togglePassword1.classList.replace('fa-eye', 'fa-eye-slash');
+					}
+				});
 
-                if (passwordField.type === "password") {
-                    passwordField.type = "text";
-                    confirmPasswordField.type = "text";
-                } else {
-                    passwordField.type = "password";
-                    confirmPasswordField.type = "password";
-                }
-            }
-				
-				
+				togglePassword2.addEventListener('click', () => {
+					// Toggle the type attribute
+					if (passwordInput2.getAttribute('type') === 'password'){
+						passwordInput2.setAttribute('type', 'text');
+						togglePassword2.classList.replace('fa-eye-slash', 'fa-eye');
+					}else{
+						passwordInput2.setAttribute('type', 'password');
+						togglePassword2.classList.replace('fa-eye', 'fa-eye-slash');
+					}
+				});
+
 			</script>	
         </div>
     </div>
