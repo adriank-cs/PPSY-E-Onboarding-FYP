@@ -37,9 +37,4 @@ class Company extends Model
     {
         return $this->hasMany(Module::class, 'CompanyID', 'CompanyID');
     }
-
-    public static function getButtonColor()
-    {
-        return \DB::table('companies')->value('button_color');
-    }
 }

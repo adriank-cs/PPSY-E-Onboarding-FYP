@@ -19653,7 +19653,7 @@ fieldset:disabled .btn {
 
 .left-sidebar {
     width: 270px;
-    background-color: #fff;
+    background-color: var(--custom-sidebar-color);
     position: absolute;
     -webkit-transition: 0.2s ease-in;
     transition: 0.2s ease-in;
