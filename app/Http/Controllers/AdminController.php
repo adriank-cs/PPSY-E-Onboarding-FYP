@@ -62,11 +62,10 @@ class AdminController extends Controller
         ]);
 
 
-
         // Get the current authenticated user (assuming the admin is logged in)
         $adminUser = auth()->user();
 
-        // Create a new company user record
+        //Create a new company user record
         CompanyUser::create([
             'UserID' => $user->id,
             'CompanyID' => $adminUser->companyUser->CompanyID,

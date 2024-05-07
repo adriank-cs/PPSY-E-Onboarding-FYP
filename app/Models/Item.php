@@ -14,7 +14,7 @@ class Item extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
-    protected $table = 'companyusers';
+    protected $table = 'item';
 
     protected $primaryKey = 'id';
 

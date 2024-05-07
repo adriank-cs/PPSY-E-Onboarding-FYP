@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class SuperAdminController extends Controller
 {
-    public $buttonColor;
-
     //Dashboard
     function dashboard()
     {
@@ -27,20 +25,17 @@ class SuperAdminController extends Controller
 
     public function manageAccount()
     {
-        $buttonColor = \DB::table('companies')->value('button_color');
-
         // Fetch profiles of all admins
         $admins = User::whereHas('companyUser', function ($query) {
             $query->where('isAdmin', true);
         })->with('profile')->get();
 
         // Pass the admins to the view
-        return view('superadmin.manage-account', ['admins' => $admins], ['buttonColor' => $buttonColor]);
+        return view('superadmin.manage-account', ['admins' => $admins]);
     }
 
     function profile_page()
     {
-        $buttonColor = \DB::table('companies')->value('button_color');
         $user = auth()->user();
 
         // Assuming you have a 'profile' relationship in your User model
@@ -49,7 +44,7 @@ class SuperAdminController extends Controller
         // Check if the user has a profile
         if ($profile) {
             // Pass the user and profile to the view
-            return view('superadmin.profile-page', ['user' => $user, 'profile' => $profile, 'buttonColor' => $buttonColor]);
+            return view('superadmin.profile-page', ['user' => $user, 'profile' => $profile]);
         }
 
     }
@@ -186,9 +181,9 @@ class SuperAdminController extends Controller
     {
         $company = Company::findOrFail($id);
         $industries = ['IT', 'Finance', 'Healthcare', 'Education', 'Manufacturing', 'Retail', 'Telecommunications', 'Transportation', 'Media and Entertainment', 'Hospitality', 'Real Estate', 'Construction'];
-        $buttonColor = Company::getButtonColor();
 
-        return view('superadmin.edit-company', compact('company', 'industries', 'buttonColor'));
+
+        return view('superadmin.edit-company', compact('company', 'industries'));
     }
 
     public function editCompanyPost(Request $request, $id)
@@ -215,8 +210,7 @@ class SuperAdminController extends Controller
     }
 
     function add_company(){
-        $buttonColor = Company::getButtonColor();
-        return view('superadmin.add-company', compact('buttonColor'));
+        return view('superadmin.add-company');
     }
 
     function add_companyPost(Request $request)

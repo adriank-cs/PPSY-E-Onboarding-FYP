@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Module;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
@@ -69,6 +70,44 @@ class ModuleController extends Controller
         return redirect()->route('admin.manage_modules')->with('success', 'Module created successfully!');
     }
 
+    public function editModule($id)
+    {
+        $module = Module::find($id);
+        return view('admin.edit-modules', compact('module'));
+    }
+
+    public function editModulePost(Request $request, $id)
+    {
+        // Validate the form data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif',
+        ]);
+
+        $module = Module::find($id);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
+
+            $module->update(['image_path' => $imagePath]);
+
+        }
+
+        $module->update([
+            'title' => $request->title,
+        ]);
+
+        return redirect()->route('admin.manage_modules')->with('success', 'Module updated successfully.');
+    }
+
+    public function deleteModule($id)
+    {
+        $module = Module::find($id);
+        $module->delete();
+
+        return redirect()->route('admin.manage_modules')->with('success', 'Module deleted successfully.');
+    }
     public function manageChapter($id){
 
         $moduleId = $id;
@@ -91,56 +130,132 @@ class ModuleController extends Controller
         // Validate the form data
         $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'required|string',
         ]);
     
         // Create and save the chapter
         Chapter::create([
             'title' => $request->title,
             'module_id' => $moduleId,
+            'description' => $request->description,
         ]);
     
         // Redirect back to the configure module page
-        return redirect()->route('admin.configure_module', ['id' => $moduleId])
+        return redirect()->route('admin.manage_chapter', ['id' => $moduleId])
                          ->with('success', 'Chapter added successfully!');
+    }
+
+    public function editChapter($id)
+    {
+        $chapter = Chapter::find($id);
+        return view('admin.edit-chapter', compact('chapter'));
+    }
+
+    public function editChapterPost(Request $request, $id)
+    {
+        // Validate the form data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $chapter = Chapter::find($id);
+
+        $chapter->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('admin.manage_chapter', ['id' => $chapter->module_id])->with('success', 'Chapter updated successfully.');
+    }
+
+    public function deleteChapter($id)
+    {
+        $chapter = Chapter::find($id);
+        $moduleId = $chapter->module_id;
+        $chapter->delete();
+
+        return redirect()->route('admin.manage_chapter', ['id' => $moduleId])->with('success', 'Chapter deleted successfully.');
     }
 
     public function managePage($id){
 
-        $moduleId = $id;
+        $chapterId = $id;
 
         // Fetch modules belonging to the company ID of the currently logged-in admin
-        $chapters = Chapter::where('module_id', $moduleId)->get();
+        $pages = Item::where('chapter_id', $chapterId)->get();
 
         // Pass the profiles to the view
-        return view('admin.manage-chapters', ['chapters' => $chapters, 'moduleId' => $moduleId]);
+        return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId]);
 
     }
 
-    // public function editModulePost(Request $request, $id)
-    // {
-
-    //     // Validate the form data
-    //     $request->validate([
-    //         'name' => 'required|string',
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //         'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
-    //     ]);
-
+    public function add_page($chapterId)
+    {
+        return view('admin.add-pages', compact('chapterId'));
+    }
     
+    public function add_pagePost(Request $request, $chapterId)
+    {
+        // Validate the form data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'content' => 'required|string',
+            'due_date' => 'required|date',
+        ]);
+    
+        // Create and save the chapter
+        Item::create([
+            'title' => $request->title,
+            'chapter_id' => $chapterId,
+            'description' => $request->description,
+            'content' => $request->content,
+            'due_date' => $request->due_date,
+        ]);
+    
+        // Redirect back to the configure module page
+        return redirect()->route('admin.manage_page', ['id' => $chapterId])
+                         ->with('success', 'Page added successfully!');
+    }
 
-    //     if ($request->hasFile('image')) {
-    //         $image = $request->file('image');
-    //         $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
+    public function editPage($id)
+    {
+        $page = Item::find($id);
+        return view('admin.edit-page', compact('page'));
+    }
 
-    //         $module->update(['image_path' => $imagePath]);
+    public function editPagePost(Request $request, $id)
+    {
+        // Validate the form data
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'content' => 'required|string',
+            'due_date' => 'required|date',
+        ]);
 
-    //     }
+        $page = Item::find($id);
 
+        $page->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'content' => $request->content,
+            'due_date' => $request->due_date,
+        ]);
 
-    //     return redirect()->route('manage_account')->with('success', 'Account updated successfully.');
+        return redirect()->route('admin.manage_page', ['id' => $page->chapter_id])->with('success', 'Page updated successfully.');
+    }
 
-    // }
+    public function deletePage($id)
+    {
+        $page = Item::find($id);
+        $chapterId = $page->chapter_id;
+        $page->delete();
+
+        return redirect()->route('admin.manage_page', ['id' => $chapterId])->with('success', 'Page deleted successfully.');
+    }
+
 
 
 

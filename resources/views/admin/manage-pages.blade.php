@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-1">
             <button type="button" class="btn btn-primary m-1"
-                onclick="window.location.href='{{ route('admin.add_pages', ['moduleId' => $moduleId]) }}'">Add</button>
+                onclick="window.location.href='{{ route('admin.add_page', ['chapterId' => $chapterId]) }}'">Add</button>
         </div>
     </div>
     <br>
@@ -31,8 +31,8 @@
                         <h5 class="card-title">{{ $page->title }}</h5>
                     </div>
                     <div class="col-md-3">
-                        <a href="#" class="card-link">Edit</a>
-                        <a href="#" class="card-link" onclick="">Delete</a>
+                        <a href="{{ route('admin.edit_page', ['id' => $page->id]) }}" class="card-link">Edit</a>
+                        <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_page', ['id' => $page->id]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
     });
 
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this account?')) {
+        if (confirm('Are you sure you want to delete this page?')) {
             // If the user clicks "OK", redirect to the delete URL
             window.location.href = url;
         }

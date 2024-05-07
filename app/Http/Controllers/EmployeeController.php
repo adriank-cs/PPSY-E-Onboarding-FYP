@@ -17,9 +17,16 @@ use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller {
 
+
+    function sidebar()
+    {
+        return view('includes.sidebar-employee'); 
+    }
+
     //Dashboard
-    public function dashboard() {
-        return view('employee.dashboard');
+    function dashboard()
+    {
+        return view('employee.dashboard'); 
     }
 
     function profile_page() {
