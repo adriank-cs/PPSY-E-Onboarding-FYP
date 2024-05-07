@@ -12,7 +12,7 @@ use Spatie\Activitylog\LogOptions;
 
 class CompanyUser extends Model
 {
-    use HasFactory, SoftDeletes, HasCompositeKey, LogsActivity;
+    use HasFactory, SoftDeletes, HasCompositeKey;
 
     protected $table = 'companyusers';
 
@@ -46,10 +46,10 @@ class CompanyUser extends Model
     }
 
     //Logging model changes
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['UserID', 'CompanyID', 'isAdmin']);
-    }
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     return LogOptions::defaults()
+    //         ->logOnly(['UserID', 'CompanyID', 'isAdmin']);
+    // }
 
 }

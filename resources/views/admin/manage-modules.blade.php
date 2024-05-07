@@ -32,8 +32,8 @@
                     </div>
                     <div class="col-md-3">
                         <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}" class="card-link">Configure</a>
-                        <a href="#" class="card-link">Edit</a>
-                        <a href="#" class="card-link" onclick="">Delete</a>
+                        <a href="{{ route('admin.edit_module', ['id' => $module->id]) }}" class="card-link">Edit</a>
+                        <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_module', ['id' => $module->id]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
     });
 
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this account?')) {
+        if (confirm('Are you sure you want to delete this module?')) {
             // If the user clicks "OK", redirect to the delete URL
             window.location.href = url;
         }

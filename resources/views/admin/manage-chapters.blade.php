@@ -4,6 +4,7 @@
 
 <div class="container-fluid">
     <h1 class="fw-semibold mb-4">Manage Chapters</h1>
+
     <div class="row">
         <div class="col-md-11">
             <div class="col-md-4">
@@ -31,9 +32,9 @@
                         <h5 class="card-title">{{ $chapter->title }}</h5>
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('admin.configure_pages', ['id' => $page->id]) }}" class="card-link">Configure</a>
-                        <a href="#" class="card-link">Edit</a>
-                        <a href="#" class="card-link" onclick="">Delete</a>
+                        <a href="{{ route('admin.manage_page', ['id' => $chapter->id]) }}" class="card-link">Configure</a>
+                        <a href="{{ route('admin.edit_chapter', ['id' => $chapter->id]) }}" class="card-link">Edit</a>
+                        <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_chapter', ['id' => $chapter->id]) }}')">Delete</a>
                     </div>
                 </div>
             </div>
@@ -60,7 +61,7 @@
     });
 
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this account?')) {
+        if (confirm('Are you sure you want to delete this chapter?')) {
             // If the user clicks "OK", redirect to the delete URL
             window.location.href = url;
         }

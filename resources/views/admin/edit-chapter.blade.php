@@ -8,7 +8,7 @@
 
         <div class="card-body">
 
-            <form action="{{route('admin.edit_module.post', $module->id)}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('admin.edit_chapter.post', $chapter->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if($errors->any())
                 <div class="col-12">
@@ -35,15 +35,15 @@
                 <div class="row">
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="title" class="form-label">Module Title:</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ $module->title }}" required>
+                <label for="title" class="form-label">Chapter Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ $chapter->title }}" required>
             </div>
         </div>
         
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="image" class="form-label">Module Image:</label>
-                <input type="file" class="form-control" id="image" name="image">
+                <label for="description" class="form-label">Chapter Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="10" placeholder="Enter Description">{{ $chapter->description }}</textarea>
             </div>
         </div>
     </div>
