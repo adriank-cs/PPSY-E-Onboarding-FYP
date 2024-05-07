@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AdminController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ForgetPassController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Requests\StoreModuleRequest;
+use App\Http\Controllers\ColorPreferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,11 +46,15 @@ Route::get('/reset-password/{token}', [ForgetPassController::class, 'reset_passw
 Route::post('/reset-password', [ForgetPassController::class,'reset_password'])->name('reset_password');
 
 //For reset passsword
-//BUG: ForgetPasswordController are not available routes. Commented out for now
-// Route::get('password/reset', 'Auth\ForgetPasswordController@showLinkRequestForm')->name('password.request');
-// Route::post('password/email', 'Auth\ForgetPasswordController@sendResetLinkEmail')->name('password.email');
-// Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-// Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
+
+Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
+Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
+
 
 //Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
 Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
@@ -116,11 +122,20 @@ Route::middleware(['web', 'auth'])->group(function () {
 });
 
 //Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
+//Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
+
+
+Route::resource('quizzes', QuizController::class);
+Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
+
+Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+
+
+Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
+
+Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
 
 
 
-// Route::post('/modules', ModuleController::class, 'store')->name('modules.store');
-// Route::resource('modules', ModuleController::class);
-// Route::get('/modules/{module}/show', [ModuleController::class, 'show'])->name('modules.show');
-// Route::get('/onboarding-modules/create', [ModuleController::class, 'create'])->name('modules.create');
-// Route::post('/modules/{module}/submit-answers', [ModuleController::class, 'submitAnswers'])->name('modules.submit-answers');
+Route::get('/quizzes/{quiz}/view-responses', [QuizController::class, 'getDetails'])->name('quizzes.view-responses');

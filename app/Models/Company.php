@@ -22,6 +22,8 @@ class Company extends Model
         'Industry',
         'Address',
         'Website',
+        'sidebar_color',
+        'button_color',
     ];
 
     //Relationship
