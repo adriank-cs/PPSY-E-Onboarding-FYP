@@ -18,10 +18,8 @@ use Illuminate\Support\Facades\DB;
 class EmployeeController extends Controller {
 
     //Dashboard
-    function dashboard()
-    {
-        $buttonColor = \DB::table('companies')->value('button_color');
-        return view('employee.dashboard', ['buttonColor' => $buttonColor]); 
+    public function dashboard() {
+        return view('employee.dashboard');
     }
 
     function profile_page() {
@@ -38,15 +36,13 @@ class EmployeeController extends Controller {
 
             $company = Company::find($companyId);
            
-            $buttonColor = $company->button_color;
-
             // Fetch profiles belonging to the specified company ID
             $profiles = Profile::join('companyusers', 'profiles.user_id', '=', 'companyusers.UserID')
                 ->where('companyusers.CompanyID', '=', $companyId)
                 ->get();
 
             // Pass the profiles to the view
-            return view('employee.profile-page', compact('user', 'employee', 'profiles','buttonColor'));  
+            return view('employee.profile-page', compact('user', 'employee', 'profiles'));  
         }
 
         // Handle the case when the user doesn't have a company user record

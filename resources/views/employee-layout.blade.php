@@ -19,6 +19,19 @@
 
 
 </head>
+<?php
+use App\Models\Company;
+
+$user = auth()->user();
+
+$companyId = $user->companyUser->CompanyID;
+
+$company = Company::find($companyId);
+
+$buttonColor = $company->button_color;
+
+?>
+
 
 <style>
     .btn-primary {

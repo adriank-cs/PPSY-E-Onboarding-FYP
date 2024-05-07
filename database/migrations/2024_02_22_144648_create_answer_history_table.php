@@ -15,6 +15,7 @@ class CreateAnswerHistoryTable extends Migration
     {
         Schema::create('answerhistory', function (Blueprint $table) {
             $table->id("HistoryID");
+            $table->unsignedBigInteger('AnswerID');
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             $table->unsignedBigInteger('PostID');
