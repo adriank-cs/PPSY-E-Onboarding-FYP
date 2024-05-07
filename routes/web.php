@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AdminController;
@@ -121,11 +122,20 @@ Route::middleware(['web', 'auth'])->group(function () {
 });
 
 //Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
+//Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
+
+
+Route::resource('quizzes', QuizController::class);
+Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
+
+Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+
+
+Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
+
+Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
 
 
 
-// Route::post('/modules', ModuleController::class, 'store')->name('modules.store');
-// Route::resource('modules', ModuleController::class);
-// Route::get('/modules/{module}/show', [ModuleController::class, 'show'])->name('modules.show');
-// Route::get('/onboarding-modules/create', [ModuleController::class, 'create'])->name('modules.create');
-// Route::post('/modules/{module}/submit-answers', [ModuleController::class, 'submitAnswers'])->name('modules.submit-answers');
+Route::get('/quizzes/{quiz}/view-responses', [QuizController::class, 'getDetails'])->name('quizzes.view-responses');
