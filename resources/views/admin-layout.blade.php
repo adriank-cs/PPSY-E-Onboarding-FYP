@@ -20,7 +20,7 @@
 
 </head>
 
-?php
+<?php
 use App\Models\Company;
 
 $user = auth()->user();
