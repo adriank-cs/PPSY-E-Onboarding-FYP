@@ -18,19 +18,6 @@
     <link rel="stylesheet" href="{{ asset('lib/simplebar/dist/simplebar.css') }}">
 
 </head>
-<?php
-use App\Models\Company;
-
-$user = auth()->user();
-
-$companyId = $user->companyUser->CompanyID;
-
-$company = Company::find($companyId);
-
-$buttonColor = $company->button_color;
-
-?>
-
 
 <?php
 use App\Models\Company;
