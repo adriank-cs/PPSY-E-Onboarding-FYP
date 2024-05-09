@@ -92,6 +92,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.google.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
+                'button_color' => '#A6708E',
+                'sidebar_color' => '#fff',
             ],
             [
                 'CompanyID' => '2',
@@ -101,6 +103,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.facebook.com',
                 'created_at' => '2024-01-26 08:42:00',
                 'updated_at' => '2024-01-26 08:42:00',
+                'button_color' => '#A6708E',
+                'sidebar_color' => '#fff',
             ],
             [
                 'CompanyID' => '3',
@@ -110,6 +114,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.apple.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
+                'button_color' => '#A6708E',
+                'sidebar_color' => '#fff',
             ],
             [
                 'CompanyID' => '4',
@@ -119,6 +125,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.microsoft.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
+                'button_color' => '#A6708E',
+                'sidebar_color' => '#fff',
             ],
             [
                 'CompanyID' => '5',
@@ -128,6 +136,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.amazon.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
+                'button_color' => '#A6708E',
+                'sidebar_color' => '#fff',
             ]
         ];
 
