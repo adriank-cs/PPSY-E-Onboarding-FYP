@@ -4,21 +4,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <div class="text-left">
-                <div class="row">
-                    <div class="col-md-3">
-                        <h1> Discussion </h1>
-                    </div>
-                </div>
-            </div>
-
-            <!-- entry box and search button -->
-            <!-- Your existing code for search box and buttons -->
-
-            <!-- Existing Questions header -->
-            <!-- Your existing code for existing questions -->
-
-            <!-- Check if $post exists and contains valid data -->
+            <!-- Display the post details -->
             @if(isset($post))
             <div class="row">
                 <div class="card-body">
@@ -26,39 +12,45 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ $post->title }}</h5>
-                            <p class="card-text">{{ $post->content }}</p>
+                            <p class="card-text">{!! $post->content !!}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End Display the created post -->
-            @endif
-            <!-- End Check if $post exists and contains valid data -->
-        </div>
 
-        <div class="card-body">
+            <!-- Display answers related to the post -->
+            <div class="row">
+                <div class="card-body">
+                    <h3>Answers</h3>
+                    @foreach($answers as $answer)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                            <p class="card-text">{{ $user->name }}</p>
+                                <p class="card-text">{!! $answer->content !!}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <!-- Include the TinyMCE configuration component -->
             <x-head.tinymce-config/>
 
-            <!-- Entry form for creating a new post -->
-            <br>
-            <form action="{{ route('discussion.createPost') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <!-- Content Field -->
-                <div class="form-group editor-title" id="title-field">
-                    <!-- Change "Title" to "Write your own answers" -->
-                    <label for="title" style="font-size: 24px;">Write your own answers</label>
-                    <textarea id="content" name="content" style="font-size: 18px;"></textarea>
+            <!-- Form for submitting answers -->
+            <div class="row">
+                <div class="card-body">
+                    <form action="{{ route('discussion.submitAnswer', ['PostID' => $post->PostID]) }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="answer">Your Answer</label>
+                            <textarea id="content" name="answer" class="form-control" placeholder="Type your answer here" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-end">Submit Answer</button>
+                    </form>
                 </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary float-end">Submit</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 @endsection
-
-@push('styles')
-<!-- Your existing styles -->
-@endpush

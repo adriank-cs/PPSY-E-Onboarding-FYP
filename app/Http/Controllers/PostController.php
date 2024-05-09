@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Answer;
+use App\Models\PostHistory;
+use App\Models\AnswerHistory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Profile;
@@ -92,18 +95,18 @@ class PostController extends Controller
                    ->latest()
                    ->value('PostID');
 
-        $postHistory = Post::create([
-            
-            'title' => $title,
-            'content' => $content,
+        $postHistory = PostHistory::create([
+            'PostID' => $postID,
             'UserID' => $userInfo['UserID'], // User's ID
             'CompanyID' => $userInfo['CompanyID'], // Company's ID
+            'title' => $title,
+            'content' => $content,
             'is_answered' => false, // Set default value for is_answered
             'is_locked' => false, // Set default value for is_locked
             'is_archived' => false, // Set default value for is_archived
-            'is_anonymous' => false, // Set default value for is_anonymous
             'created_at' => $createdAt, // Set created_at to the current system time
-            'updated_at' => null // Set updated_at to null
+            'updated_at' => null, // Set updated_at to null
+            'deleted_at' => null // Set deleted_at to null
          ]);
 
         // Optionally, you can return a response or redirect the user to a different page
@@ -112,13 +115,67 @@ class PostController extends Controller
     
     public function postDisplay($PostID)
     {
-    // Fetch the post details
-    $post = Post::where('PostID', $PostID)
-                //  ->where('UserID', $UserID)
-                //  ->where('CompanyID', $CompanyID)
-                 ->firstOrFail();
-    
-    // Pass the post details to the blade view
-    return view('discussion.postdisplay', compact('post'));
+        // Fetch the post details
+        $post = Post::where('PostID', $PostID)
+                    //  ->where('UserID', $UserID)
+                    //  ->where('CompanyID', $CompanyID)
+                    ->firstOrFail();
+        
+        $answers = Answer::where('PostID', $PostID)->get();
+
+        $user = User::where('id', $post->UserID)->first(['name']);
+        //get user name from db with name field
+
+
+
+
+        // Pass the post details to the blade view
+        return view('discussion.postdisplay', compact('post', 'answers', 'user'));
+
+        
+    }
+
+    // In your controller
+    public function submitAnswer(Request $request, $PostID)
+    {
+        //Retrive user information
+        $userInfo = $this->getDetails();
+
+        //Retrive answer typed
+        $answer = $request->input('answer');
+
+        //Set the current system time for created_at
+        $createdAt = Carbon::now();
+
+        // Create the answer
+        $answerEntry = Answer::create([
+            'UserID' => $userInfo['UserID'],
+            'CompanyID' => $userInfo['CompanyID'],
+            'PostID' => $PostID,
+            'content' => $answer,
+            'created_at' => $createdAt,
+            'updated_at' => null,
+            'is_anonymous' => false,
+            // Add any additional fields needed
+        ]);
+
+        // Get the created post's PostID
+        $answerid = Answer::where('UserID', $userInfo['UserID'])
+                    ->latest()
+                    ->value('AnswerID');
+
+        $answerHistory = AnswerHistory::create([
+            'AnswerID' => $answerid,
+            'UserID' => $userInfo['UserID'],
+            'CompanyID' => $userInfo['CompanyID'],
+            'PostID' => $PostID,
+            'content' => $answer,
+            'created_at' => $createdAt,
+            'updated_at' => null,
+            'deleted_at' => null
+        ]);
+
+        // Optionally, you can return a response or redirect the user
+        return redirect()->back()->with('success', 'Your answer has been submitted.');
     }
 }

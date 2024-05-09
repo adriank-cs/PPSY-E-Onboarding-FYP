@@ -62,9 +62,11 @@ Route::get('/discussion/typeown', [DiscussionController::class, 'typeown'])->nam
 Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
 Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
 Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
+Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay'); // Display individual post with a specific post ID
+Route::post('/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('discussion.submitAnswer');
 
-// Display individual post with a specific post ID
-Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay');
+//Route::post('/discussion/createAnswer', [AnswerController::class, 'createAnswer'])->name('discussion.postDisplay'); // Create a answer
+
 
 Route::middleware(['web', 'auth'])->group(function () {
     // Common authenticated user routes (both admin and employee)
@@ -114,6 +116,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard'); 
         Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
         Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
+        Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout'); 
 
     });
 
