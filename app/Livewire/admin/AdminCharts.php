@@ -3,51 +3,89 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User;
+use App\Models\UserSession;
+
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
 use Asantibanez\LivewireCharts\Models\RadarChartModel;
 use Asantibanez\LivewireCharts\Models\TreeMapChartModel;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class AdminCharts extends Component
 {
 
-    public $colors = [
-        'Leon Jensen Tan' => '#ff0000',
-        'Lee Jong Suk' => '#0000ff',
-        'Bae Suzy' => '#90cdf4',
-        'Lee Dong Wook' => '#66DA26',
-        'Super Admin' => '#cbd5e0',
-        'Testing Employee' => '#cbd5e0',
-        'Test' => '#cbd5e0',
-    ];
     public $showDataLabels = false;
     public $firstRun = true;
 
     public function render()
     {
-        $users = User::all('id','name');
+        //Currently logged in user
+        $user = auth()->user();
 
-        //Pie Chart
-        $pieChartModel = $users
-        ->reduce(function ($pieChartModel, $data) {
-            $name = $data->name;
-            $value = 1;
-            return $pieChartModel->addSlice($name, $value, '#0000ff'); //TODO: Reprogram for actual purpose $this->colors[$name]
-        }, LivewireCharts::pieChartModel()
-            //->setTitle('Expenses by Type')
+        $users = User::all();
+
+        //Days to track
+        $days = [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+        ];
+
+        //Get all user sessions of users with same company ID as admin
+        $usersessions = UserSession::query()
+        ->join('users', 'user_session.UserID', '=', 'users.id')
+        ->join('profiles', 'users.id', '=', 'profiles.user_id')
+        ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
+        ->orderBy('first_activity_at', 'asc')
+        ->addSelect(DB::raw('DAYNAME(first_activity_at) as DayOfWeek'))
+        ->addSelect(DB::raw('DAYOFWEEK(first_activity_at) as DayNum'))
+        ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID);
+
+        //Data for Bar Chart
+        $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
+        ->groupBy('DayOfWeek', 'DayNum')->get();
+
+        //Fill in missing days
+        for ($i = 0; $i < count($days); $i++) {
+            $day = $days[$i];
+
+            //Insert to correct position
+            if (!$barChartData->contains('DayOfWeek', $day)) {
+                $barChartData->push([
+                    'DayOfWeek' => $day,
+                    'DayNum' => $i + 1,
+                    'total_duration' => '00:00:00',
+                ]);
+            }
+        }
+
+        //Time spent on system each day - Bar Chart (Current Week Only)
+        $barChartModel = $barChartData->sortBy('DayNum')
+        ->reduce(function ($barChartModel, $data) {
+
+            Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00');
+            $day = $data['DayOfWeek'];
+            $value = round(Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00'), 2);
+
+            return $barChartModel->addColumn($day, $value, '#ff0000'); //TODO: Set colors
+
+        }, LivewireCharts::columnChartModel()
+            ->setTitle('Time spent on system each day')
             ->setAnimated($this->firstRun)
-            ->setType('donut')
-            ->withOnSliceClickEvent('onSliceClick')
-            //->withoutLegend()
+            ->withoutLegend()
             ->legendPositionBottom()
             ->legendHorizontallyAlignedCenter()
-            ->setDataLabelsEnabled($this->showDataLabels)
-            ->setColors($this->colors)
+            ->setDataLabelsEnabled(true)
         );
 
-        //Line Chart
         $lineChartModel = $users
         ->reduce(function ($lineChartModel, $data) use ($users) {
             $index = $users->search($data);
@@ -69,11 +107,33 @@ class AdminCharts extends Component
             ->sparklined()
         );
 
+
         return view('livewire.admin.admin-charts')
         ->with([
-            'pieChartModel' => $pieChartModel,
+            'barChartModel' => $barChartModel,
             'lineChartModel' => $lineChartModel,
         ]);
+
+        // $lineChartModel = $users
+        // ->reduce(function ($lineChartModel, $data) use ($users) {
+        //     $index = $users->search($data);
+
+        //     $amountSum = 10;
+
+        //     // if ($index == 2) {
+        //     //     $lineChartModel->addMarker(3, $amountSum);
+        //     // }
+
+        //     return $lineChartModel->addPoint($index, rand(0,20), ['id' => $data->id]);
+        // }, LivewireCharts::lineChartModel()
+        //     ->setAnimated($this->firstRun)
+        //     ->withOnPointClickEvent('onPointClick')
+        //     ->withLegend()
+        //     ->setSmoothCurve()
+        //     ->setXAxisVisible(true)
+        //     ->setDataLabelsEnabled(false)
+        //     ->sparklined()
+        // );
 
         // return view('livewire.dashboard')
         // ->with([

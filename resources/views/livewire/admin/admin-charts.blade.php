@@ -1,9 +1,11 @@
 <div class="row" style="height: 20rem;">
     <!-- Main Chart -->
     <div class="col-6">
-        <livewire:livewire-pie-chart
-                        :pie-chart-model="$pieChartModel"
-        />
+        <div class="card shadow border-light rounded h-100">
+            <livewire:livewire-column-chart
+                :column-chart-model="$barChartModel"
+            />
+        </div> 
     </div>
 
     <!-- Secondary Charts -->
