@@ -269,5 +269,14 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Activity created successfully.');
     }
 
+    public function uploadImage(Request $request){
+
+        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        $request->file->storeAs('ModulesPagesImages', $fileName, 'public');
+        $path = 'ModulesPagesImages/' . $fileName;
+
+        return response()->json(['location' => asset('storage/' . $path)]);
+    }
+
 }
 

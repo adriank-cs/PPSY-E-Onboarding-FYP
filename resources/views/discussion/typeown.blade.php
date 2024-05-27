@@ -34,13 +34,13 @@
                 <div class="form-group editor-title" id="title-field">
 
                     <label for="title">Title</label>
-                    <textarea id="content" name="title"></textarea>
+                    <textarea id="content" class="formcontrol tinymce" name="title"></textarea>
                 </div>
                 
                 <!-- Content Field -->
                 <div class="form-group editor-content" id="content-fields">
                     <label for="content">Content</label>
-                    <textarea id="content" name="content"></textarea>
+                    <textarea id="content" class="formcontrol tinymce" name="content"></textarea>
                 </div>
 
                 <!-- Submit Button -->

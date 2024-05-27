@@ -62,6 +62,8 @@ Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->nam
 Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
 Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
 
+Route::post('/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image'); // Upload image for post
+
 // Display individual post with a specific post ID
 Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay');
 

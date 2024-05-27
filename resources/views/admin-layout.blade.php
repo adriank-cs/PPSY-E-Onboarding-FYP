@@ -20,7 +20,7 @@
 
 </head>
 
-?php
+<?php
 use App\Models\Company;
 
 $user = auth()->user();
@@ -32,17 +32,24 @@ $company = Company::find($companyId);
 $buttonColor = $company->button_color;
 
 $sidebarColor = $company->sidebar_color;
+
+$company_logo = $company->company_logo;
 ?>
 
 <style>
 
-   .btn-primary {
+    :root,[data-bs-theme = light]{
+        --bs-primary:{{ $buttonColor }};
+        --bs-secondary:{{ $sidebarColor }};
+    }
+
+    /* .btn-primary, .card {
         --custom-button-color: {{ $buttonColor }};
     }
 
     .left-sidebar {
         --custom-sidebar-color: {{ $sidebarColor }};
-    }
+    } */
 
 </style>
 
@@ -52,7 +59,7 @@ $sidebarColor = $company->sidebar_color;
         data-sidebar-position="fixed" data-header-position="fixed">
 
         @auth
-        @include('includes.sidebar-admin')
+        @include('includes.sidebar-admin', ['company_logo' => $company_logo])
 
         <div class="body-wrapper">
             @include('includes.header')
