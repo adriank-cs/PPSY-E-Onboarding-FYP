@@ -31,10 +31,40 @@ class UserSessionSeeder extends Seeder
         //5 sessions per week
         foreach ($c1employees as $employee) {
 
-            //Simulate 5 days
+            //Simulate past 5 days
             for ($i = 1; $i <= 5; $i++) {
                 
                 $activityDay = now()->subDays($i);
+                $morningShift = Carbon::parse($activityDay)->setTime(rand(8,12), rand(0,59), rand(0,59));
+                $break = Carbon::parse($activityDay)->setTime(rand(13,14), rand(0,59), rand(0,59));
+                $afternoonShift = Carbon::parse($activityDay)->setTime(rand(15,18), rand(0,59), rand(0,59));
+                $end = Carbon::parse($activityDay)->setTime(rand(19,20), rand(0,59), rand(0,59));
+
+                Log::info(json_encode($morningShift));
+
+                //Morning Shift
+                UserSession::create([
+                    'id' => UserSession::generateUlid(), //Generate a new ULID
+                    'UserID' => $employee->id,
+                    'first_activity_at' => $morningShift,
+                    'last_activity_at' => $break,
+                    'duration' => $break->diff($morningShift)->format('%H:%I:%S'), //Default duration
+                ]);
+
+                //Afternoon Shift
+                UserSession::create([
+                    'id' => UserSession::generateUlid(), //Generate a new ULID
+                    'UserID' => $employee->id,
+                    'first_activity_at' => $afternoonShift,
+                    'last_activity_at' => $end,
+                    'duration' => $end->diff($afternoonShift)->format('%H:%I:%S'), //Default duration
+                ]);
+            }
+
+            //Simulate next 5 days
+            for ($i = 1; $i <= 5; $i++) {
+    
+                $activityDay = now()->addDays($i);
                 $morningShift = Carbon::parse($activityDay)->setTime(rand(8,12), rand(0,59), rand(0,59));
                 $break = Carbon::parse($activityDay)->setTime(rand(13,14), rand(0,59), rand(0,59));
                 $afternoonShift = Carbon::parse($activityDay)->setTime(rand(15,18), rand(0,59), rand(0,59));

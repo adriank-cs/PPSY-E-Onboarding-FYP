@@ -1,4 +1,4 @@
-<div class="row" style="height: 20rem;">
+<div class="row">
     <!-- Main Chart -->
     <div class="col-6">
         <livewire:livewire-pie-chart

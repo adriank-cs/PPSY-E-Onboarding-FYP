@@ -50,7 +50,7 @@ class AdminCharts extends Component
 
         //Data for Bar Chart
         $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
-        ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
+        ->selectRaw('SEC_TO_TIME(AVG(TIME_TO_SEC(duration))) as average_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
         //Fill in missing days
@@ -62,7 +62,7 @@ class AdminCharts extends Component
                 $barChartData->push([
                     'DayOfWeek' => $day,
                     'DayNum' => $i + 1,
-                    'total_duration' => '00:00:00',
+                    'average_duration' => '00:00:00',
                 ]);
             }
         }
@@ -71,19 +71,17 @@ class AdminCharts extends Component
         $barChartModel = $barChartData->sortBy('DayNum')
         ->reduce(function ($barChartModel, $data) {
 
-            Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00');
+            Carbon::parse($data['average_duration'])->floatDiffInHours('00:00:00');
             $day = $data['DayOfWeek'];
-            $value = round(Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00'), 2);
+            $value = round(Carbon::parse($data['average_duration'])->floatDiffInHours('00:00:00'), 2);
 
             return $barChartModel->addColumn($day, $value, '#ff0000'); //TODO: Set colors
 
         }, LivewireCharts::columnChartModel()
-            ->setTitle('Time spent on system each day')
+            ->setTitle('Time Spent (Hours)')
             ->setAnimated($this->firstRun)
             ->withoutLegend()
-            ->legendPositionBottom()
-            ->legendHorizontallyAlignedCenter()
-            ->setDataLabelsEnabled(true)
+            ->withoutDataLabels()
         );
 
         $lineChartModel = $users

@@ -1,10 +1,14 @@
-<div class="row" style="height: 20rem;">
+<div class="row">
     <!-- Main Chart -->
     <div class="col-6">
         <div class="card shadow border-light rounded h-100">
-            <livewire:livewire-column-chart
-                :column-chart-model="$barChartModel"
-            />
+            <div class="card-body">
+                <h6 class="card-title">Overall Average Time Spent on System</h6>
+                <h6 class="text-dark text-opacity-50">Previous Week</h6>
+                <livewire:livewire-column-chart
+                            :column-chart-model="$barChartModel"
+                    />
+            </div>
         </div> 
     </div>
 
