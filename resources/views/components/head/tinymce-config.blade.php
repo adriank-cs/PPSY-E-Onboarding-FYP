@@ -4,7 +4,8 @@
 <script>
     tinymce.init({
         selector: 'textarea#content', // Replace 'content' with the ID of your textarea,
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        menubar: 'insert',
+        toolbar: 'bold italic underline strikethrough | link image media table mergetags | align | tinycomments | checklist numlist bullist | emoticons charmap',
         tinycomments_mode: 'embedded',
         tinycomments_author: 'Author name',
         mergetags_list: [

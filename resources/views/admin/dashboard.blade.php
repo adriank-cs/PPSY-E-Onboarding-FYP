@@ -1,5 +1,6 @@
 @extends('admin-layout')
 
+@section('title', 'Admin | Dashboard')
 @section('content')
 <div class="container-fluid">
     <div class="row vh-100">

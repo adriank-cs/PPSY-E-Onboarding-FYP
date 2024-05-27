@@ -15,9 +15,10 @@ return new class extends Migration {
         Schema::create('user_responses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('module_question_id'); // Reference module_question table instead of question_id
+            $table->unsignedBigInteger('quiz_question_id'); // Reference module_question table instead of question_id
             $table->text('answer')->nullable();
             $table->timestamps();
+
             //Soft Delete Column
             $table->softDeletes();
         });

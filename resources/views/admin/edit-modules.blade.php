@@ -36,7 +36,7 @@
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="title" class="form-label">Module Title:</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ $module->Title }}" required>
+                <input type="text" class="form-control" id="title" name="title" value="{{ $module->title }}" required>
             </div>
         </div>
         

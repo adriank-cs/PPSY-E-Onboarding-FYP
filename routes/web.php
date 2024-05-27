@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AdminController;
@@ -61,11 +62,11 @@ Route::get('/discussion/typeown', [DiscussionController::class, 'typeown'])->nam
 Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
 Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
 Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
+Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay'); // Display individual post with a specific post ID
+Route::post('/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('discussion.submitAnswer');
 
-Route::post('/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image'); // Upload image for post
+//Route::post('/discussion/createAnswer', [AnswerController::class, 'createAnswer'])->name('discussion.postDisplay'); // Create a answer
 
-// Display individual post with a specific post ID
-Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay');
 
 Route::middleware(['web', 'auth'])->group(function () {
     // Common authenticated user routes (both admin and employee)
@@ -85,12 +86,27 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
         Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
         Route::post('/admin/add-modules', [ModuleController::class, 'add_modulePost'])->name('admin.add_module.post');
+        Route::get('/admin/edit-module/{id}', [ModuleController::class, 'editModule'])->name('admin.edit_module');
+        Route::post('/admin/edit-module/{id}', [ModuleController::class, 'editModulePost'])->name('admin.edit_module.post');
+        Route::get('/admin/delete_module/{id}', [ModuleController::class, 'deleteModule'])->name('admin.delete_module');
+
         Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
         Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
+        Route::get('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapter'])->name('admin.edit_chapter');
+        Route::post('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapterPost'])->name('admin.edit_chapter.post');
+        Route::get('/admin/delete_chapter/{id}', [ModuleController::class, 'deleteChapter'])->name('admin.delete_chapter');
+
         Route::get('/admin/manage-page/{id}', [ModuleController::class, 'managePage'])->name('admin.manage_page');
-        
+        Route::get('/admin/add-page/{chapterId}', [ModuleController::class, 'add_page'])->name('admin.add_page');
+        Route::post('/admin/add-page/{chapterId}', [ModuleController::class, 'add_pagePost'])->name('admin.add_page.post');
+        Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
+        Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
+        Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
+
         //TEST ACTIONS
+        
+        //TODO: REMOVE TEST ACTIONS
         Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
     });
@@ -100,6 +116,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard'); 
         Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
         Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
+        Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout'); 
 
     });
 
@@ -123,11 +140,20 @@ Route::middleware(['web', 'auth'])->group(function () {
 });
 
 //Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
+//Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
+
+
+Route::resource('quizzes', QuizController::class);
+Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
+
+Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+
+
+Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
+
+Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
 
 
 
-// Route::post('/modules', ModuleController::class, 'store')->name('modules.store');
-// Route::resource('modules', ModuleController::class);
-// Route::get('/modules/{module}/show', [ModuleController::class, 'show'])->name('modules.show');
-// Route::get('/onboarding-modules/create', [ModuleController::class, 'create'])->name('modules.create');
-// Route::post('/modules/{module}/submit-answers', [ModuleController::class, 'submitAnswers'])->name('modules.submit-answers');
+Route::get('/quizzes/{quiz}/view-responses', [QuizController::class, 'getDetails'])->name('quizzes.view-responses');

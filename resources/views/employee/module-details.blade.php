@@ -17,9 +17,18 @@
                 <div class="modal-body">
                     Are you sure you want to submit your answers for this module?
                 </div>
+               <!--  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                    <!--<button type="submit" class="btn btn-primary">Confirm</button> !-->
+<!--                     <a href="{{ route('employee.onboarding-home-page') }}">
+                        <button>Confirm Submission</button>
+                    </a> -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="submit" class="btn btn-primary">Confirm Submission</button>
+                </div>
+
+
                 </div>
             </div>
         </div>
@@ -62,7 +71,7 @@
             </div>
         @endforeach
 
-        <        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitConfirmationModal">Submit Answers</button>
+        <        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitConfirmationModal">Submit Answers</button>
     </form>
 
     <div class="mt-4">

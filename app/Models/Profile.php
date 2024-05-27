@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Profile extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     protected $table = 'profiles';
     protected $primaryKey = 'profile_id';
 
 
-    protected $fillable = [ //TODO: The fillable field should be reserved for non-critical attributes.
+    protected $fillable = [
         'profile_id',
         'user_id',
         'employee_id',
@@ -53,6 +55,15 @@ class Profile extends Model
     function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    //Logging model changes
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['*'])
+            ->dontLogIfAttributesChangedOnly(['updated_at', 'created_at'])
+            ->setDescriptionForEvent(fn(string $eventName) => "User profile {$eventName}"); //User profile updated/deleted/created
     }
 
 }

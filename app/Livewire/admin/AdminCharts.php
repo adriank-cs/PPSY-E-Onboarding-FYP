@@ -54,9 +54,9 @@ class AdminCharts extends Component
 
             $amountSum = 10;
 
-            if ($index == 2) {
-                $lineChartModel->addMarker(3, $amountSum);
-            }
+            // if ($index == 2) {
+            //     $lineChartModel->addMarker(3, $amountSum);
+            // }
 
             return $lineChartModel->addPoint($index, rand(0,20), ['id' => $data->id]);
         }, LivewireCharts::lineChartModel()
