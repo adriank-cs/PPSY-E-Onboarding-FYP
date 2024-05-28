@@ -14,15 +14,16 @@ class CreateAnswerTable extends Migration
     public function up()
     {
         Schema::create('answer', function (Blueprint $table) {
+            $table->id('AnswerID'); // Auto-incremented primary key
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             $table->unsignedBigInteger('PostID');
-            $table->primary(['UserID', 'CompanyID', 'PostID']);
-            $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
+            $table->mediumText('content'); // Content may include videos, images, etc. (Maximum 16MB)
             $table->timestamps();
-            $table->boolean('is_anonymous')->default(false)->nullable(); //Moved to table creation
-            //Soft Delete Column
-            $table->softDeletes();
+            $table->boolean('is_anonymous')->default(false)->nullable();
+
+            // Remove the explicit definition of the composite primary key
+            // $table->primary(['AnswerID', 'UserID', 'CompanyID', 'PostID']);
         });
     }
 
@@ -35,4 +36,4 @@ class CreateAnswerTable extends Migration
     {
         Schema::dropIfExists('answer');
     }
-};
+}

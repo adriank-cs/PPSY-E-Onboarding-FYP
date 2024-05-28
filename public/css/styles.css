@@ -32,7 +32,7 @@
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
     --bs-primary: #6A1043; /*TODO: ALLOW TENANT TO CHANGE THEME COLOURS NEED TO ADJUST ELEMENTS TO USE VARIABLES*/
-    --bs-secondary: #49BEFF;
+    --bs-secondary: #BBA3C4;
     --bs-success: #13DEB9;
     --bs-info: #539BFF;
     --bs-warning: #FFAE1F;
@@ -41,8 +41,8 @@
     --bs-dark: #2A3547;
     --bs-muted: #5A6A85;
     --bs-indigo: #6610f2;
-    --bs-light-primary: #ECF2FF;
-    --bs-light-secondary: #E8F7FF;
+    --bs-light-primary: rgba(var(--bs-primary-rgb), 0.2);
+    --bs-light-secondary: rgba(var(--bs-secondary-rgb), 0.3);
     --bs-light-info: #EBF3FE;
     --bs-light-success: #E6FFFA;
     --bs-light-warning: #FEF5E5;
@@ -50,8 +50,8 @@
     --bs-light-indigo: #EBF3FE;
     --bs-dark-light: #2A3547;
     --bs-light-gray: #F6F9FC;
-    --bs-primary-rgb: 93, 135, 255;
-    --bs-secondary-rgb: 73, 190, 255;
+    --bs-primary-rgb: 106, 16, 67; /*TODO: CODE TO CONVERT TO RGB*/
+    --bs-secondary-rgb: 187, 163, 196;
     --bs-success-rgb: 19, 222, 185;
     --bs-info-rgb: 83, 155, 255;
     --bs-warning-rgb: 255, 174, 31;
@@ -69,29 +69,29 @@
     --bs-light-indigo-rgb: 235, 243, 254;
     --bs-dark-light-rgb: 42, 53, 71;
     --bs-light-gray-rgb: 246, 249, 252;
-    --bs-primary-text: #4a6ccc;
-    --bs-secondary-text: #2A3547;
+    --bs-primary-text: var(--bs-primary);
+    --bs-secondary-text: var(--bs-secondary);
     --bs-success-text: #0fb294;
     --bs-info-text: #325d99;
     --bs-warning-text: #996813;
     --bs-danger-text: #c86e56;
     --bs-light-text: #2A3547;
     --bs-dark-text: #495057;
-    --bs-primary-bg-subtle: #dfe7ff;
-    --bs-secondary-bg-subtle: #F6F9FC;
+    --bs-primary-bg-subtle: var(--bs-light-primary);
+    --bs-secondary-bg-subtle: var(--bs-light-secondary);
     --bs-success-bg-subtle: #d0f8f1;
     --bs-info-bg-subtle: #ddebff;
     --bs-warning-bg-subtle: #ffefd2;
     --bs-danger-bg-subtle: #fee7e1;
     --bs-light-bg-subtle: #fbfcfe;
     --bs-dark-bg-subtle: #7C8FAC;
-    --bs-primary-border-subtle: #becfff;
-    --bs-secondary-border-subtle: #EAEFF4;
+    --bs-primary-border-subtle: var(--bs-light-primary);
+    --bs-secondary-border-subtle: var(--bs-light-secondary);
     --bs-success-border-subtle: #a1f2e3;
     --bs-info-border-subtle: #bad7ff;
     --bs-warning-border-subtle: #ffdfa5;
     --bs-danger-border-subtle: #fdd0c4;
-    --bs-light-border-subtle: #EAEFF4;
+    --bs-light-border-subtle: var(--bs-light-primary);
     --bs-dark-border-subtle: #5A6A85;
     --bs-white-rgb: 255, 255, 255;
     --bs-black-rgb: 0, 0, 0;
@@ -4121,12 +4121,12 @@ fieldset:disabled .btn {
     /*--bs-btn-bg: var(--bs-primary);*/
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #4f73d9;
-    --bs-btn-hover-border-color: #4a6ccc;
+    --bs-btn-hover-bg: rgba(var(--bs-primary-rgb),0.5);
+    --bs-btn-hover-border-color: rgba(var(--bs-primary-rgb),0.3);
     --bs-btn-focus-shadow-rgb: 117, 153, 255;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #4a6ccc;
-    --bs-btn-active-border-color: #4665bf;
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: rgba(var(--bs-primary-rgb),0.7);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--bs-primary);
@@ -4135,19 +4135,19 @@ fieldset:disabled .btn {
 
 .btn-secondary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #49BEFF;
-    --bs-btn-border-color: #49BEFF;
+    --bs-btn-bg: var(--bs-secondary);
+    --bs-btn-border-color: var(--bs-secondary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #3ea2d9;
-    --bs-btn-hover-border-color: #3a98cc;
+    --bs-btn-hover-bg: rgba(var(--bs-secondary-rgb),0.5);
+    --bs-btn-hover-border-color: rgba(var(--bs-secondary-rgb),0.3);
     --bs-btn-focus-shadow-rgb: 100, 200, 255;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #3a98cc;
-    --bs-btn-active-border-color: #378fbf;
+    --bs-btn-active-bg: var(--bs-secondary);
+    --bs-btn-active-border-color: rgba(var(--bs-secondary-rgb),0.7);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #49BEFF;
-    --bs-btn-disabled-border-color: #49BEFF
+    --bs-btn-disabled-bg: var(--bs-secondary);
+    --bs-btn-disabled-border-color: var(--bs-secondary)
 }
 
 .btn-success {
@@ -19653,7 +19653,7 @@ fieldset:disabled .btn {
 
 .left-sidebar {
     width: 270px;
-    background-color: #fff;
+    background-color: var(--custom-sidebar-color);
     position: absolute;
     -webkit-transition: 0.2s ease-in;
     transition: 0.2s ease-in;

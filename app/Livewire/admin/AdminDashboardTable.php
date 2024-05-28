@@ -99,7 +99,7 @@ class AdminDashboardTable extends DataTableComponent
                 )
                 ->filter(function(Builder $builder, array $values) {
                     //Filter to department
-                    Log::info(print_r($values, true));
+                    //Log::info(print_r($values, true));
                     $builder->whereHas('user.profile', fn($query) => $query->whereIn('dept', $values));
                 })
                 
