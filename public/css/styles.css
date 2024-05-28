@@ -20247,3 +20247,53 @@ ul {
     margin-bottom: 5px;
     border-radius: 5px;
 }
+
+.confirm-quiz-button {
+    background-color: var(--bs-primary);
+    color: white;
+    border: none;
+    padding: 7px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 30px) {
+    .btn-primary {
+        /* Styles for smaller screens */
+        display: block;
+        /* Change to block to stack buttons vertically */
+        width: 100%;
+        /* Make buttons full width */
+    }
+
+  .btn-success,
+  .btn-danger {
+      border-radius: 10px;
+      /* Rounded corners */
+      height: 38px;
+      /* Ensure the height is consistent */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .btn-danger {
+      margin-right: 10px;
+      background-color: #6A1043;
+      /* Ensuring background color consistency */
+      color: white;
+      /* Ensuring text color consistency */
+  }
+
+  .consistent-width-input {
+      width: calc(100% - 60px);
+      max-width: 600px;
+      display: inline-block;
+  }
+
+  .input-group {
+      display: flex;
+      align-items: center;
+  }
+
+}

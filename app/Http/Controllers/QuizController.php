@@ -118,39 +118,26 @@ class QuizController extends Controller
 
     public function show(Quiz $quiz)
     {
-        $user = auth()->user(); // Assuming you have a user authentication system
-       
+        $user = auth()->user();
+
         if (auth()->check()) {
-            $answeredQuestions = $user->responses()
+            $userResponses = $user->responses()
                 ->whereIn('quiz_question_id', $quiz->questions->pluck('id'))
-                ->count();
+                ->get()
+                ->keyBy('quiz_question_id'); // Key by question ID for easier lookup
 
-            if ($quiz->questions->count() > 0) {
-                $completionPercentage = round(($answeredQuestions / $quiz->questions->count()) * 100);
-            } else {
-                // Handle the case where there are no questions in the quiz
-                $completionPercentage = 0; // or display an error message
-            }
+            $answeredQuestions = $userResponses->count();
+            $completionPercentage = $quiz->questions->count() > 0
+                ? round(($answeredQuestions / $quiz->questions->count()) * 100)
+                : 0;
 
-            $userResponses = []; // Initialize an empty array to store user responses
-            if ($user) {
-                $userResponses = $user->responses()
-                    ->whereIn('quiz_question_id', $quiz->questions->pluck('id'))
-                    ->get();
-            }
+            $completed = session()->get('quiz_completed_' . $quiz->id, false);
 
-            // Check for user responses and mark completion if applicable
-            $completed = false;
-            if (count($userResponses) > 0) {
-                $completed = true; // Assuming all questions have responses for completion
-            }
-            return view('employee.quiz-details', compact('quiz', 'completionPercentage', 'userResponses'));
+            return view('employee.quiz-details', compact('quiz', 'completionPercentage', 'userResponses', 'completed'));
         } else {
-            // Redirect to login or handle unauthenticated user scenario
             return redirect()->route('login');
         }
     }
-
 
     public function submitAnswers(Quiz $quiz, Request $request)
     {
@@ -158,15 +145,18 @@ class QuizController extends Controller
 
         if ($user) {
             try {
-                $answers = serialize($request->input('answers')); // Serialize answers
+                $answers = $request->input('answers'); // Get the answers array from the request
 
-                UserResponse::updateOrCreate([
-                    'user_id' => $user->id,
-                    'quiz_question_id' => $quiz->questions->first()->id,
-                ], [
-                    'answer' => $answers,
-                ]);
+                foreach ($answers as $questionId => $answer) {
+                    UserResponse::updateOrCreate([
+                        'user_id' => $user->id,
+                        'quiz_question_id' => $questionId,
+                    ], [
+                        'answer' => $answer,
+                    ]);
+                }
 
+                session()->put('quiz_completed_' . $quiz->id, true); // Mark quiz as completed
                 $request->session()->flash('success', 'Answers submitted successfully!');
                 return redirect()->route('quizzes.show', $quiz->id);
             } catch (\Exception $e) {
