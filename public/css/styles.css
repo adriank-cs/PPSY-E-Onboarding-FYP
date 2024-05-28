@@ -31,8 +31,8 @@
     --bs-gray-700: #495057;
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
-    --bs-primary: #6A1043; /*TODO: ALLOW TENANT TO CHANGE THEME COLOURS NEED TO ADJUST ELEMENTS TO USE VARIABLES*/
-    --bs-secondary: #BBA3C4;
+    --bs-primary: var(--custom-button-color,#6A1043);/*TODO: ALLOW TENANT TO CHANGE THEME COLOURS NEED TO ADJUST ELEMENTS TO USE VARIABLES*/
+    --bs-secondary: var(--custom-sidebar-color, #6A1043);
     --bs-success: #13DEB9;
     --bs-info: #539BFF;
     --bs-warning: #FFAE1F;
@@ -4114,19 +4114,18 @@ fieldset:disabled .btn {
     box-shadow: none
 }
 
-/*button at profile page*/
+/*button that made changes*/
 .btn-primary {
     --bs-btn-color: #fff;
-    --bs-btn-bg: var(--custom-button-color);
-    /*--bs-btn-bg: var(--bs-primary);*/
+    --bs-btn-bg: var(--bs-primary);
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: rgba(var(--bs-primary-rgb),0.5);
-    --bs-btn-hover-border-color: rgba(var(--bs-primary-rgb),0.3);
+    --bs-btn-hover-bg: #4f73d9;
+    --bs-btn-hover-border-color: #4a6ccc;
     --bs-btn-focus-shadow-rgb: 117, 153, 255;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--bs-primary);
-    --bs-btn-active-border-color: rgba(var(--bs-primary-rgb),0.7);
+    --bs-btn-active-bg: #4a6ccc;
+    --bs-btn-active-border-color: #4665bf;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--bs-primary);
@@ -19651,9 +19650,10 @@ fieldset:disabled .btn {
     }
 }
 
+/* sidebar color stay with white */
 .left-sidebar {
     width: 270px;
-    background-color: var(--custom-sidebar-color);
+    background-color: #fff;
     position: absolute;
     -webkit-transition: 0.2s ease-in;
     transition: 0.2s ease-in;
@@ -19701,8 +19701,9 @@ fieldset:disabled .btn {
     display: none
 }
 
+/* see want to made change of the color or not */
 .sidebar-nav ul .sidebar-item .sidebar-link {
-    color: #2A3547;
+    color: #2A3547; 
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -19732,6 +19733,8 @@ fieldset:disabled .btn {
     font-size: 21px
 }
 
+/*Changes*/
+/* Made change of the hover color */
 .sidebar-nav ul .sidebar-item .sidebar-link:hover {
     background-color: rgba(93, 135, 255, 0.1);
     color: var(--bs-secondary-color)
@@ -19742,18 +19745,20 @@ fieldset:disabled .btn {
 }
 
 .sidebar-nav ul .sidebar-item .sidebar-link.active:hover.has-arrow:after {
-    border-color: #fff
+    border-color: #fff;
 }
 
 .sidebar-nav ul .sidebar-item .link-disabled {
     opacity: 0.38
 }
 
+/*changes*/
+/* After selected the module, change the color */
 .sidebar-nav ul .sidebar-item.selected>.sidebar-link,
 .sidebar-nav ul .sidebar-item.selected>.sidebar-link.active,
 .sidebar-nav ul .sidebar-item>.sidebar-link.active {
     background-color: var(--bs-primary);
-    color: #fff
+    color: #fff 
 }
 
 .sidebar-nav .sidebar-list .sidebar-list-item {
@@ -20189,6 +20194,7 @@ ul {
 
 
 /* Onboarding home page css employee */
+/* Changes: the card border color */
 .card {
     border: 1px solid var(--bs-primary);
     border-radius: 5px;

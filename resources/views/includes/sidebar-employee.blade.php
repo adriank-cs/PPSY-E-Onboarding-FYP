@@ -4,7 +4,8 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
-                <img src="{{asset('images/pp-logo.png')}}" width="180" alt="" />
+                <!-- <img src="{{asset('images/pp-logo.png')}}" width="180" alt="" /> -->
+                <img src="{{ Storage::url($company_logo) }}" width="180" alt="Company Logo" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>

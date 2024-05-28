@@ -53,8 +53,7 @@ class SuperAdminController extends Controller
     {
         // Fetch all companies to populate the dropdown
         $companies = Company::all();
-        $buttonColor = Company::getButtonColor();
-        return view('superadmin.add-account', compact('companies', 'buttonColor'));
+        return view('superadmin.add-account', compact('companies'));
     }
 
     function add_accountPost(Request $request)
@@ -96,14 +95,12 @@ class SuperAdminController extends Controller
     {
         $user = User::findOrFail($id);
         $profile = $user->profile;
-        $buttonColor = Company::getButtonColor();
 
-        return view('superadmin.edit-account', compact('user', 'profile', 'buttonColor'));
+        return view('superadmin.edit-account', compact('user', 'profile'));
     }
 
     public function editAccountPost(Request $request, $id)
     {
-
         // Validate the form data
         $request->validate([
             'name' => 'required|string',
@@ -194,19 +191,30 @@ class SuperAdminController extends Controller
             'industry' => 'required|string',
             'address' => 'required|string',
             'website' => 'required|string',
+            'sidebar_color' => 'required|string',
+            'button_color' => 'required|string',
+            'logo' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Update the company details in the database
-        // $company = Company::find($request->input('CompanyID'));
+        //$company = Company::findOrFail($id);
         $company = Company::find($id);
+
         $company->update([
             'Name' => $request->input('name'),
             'Industry' => $request->input('industry'),
             'Address' => $request->input('address'),
             'Website' => $request->input('website'),
+            'sidebar_color' => $request->input('sidebar_color'),
+            'button_color' => $request->input('button_color'),
         ]);
 
-        return redirect()->route('superadmin.manage_company')->with('success', 'Company updated successfully.');
+        if ($request->hasFile('logo')) {
+            $companyLogo = $request->file('logo');
+            $companyLogoPath = $companyLogo->storeAs('CompanyLogos', $companyLogo->getClientOriginalName(), 'public');
+            $company->update(['company_logo' => $companyLogoPath]);
+        }
+        
+       return redirect()->route('superadmin.manage_company')->with('success', 'Company updated successfully.');
     }
 
     function add_company(){
@@ -221,18 +229,30 @@ class SuperAdminController extends Controller
             'industry' => 'required|string',
             'address' => 'required|string',
             'website' => 'required|string',
+            'sidebar_color' => 'required|string',
+            'button_color' => 'required|string',
         ]);
 
+        $companyLogo = $request->file('logo');
+        $companyLogoPath = $companyLogo->storeAs('CompanyLogos', $companyLogo->getClientOriginalName(), 'public');
+    
+        // Create the company with or without the logo path
         $company = Company::create([
             'Name' => $request->input('name'),
             'Industry' => $request->input('industry'),
             'Address' => $request->input('address'),
             'Website' => $request->input('website'),
+            'sidebar_color' => $request->input('sidebar_color'),
+            'button_color' => $request->input('button_color'),
         ]);
 
-        return redirect()->route('superadmin.manage_company')->with('success', 'Account created successfully.');
-    }
+          //update company_logo field to be companyLogoPath
+          $company->update(['company_logo' => $companyLogoPath]);
 
+    
+        return redirect()->route('superadmin.manage_company')->with('success', 'Company created successfully.');
+    }
+    
     public function manageCompany()
     {
         // Fetch all companies from the database
@@ -259,6 +279,3 @@ class SuperAdminController extends Controller
 
 
 }
-
-
-
