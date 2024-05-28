@@ -20,23 +20,34 @@ class AdminCharts extends Component
     public $showDataLabels = false;
     public $firstRun = true;
 
+    //Days to track
+    public $days = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+    ];
+
+    //Day Colors
+    public $dayColors = [
+        'Sunday' => '#9E0031',
+        'Monday' => '#8E0045',
+        'Tuesday' => '#770058',
+        'Wednesday' => '#600047',
+        'Thursday' => '#44001A',
+        'Friday' => '#55172F',
+        'Saturday' => '#642C42',
+    ];
+
     public function render()
     {
         //Currently logged in user
         $user = auth()->user();
 
         $users = User::all();
-
-        //Days to track
-        $days = [
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-        ];
 
         //Get all user sessions of users with same company ID as admin
         $usersessions = UserSession::query()
@@ -46,7 +57,10 @@ class AdminCharts extends Component
         ->orderBy('first_activity_at', 'asc')
         ->addSelect(DB::raw('DAYNAME(first_activity_at) as DayOfWeek'))
         ->addSelect(DB::raw('DAYOFWEEK(first_activity_at) as DayNum'))
-        ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID);
+        ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
+        ->where('companyusers.isAdmin', '=', 0); //Exclude admins
+
+        Log::info(json_encode($usersessions->get()));
 
         //Data for Bar Chart
         $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
@@ -54,8 +68,8 @@ class AdminCharts extends Component
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
         //Fill in missing days
-        for ($i = 0; $i < count($days); $i++) {
-            $day = $days[$i];
+        for ($i = 0; $i < count($this->days); $i++) {
+            $day = $this->days[$i];
 
             //Insert to correct position
             if (!$barChartData->contains('DayOfWeek', $day)) {
@@ -75,7 +89,7 @@ class AdminCharts extends Component
             $day = $data['DayOfWeek'];
             $value = round(Carbon::parse($data['average_duration'])->floatDiffInHours('00:00:00'), 2);
 
-            return $barChartModel->addColumn($day, $value, '#ff0000'); //TODO: Set colors
+            return $barChartModel->addColumn($day, $value, $this->dayColors[$day]);
 
         }, LivewireCharts::columnChartModel()
             ->setTitle('Time Spent (Hours)')
