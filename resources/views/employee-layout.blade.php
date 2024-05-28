@@ -20,11 +20,7 @@
 
 </head>
 
-<style>
-    .btn-primary {
-        --custom-button-color: {{ $buttonColor }};
-    }
-</style>
+
 
 <body>
     <!--  Body Wrapper -->

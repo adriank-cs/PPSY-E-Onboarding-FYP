@@ -38,9 +38,10 @@
                         <span>
                             <i class="ti ti-book-2"></i>
                         </span>
-                        <span class="hide-menu">Modules</span>
+                        <span class="hide-menu">Quiz</span>
                     </a>
                 </li>
+                
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
                         <span>

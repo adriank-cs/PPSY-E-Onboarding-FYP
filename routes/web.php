@@ -136,6 +136,3 @@ Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAns
 
 Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
 
-
-
-Route::get('/quizzes/{quiz}/view-responses', [QuizController::class, 'getDetails'])->name('quizzes.view-responses');

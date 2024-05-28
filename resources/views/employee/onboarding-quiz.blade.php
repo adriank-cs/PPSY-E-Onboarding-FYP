@@ -16,8 +16,8 @@
                 </div>
 
                  <div class="card-footer">
-                  <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary" style= "background-color: #6A1043; color:white;">View Quiz</a>
-             <a href="{{ route('quizzes.view-responses', $quiz->id) }}" class="btn btn-primary" style= "background-color: #6A1043; color:white;">View Submitted Answer</a> 
+                  <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary btn-sm " style= "background-color: #6A1043; color:white;">View Quiz</a>
+
                 </div>
 
             </div>
