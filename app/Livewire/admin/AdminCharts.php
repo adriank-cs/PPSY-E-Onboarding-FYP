@@ -60,8 +60,6 @@ class AdminCharts extends Component
         ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
         ->where('companyusers.isAdmin', '=', 0); //Exclude admins
 
-        Log::info(json_encode($usersessions->get()));
-
         //Data for Bar Chart
         $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
         ->selectRaw('SEC_TO_TIME(AVG(TIME_TO_SEC(duration))) as average_duration')
@@ -85,7 +83,6 @@ class AdminCharts extends Component
         $barChartModel = $barChartData->sortBy('DayNum')
         ->reduce(function ($barChartModel, $data) {
 
-            Carbon::parse($data['average_duration'])->floatDiffInHours('00:00:00');
             $day = $data['DayOfWeek'];
             $value = round(Carbon::parse($data['average_duration'])->floatDiffInHours('00:00:00'), 2);
 
@@ -98,32 +95,82 @@ class AdminCharts extends Component
             ->withoutDataLabels()
         );
 
-        $lineChartModel = $users
-        ->reduce(function ($lineChartModel, $data) use ($users) {
-            $index = $users->search($data);
+        //Data for Line Chart
+        $lineChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
+        ->groupBy('DayOfWeek', 'DayNum')->get();
 
-            $amountSum = 10;
+        //Count number of employees in the same company
+        $numberOfEmployees = UserSession::query()
+        ->join('users', 'user_session.UserID', '=', 'users.id')
+        ->join('profiles', 'users.id', '=', 'profiles.user_id')
+        ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
+        ->addSelect('users.id')
+        ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
+        ->where('companyusers.isAdmin', '=', 0)
+        ->distinct('users.id')
+        ->count();
 
-            // if ($index == 2) {
-            //     $lineChartModel->addMarker(3, $amountSum);
-            // }
+        //Average Engagement
+        $engagementLevel = 0.0;
 
-            return $lineChartModel->addPoint($index, rand(0,20), ['id' => $data->id]);
-        }, LivewireCharts::lineChartModel()
+        //Average Session Length
+        $avgSessionLength = 0.0;
+
+        //Engagement Level - Line Chart (Current Week Only)
+        $lineChartModel = $lineChartData->sortBy('DayNum')
+        ->reduce(function ($lineChartModel, $data) use ($numberOfEmployees, &$engagementLevel, &$avgSessionLength) {
+            //Parameter for hours to fulfill each day (How many hours per day should employees engage)
+            $hoursPerDay = 4.0;
+            $totalHours = $hoursPerDay * $numberOfEmployees;
+
+            $day = $data['DayOfWeek'];
+
+            //Engagement Percentage
+            $value = round(Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00'), 2) / $totalHours * 100;
+
+            //Add to total engagement level
+            $engagementLevel += $value;
+
+            //Add to average session length
+            $avgSessionLength += Carbon::parse($data['total_duration'])->diffInMilliseconds('00:00:00') / $numberOfEmployees;
+
+            //Add engagement level
+            $lineChartModel->addSeriesPoint("Engagement (%)", $day, $value, $this->dayColors[$day]);
+
+            //Add minimum engagement level (Marker)
+            return $lineChartModel->addSeriesPoint("Minimum Engagement (%)", $day, 40.0);;
+        }, LivewireCharts::multiLineChartModel()
             ->setAnimated($this->firstRun)
             ->withOnPointClickEvent('onPointClick')
-            ->withLegend()
             ->setSmoothCurve()
-            ->setXAxisVisible(true)
             ->setDataLabelsEnabled(false)
             ->sparklined()
         );
 
+        //Calculate average engagement level
+        $engagementLevel = round($engagementLevel / count($this->days), 0);
+
+        //Set colors based on engagement level
+        if ($engagementLevel < 40) {
+            $lineChartModel
+            ->setColors(['#FF0505', '#5A6A85']);
+        }
+        else {
+            $lineChartModel
+            ->setColors(['#6A1043', '#5A6A85']);
+        }
+
+        //Calculate average session length
+        $avgSessionLength = round($avgSessionLength / count($this->days), 0);
+        $avgSessionLength = Carbon::createFromTimestampMs($avgSessionLength)->format('G:i');
 
         return view('livewire.admin.admin-charts')
         ->with([
             'barChartModel' => $barChartModel,
             'lineChartModel' => $lineChartModel,
+            'engagementLevel' => $engagementLevel,
+            'avgSessionLength' => $avgSessionLength,
         ]);
 
         // $lineChartModel = $users
