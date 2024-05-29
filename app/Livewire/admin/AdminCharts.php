@@ -100,6 +100,20 @@ class AdminCharts extends Component
         ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
+        //Fill in missing days
+        for ($i = 0; $i < count($this->days); $i++) {
+            $day = $this->days[$i];
+
+            //Insert to correct position
+            if (!$lineChartData->contains('DayOfWeek', $day)) {
+                $lineChartData->push([
+                    'DayOfWeek' => $day,
+                    'DayNum' => $i + 1,
+                    'total_duration' => '00:00:00',
+                ]);
+            }
+        }
+
         //Count number of employees in the same company
         $numberOfEmployees = UserSession::query()
         ->join('users', 'user_session.UserID', '=', 'users.id')
@@ -150,6 +164,9 @@ class AdminCharts extends Component
 
         //Calculate average engagement level
         $engagementLevel = round($engagementLevel / count($this->days), 0);
+
+        //TODO: For testing purpose only
+        //$engagementLevel = 35;
 
         //Set colors based on engagement level
         if ($engagementLevel < 40) {
