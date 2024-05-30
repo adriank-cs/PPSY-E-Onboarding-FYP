@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('company_logo')->nullable();
 
             //Subscription Feature
-            $table->timestamp('subscription_starts_at')->nullable();
-            $table->timestamp('subscription_ends_at')->nullable();
+            $table->dateTime('subscription_starts_at')->nullable();
+            $table->dateTime('subscription_ends_at')->nullable();
 
             $table->timestamps();
             //Soft Delete Column
