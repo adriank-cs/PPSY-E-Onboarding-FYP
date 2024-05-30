@@ -82,12 +82,12 @@ return new class extends Migration
         });
 
         //USER RESPONSE
-        Schema::table('user_responses', function (Blueprint $table) {
+/*         Schema::table('user_responses', function (Blueprint $table) {
             // Foreign key relationship with the users table
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('quiz_question_id')->references('id')->on('quiz_questions')->onDelete('cascade');
         });
-
+ */
         //CHAPTERS
         Schema::table('chapters', function (Blueprint $table) {
             // Foreign key relationship with the modules table

@@ -39,14 +39,7 @@
                 <!-- Content Field -->
                 <div class="form-group editor-content" id="content-fields">
                     <label for="content">Content</label>
-                    <textarea id="content" name="content" class="form-control" placeholder="Enter content here, 1000 characters max" maxlength="1000"></textarea>
-                </div>
-
-                <br>
-                <!-- Checkbox for anonymity -->
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="anonymous" name="anonymous">
-                    <label class="form-check-label" for="anonymous">Tick if you want to be anonymous</label>
+                    <textarea id="content" name="content"></textarea>
                 </div>
 
                 <!-- Submit Button -->

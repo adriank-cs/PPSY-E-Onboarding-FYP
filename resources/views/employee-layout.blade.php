@@ -29,20 +29,16 @@ $companyId = $user->companyUser->CompanyID;
 $company = Company::find($companyId);
 
 $buttonColor = $company->button_color;
-
 $sidebarColor = $company->sidebar_color;
+$company_logo = $company->company_logo;
+
 ?>
 
 <style>
-
-   .btn-primary {
-        --custom-button-color: {{ $buttonColor }};
+    :root,[data-bs-theme = light]{
+        --bs-primary:{{ $buttonColor }};
+        --bs-secondary:{{ $sidebarColor }};
     }
-
-    .left-sidebar {
-        --custom-sidebar-color: {{ $sidebarColor }};
-    }
-
 </style>
 
 <body>
@@ -55,7 +51,7 @@ $sidebarColor = $company->sidebar_color;
 
 
         <div class="body-wrapper">
-            @include('includes.header')
+            @include('includes.header', ['company_logo' => $company_logo])
 
             @yield('content')
         </div>
