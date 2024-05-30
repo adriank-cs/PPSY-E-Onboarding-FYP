@@ -142,7 +142,8 @@ class AdminCharts extends Component
 
             //Engagement Percentage
             $value = round(Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00'), 2) / $totalHours * 100;
-
+            $value = round($value, 0);
+            
             //Add to total engagement level
             $engagementLevel += $value;
 
@@ -153,7 +154,7 @@ class AdminCharts extends Component
             $lineChartModel->addSeriesPoint("Engagement (%)", $day, $value, $this->dayColors[$day]);
 
             //Add minimum engagement level (Marker)
-            return $lineChartModel->addSeriesPoint("Minimum Engagement (%)", $day, 40.0);;
+            return $lineChartModel->addSeriesPoint("Minimum Engagement (%)", $day, round(40.0, 0));;
         }, LivewireCharts::multiLineChartModel()
             ->setAnimated($this->firstRun)
             ->withOnPointClickEvent('onPointClick')
