@@ -268,5 +268,18 @@ class AdminController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Activity created successfully.');
     }
 
+    public function uploadImage(Request $request){
+
+        $fileName = time() . '.' . $request->file->getClientOriginalExtension();
+        $request->file->storeAs('TinyMceImages', $fileName, 'public');
+        $path = 'storage/TinyMceImages/' . $fileName;
+
+        // Manually construct the full URL
+        $fullUrl = config('app.url') . '/' . $path;
+
+        return response()->json(['location' => $fullUrl]);
+
+        //return response()->json(['location' => asset('storage/' . $path)]);
+    }
 }
 

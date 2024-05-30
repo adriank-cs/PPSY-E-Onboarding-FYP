@@ -27,6 +27,8 @@
                 </div>
             @endif
 
+            <x-head.tinymce-config/>
+
             <form
                 action="{{ route('admin.add_page.post', ['chapterId' => $chapterId]) }}"
                 method="POST" enctype="multipart/form-data">
@@ -53,7 +55,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="description" class="form-label">Page Description:</label>
-                            <textarea class="form-control" id="description" name="description" rows="10"
+                            <textarea class="form-control tinymce" id="description" name="description" rows="10"
                                 placeholder="Enter description"></textarea>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="content" class="form-label">Page Content:</label>
-                            <textarea class="form-control" id="content" name="content" rows="10"
+                            <textarea class="form-control tinymce" id="content" name="content" rows="10"
                                 placeholder="Enter content"></textarea>
                         </div>
                     </div>
