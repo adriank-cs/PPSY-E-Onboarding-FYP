@@ -24,6 +24,7 @@ class Company extends Model
         'Website',
         'sidebar_color',
         'button_color',
+        'company_logo',
     ];
 
     //Relationship
@@ -37,4 +38,32 @@ class Company extends Model
     {
         return $this->hasMany(Module::class, 'CompanyID', 'CompanyID');
     }
+
+    // Accessor to get the full URL of the company logo
+    public function getCompanyLogoUrlAttribute()
+    {
+        return $this->attributes['company_logo']
+            ? asset('storage/' . $this->attributes['company_logo'])
+            : null;
+            
+        
+    }
+
+    // // Mutator to store the company logo in storage
+    // public function setCompanyLogoAttribute($file)
+    // {
+    //     // $this->attributes['company_logo'] = $file
+    //     // ? Storage::disk('public')->put('company_logos', $file)
+    //     // : null;
+
+    //     $this->attributes['company_logo'] = $file
+    //         ? str_replace('public/', '', $file->store('public/company_logos'))
+    //         : null;
+    // }
+
+    // //Relationship
+    // function company() : BelongsTo
+    // {
+    //     return $this->belongsTo(Company::class, 'company_id');
+    // }
 }

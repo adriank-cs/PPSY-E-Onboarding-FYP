@@ -9,13 +9,13 @@
             <h1 class="display-6 py-2">Dashboard</h1>
             <h3>Overview</h1>
 
-            <div class="row">
+            <div class="row py-2">
                 <!-- Dashboard Charts -->
                 <livewire:employee.employee-charts/>
                 <livewire:scripts />
                 @livewireChartsScripts
             </div>
-            <div class="row">
+            <div class="row py-5">
                 <!-- Table -->
                 <livewire:employee.employee-dashboard-table theme="bootstrap-5" /> <!-- https://rappasoft.com/docs/laravel-livewire-tables/v3/introduction -->
             </div>

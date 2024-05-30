@@ -1,225 +1,269 @@
-<!-- create-quiz.blade.php -->
 @extends('employee-layout')
 
 @section('content')
 <div class="container-fluid">
-<div style="padding-bottom: 2rem;"><h1>Create New Quiz</h1>
-</div>
-@if ($errors->any())
+  <div style="padding-bottom: 2rem;">
+    <h1>Create New Quiz</h1>
+  </div>
+  @if ($errors->any())
   <div class="alert alert-danger">
     <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
+    @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+  @endforeach
     </ul>
   </div>
 @endif
 
-@if (session()->has('success'))
+  @if (session()->has('success'))
   <div class="alert alert-success">
     {{ session()->get('success') }}
   </div>
 @endif
 
-<form action="{{ route('quizzes.store') }}" method="POST" enctype="multipart/form-data">
-  @csrf
+  <form action="{{ route('quizzes.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
 
-  <div class="mb-3">
-    <label for="title" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Title:</label>
-    <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }} ">
-  </div>
-
-  <div class="mb-2">
-    <label for="questions" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Questions:</label>
-    <div class="input-group">
-      <button type="button" class="btn btn-success "  onclick="addQuestionField()" style="background-color: #6A1043; color: white;">Add Question</button>
+    <div class="mb-3">
+      <label for="title" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Title:</label>
+      <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
     </div>
-    <div id="question-fields"></div>
-  </div>
 
+    <div class="mb-2">
+      <label for="questions" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Questions:</label>
+      <div id="question-fields"></div>
+    </div>
 
-  
-  <script>
-    let questionCount = 0;
-    let questions = []; // Declare an empty array to store questions
-    let question_types = []; 
+    <div class="mb-3">
+      <button type="button" class="btn btn-success" onclick="addQuestionField()">Add Question</button>
+    </div>
 
+    <div class="mb-3">
+      <button type="submit" class="confirm-quiz-button">Create Quiz</button>
+    </div>
 
-    function addQuestionField() {
-      // Create a group element to hold the answer input and remove button
-  const answerGroup = document.createElement('div');
-  answerGroup.classList.add('input-group', 'mt-2');
-    // Add one initial answer option input field with questionId
-  const answer1 = `<input type="text" class="form-control mt-2" id="answer-${questionCount}-1" name="answers[${questionCount}][]" placeholder="Enter answer option" >`;
-  const removeButton1 = `<button type="button" class="btn btn-danger mt-2 short-button" onclick="removeAnswerOption(this)">Remove Option</button>`;
-  answerGroup.innerHTML = answer1 + removeButton1;
+  </form>
+
+  <style>
+    .btn-success {
+      background-color: #6A1043 !important;
+      color: white !important;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .btn-danger {
+      margin-right: 10px;
+    }
+
+    .consistent-width-input {
+      width: calc(100% - 60px);
+      max-width: 600px;
+      display: inline-block;
+    }
+  </style>
+
+<script>
+  let questionCount = 0;
+
+  function addQuestionField() {
+    saveCurrentState();
+
+    const questionFields = document.getElementById("question-fields");
+    const currentQuestionCount = questionFields.children.length;
     const questionField = `
-      
-
-      <div class="mb-4 input-group" id="question-${questionCount}">
-      <div class="d-flex ">
-        <label for="question-${questionCount}" class="form-label mt-4" style="font-size: 15px; font-weight: bold;" >Question ${questionCount + 1}:&nbsp;&nbsp;</label>
-      </div>
-        <input type="text" class="form-control mt-4" id="question-${questionCount}" name="questions[]" placeholder="Enter question" required style="width: 30%; height: 10%;" >
-
-        <select class="form-control mt-4" id="question_type-${questionCount}" name="question_types[]" onchange="changeQuestionType(this)" required style=" height: 36px;">
-          <option value="multiple_choice">Multiple Choice</option>
-          <option value="short_answer">Text Field</option>  
-          
-        </select>
-        <button type="button" class="btn btn-danger mt-4" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white;"> <i class="fas fa-trash"></i></button>
+      <div class="mb-4 question-block" id="question-block-${currentQuestionCount}">
+        <div class="input-group mb-2">
+          <label for="question-${currentQuestionCount}" class="form-label" style="font-size: 15px; font-weight: bold;">Question ${currentQuestionCount + 1}:&nbsp;&nbsp;</label>
+          <input type="text" class="form-control" id="question-${currentQuestionCount}" name="questions[]" placeholder="Enter question" required>
+          <select class="form-control" id="question_type-${currentQuestionCount}" name="question_types[]" onchange="changeQuestionType(this)" required>
+            <option value="multiple_choice">Multiple Choice</option>
+            <option value="short_answer">Text Field</option>
+          </select>
+          <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px;"><i class="fas fa-trash"></i></button>
         </div>
-
-      <div class="mb-4 input-group" id="answer-container-${questionCount}" required style="width: 31%">
-        <div id="answer-container-${questionCount}"></div>
+        <div id="answer-container-${currentQuestionCount}"></div>
       </div>`;
+    questionFields.innerHTML += questionField;
+    const questionTypeSelect = document.getElementById(`question_type-${currentQuestionCount}`);
+    changeQuestionType(questionTypeSelect);
 
-      
-/*    <div class="dropdown mt-4">
-        <button class="btn btn-purple dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-cog"></i>  </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <button type="button" class="btn btn-danger " onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white;"> <i class="fas fa-trash"></i></button>
-        </ul>
-      </div> */
-      //<option value="checkboxes">Checkboxes</option>
-      document.getElementById("question-fields").innerHTML += questionField;
+    questionCount++;
+    restorePreviousState();
+  }
 
-      // Add an empty input field for answer options (multiple choice) or leave it blank (short answer)
-      const questionTypeSelect = document.getElementById(`question_type-${questionCount}`);
-      changeQuestionType(questionTypeSelect);
+  function removeQuestionField(button) {
+    const questionBlock = button.closest('.question-block');
+    questionBlock.remove();
+    updateQuestionNumbers();
+    saveCurrentState();
+  }
 
-      questionCount++;
-      console.log("Question added:", questionCount);
-      console.log("Questions array:", questions);
-      console.log("Question types array:", question_types);
+  function updateQuestionNumbers() {
+    const questionBlocks = document.querySelectorAll('.question-block');
+    questionBlocks.forEach((block, index) => {
+      const label = block.querySelector('label');
+      label.innerHTML = `Question ${index + 1}:&nbsp;&nbsp;`;
+      block.id = `question-block-${index}`;
+      const questionInput = block.querySelector('input[id^="question-"]');
+      questionInput.id = `question-${index}`;
+      const questionSelect = block.querySelector('select[id^="question_type-"]');
+      questionSelect.id = `question_type-${index}`;
+      questionSelect.setAttribute('onchange', `changeQuestionType(this)`);
+      const answerContainer = block.querySelector('div[id^="answer-container"]');
+      answerContainer.id = `answer-container-${index}`;
+      updateAnswerOptionButtons(answerContainer, index);
+    });
+    questionCount = questionBlocks.length;
+  }
 
+  function updateAnswerOptionButtons(answerContainer, questionId) {
+    const addOptionButtons = answerContainer.querySelectorAll('.btn-success');
+    addOptionButtons.forEach(button => {
+      button.setAttribute('onclick', `addAnswerOption(this, ${questionId})`);
+    });
+    const removeButtons = answerContainer.querySelectorAll('.btn-danger');
+    removeButtons.forEach(button => {
+      button.setAttribute('onclick', `removeAnswerOption(this, ${questionId})`);
+    });
+  }
+
+  function changeQuestionType(selectElement) {
+    const questionId = selectElement.id.split('-')[1];
+    const answerContainer = document.getElementById(`answer-container-${questionId}`);
+
+    answerContainer.innerHTML = "";
+
+    if (selectElement.value === 'multiple_choice') {
+      addAnswerOption(null, questionId);
+      addAnswerOption(null, questionId);
+    }
+  }
+
+  function addAnswerOption(buttonElement, questionId) {
+    const answerContainer = document.getElementById(`answer-container-${questionId}`);
+    const existingAnswerCount = answerContainer.querySelectorAll('input[type="text"]').length;
+    const newAnswerNumber = existingAnswerCount + 1;
+
+    const answerGroup = document.createElement('div');
+    answerGroup.classList.add('input-group', 'mt-2');
+
+    const newAnswer = `<input type="text" class="form-control consistent-width-input" id="answer-${questionId}-${newAnswerNumber}" name="answers[${questionId}][]" placeholder="Enter answer option">`;
+    const removeButton = `<button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-right: 10px;"><i class="fas fa-trash"></i></button>`;
+    const addOptionButton = `<button type="button" class="btn btn-success" onclick="addAnswerOption(this, ${questionId})" style="margin-left: 10px; border-radius: 10px; height: 38px;">Add Option</button>`;
+
+    answerGroup.innerHTML = newAnswer + removeButton + addOptionButton;
+
+    const existingAddOptionButton = answerContainer.querySelector('.btn-success');
+    if (existingAddOptionButton) {
+      existingAddOptionButton.remove();
     }
 
-    function removeQuestionField(button) {
-    // Get the question container element (the parent of the button)
-    const questionContainer = button.parentNode;
+    answerContainer.appendChild(answerGroup);
+  }
 
-    // Get the answer container element (the next sibling of the question container)
-    const answerContainer = questionContainer.nextElementSibling;
+  function addAnswerOptionWithValue(answerContainer, questionId, value) {
+    const existingAnswerCount = answerContainer.querySelectorAll('input[type="text"]').length;
+    const newAnswerNumber = existingAnswerCount + 1;
 
-    // Remove both the question container and answer container elements
-    questionContainer.remove();
-    answerContainer.remove();
-        questionCount--;
+    const answerGroup = document.createElement('div');
+    answerGroup.classList.add('input-group', 'mt-2');
+
+    const newAnswer = `<input type="text" class="form-control consistent-width-input" id="answer-${questionId}-${newAnswerNumber}" name="answers[${questionId}][]" placeholder="Enter answer option" value="${value}">`;
+    const removeButton = `<button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-right: 10px;"><i class="fas fa-trash"></i></button>`;
+    const addOptionButton = `<button type="button" class="btn btn-success" onclick="addAnswerOption(this, ${questionId})" style="margin-left: 10px; border-radius: 10px; height: 38px;">Add Option</button>`;
+
+    answerGroup.innerHTML = newAnswer + removeButton + addOptionButton;
+
+    const existingAddOptionButton = answerContainer.querySelector('.btn-success');
+    if (existingAddOptionButton) {
+      existingAddOptionButton.remove();
     }
 
-    function changeQuestionType(selectElement) {
-      const questionId = selectElement.id.split('-')[1];
-      const answerContainer = document.getElementById(`answer-container-${questionId}`);
-
-      answerContainer.innerHTML = ""; // Clear existing content
-
-      if (selectElement.value === 'multiple_choice') {
-        // Create container for multiple answer options with "Add Answer Option" button
-        const answerOptionContainer = document.createElement('div');
-        const addButton = `<button type="button" class="btn btn-success mt-2" onclick="addAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white;">Add Option</button>`;
-        answerOptionContainer.innerHTML = addButton;
-
-        // Create a group element to hold the answer input and remove button
-        const answerGroup = document.createElement('div');
-        answerGroup.classList.add('input-group', 'mt-2');
-
-        // Add one initial answer option input field with questionId
-        const answer1 = `<input type="text" class="form-control mt-2" id="answer-${questionId}-1" name="answers[${questionId}][]" placeholder="Enter answer option" style="width:235px">`;
-        const removeButton1 = `<button type="button" class="btn btn-danger mt-2" onclick="removeAnswerOption(this)" style="background-color: #6A1043; color: white;"> <i class="fas fa-trash"></i></button>`; //Default
-        //Add the answer option and remove button to the group element
-        answerOptionContainer.innerHTML += answer1 + removeButton1; //this is the 1st option displayed
-        answerGroup.innerHTML = answer1 + removeButton1; //this is the 2nd option displayed
-       
-        answerOptionContainer.appendChild(answerGroup);
-
-        answerContainer.appendChild(answerOptionContainer);
-      } else if (selectElement.value === 'short_answer') {
-        // Leave answerContainer empty for text field questions
-      } else if (selectElement.value === 'checkboxes') {
-        // Create checkboxes for multiple answer options
-        const answerContainer = document.getElementById(`answer-container-${questionId}`);
-        const questionLabel = document.getElementById(`question-label-${questionId}`); // Assuming you have a label for the question
-
-        // Add a new paragraph element below the question label to hold checkboxes
-        const checkboxContainer = document.createElement('p');
-        questionLabel.parentNode.insertBefore(checkboxContainer, questionLabel.nextSibling);
-
-        const checkbox1 = `<input type="checkbox" id="answer-${questionId}-1" name="answers[${questionId}][]" value="option1"> Option 1<br>`;
-        const checkbox2 = `<input type="checkbox" id="answer-${questionId}-2" name="answers[${questionId}][]" value="option2"> Option 2<br>`;
-        checkboxContainer.innerHTML = checkbox1 + checkbox2;
-
-    // You can add more checkboxes here following the same pattern
-  } else {
-    // Handle other question types (if any)
-    
+    answerContainer.appendChild(answerGroup);
   }
-}
 
-//add answer options
-function addAnswerOption(buttonElement, questionId) {
-  // Get the answer container element
-  const answerContainer = document.getElementById(`answer-container-${questionId}`);
+  function removeAnswerOption(buttonElement, questionId) {
+    const answerGroup = buttonElement.parentNode;
+    const answerContainer = answerGroup.parentNode;
 
-  // Get the current number of answer options (assuming they are named sequentially)
-  const existingAnswerCount = answerContainer.querySelectorAll('input[type="text"]').length;
+    answerGroup.remove();
 
-  
-  const newAnswerNumber = existingAnswerCount + 1;
-  
-  // Create a container for the new answer option input field and remove button
-  const answerOptionContainer = document.createElement('div');
-  const addButton = `<button type="button" class="btn btn-success mt-2" onclick="addAnswerOption(this, ${questionId})">Add Option</button>`;
-  answerOptionContainer.innerHTML = addButton;
-
-
-  // Create a new group element to hold the answer input and remove button
-  const answerGroup = document.createElement('div');
-  answerGroup.classList.add('input-group', 'mt-2');
-
-  // Create a new answer option input field
-  
-  const newAnswer = `<input type="text" class="form-control mt-2" id="answer-${questionId}-${newAnswerNumber}" name="answers[${questionId}][]" placeholder="Enter answer option" style="height: 38px;">`;
-
-  // Create a remove button for this answer option
-  const removeButton = `<button type="button" class="btn btn-danger mt-2" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; height: 38px;"> <i class="fas fa-trash"></i></button>`;
-
-  // Add the answer option and remove button to the group element
-  answerGroup.innerHTML = newAnswer + removeButton;
-
-
-  answerOptionContainer.appendChild(answerGroup);
-  
-  // Append the group element to the answer container
-  answerContainer.appendChild(answerGroup);
-  console.log("options:", answerOptionContainer);
-}
-
-
-function removeAnswerOption(buttonElement) {
-  // Get the answer group element (the parent of the button)
-  const answerGroup = buttonElement.parentNode;
-
-  // Get the answer container element (the parent of the answer group)
-  const answerContainer = answerGroup.parentNode;
-
-  // Remove the answer group element (containing the answer input and remove button)
-  answerGroup.remove();
-
-    // Check if there are any remaining answer options after removal
-  const remainingOptions = answerContainer.querySelectorAll('input[type="text"]').length;
-  if (remainingOptions === 0) {
-    alert('Please add at least one answer option for multiple choice questions.');
+    const remainingOptions = answerContainer.querySelectorAll('input[type="text"]').length;
+    if (remainingOptions === 0) {
+      alert('Please add at least one answer option for multiple choice questions.');
+      addAnswerOption(null, questionId);
+    } else {
+      moveAddOptionButtonToLastRow(answerContainer);
+    }
   }
-}
 
-  </script>
+  function moveAddOptionButtonToLastRow(answerContainer) {
+    const addOptionButton = answerContainer.querySelector('.btn-success');
+    if (addOptionButton) {
+      addOptionButton.parentNode.remove();
+      const lastAnswerGroup = answerContainer.lastElementChild;
+      if (lastAnswerGroup) {
+        lastAnswerGroup.appendChild(addOptionButton);
+      }
+    }
+  }
 
-  <div class="mb-3">
-    <button type="submit" class="btn btn-primary" >Create Quiz</button>
-  </div>
-  
-</form>
+  // Save the current state of the form
+  function saveCurrentState() {
+    const formState = {};
+    document.querySelectorAll('.question-block').forEach((block, index) => {
+      const questionInput = block.querySelector('input[id^="question-"]');
+      const questionSelect = block.querySelector('select[id^="question_type-"]');
+      const answers = Array.from(block.querySelectorAll('input[type="text"][id^="answer-"]')).map(input => input.value);
+
+      formState[index] = {
+        question: questionInput ? questionInput.value : '',
+        type: questionSelect ? questionSelect.value : '',
+        answers: answers
+      };
+    });
+    localStorage.setItem('formState', JSON.stringify(formState));
+  }
+
+  // Restore the previous state of the form
+  function restorePreviousState() {
+    const formState = JSON.parse(localStorage.getItem('formState'));
+    if (formState) {
+      document.querySelectorAll('.question-block').forEach((block, index) => {
+        if (formState[index]) {
+          const questionInput = block.querySelector('input[id^="question-"]');
+          const questionSelect = block.querySelector('select[id^="question_type-"]');
+          const answerContainer = block.querySelector('div[id^="answer-container"]');
+
+          if (questionInput) questionInput.value = formState[index].question;
+          if (questionSelect) questionSelect.value = formState[index].type;
+          if (answerContainer) answerContainer.innerHTML = '';
+
+          if (formState[index].type === 'multiple_choice' && answerContainer) {
+            formState[index].answers.forEach(answer => {
+              addAnswerOptionWithValue(answerContainer, index, answer);
+            });
+          }
+        }
+      });
+      localStorage.removeItem('formState');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    restorePreviousState();
+  });
+</script>
+
+
+
+
+
+
+
+
+</div>
 @endsection
+
 <script src="https://kit.fontawesome.com/9f358c91c6.js" crossorigin="anonymous"></script>
