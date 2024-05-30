@@ -71,7 +71,6 @@ class LogUserActivity
 
             }
             else {
-                Log::info("Session updated");
                 //Update the user's last active session
                 $session->last_activity_at = now();
                 $session->duration = $session->last_activity_at->diff($session->first_activity_at)->format('%H:%I:%S');
