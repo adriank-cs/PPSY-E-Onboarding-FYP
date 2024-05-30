@@ -271,11 +271,15 @@ class AdminController extends Controller
     public function uploadImage(Request $request){
 
         $fileName = time() . '.' . $request->file->getClientOriginalExtension();
-        $request->file->storeAs('ModulesPagesImages', $fileName, 'public');
-        $path = 'ModulesPagesImages/' . $fileName;
+        $request->file->storeAs('TinyMceImages', $fileName, 'public');
+        $path = 'storage/TinyMceImages/' . $fileName;
 
-        return response()->json(['location' => asset('storage/' . $path)]);
+        // Manually construct the full URL
+        $fullUrl = config('app.url') . '/' . $path;
+
+        return response()->json(['location' => $fullUrl]);
+
+        //return response()->json(['location' => asset('storage/' . $path)]);
     }
-
 }
 

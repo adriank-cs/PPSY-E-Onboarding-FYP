@@ -74,6 +74,7 @@ $company_logo = $company->company_logo;
     <script type="text/javascript" src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/simplebar/dist/simplebar.js') }}"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
