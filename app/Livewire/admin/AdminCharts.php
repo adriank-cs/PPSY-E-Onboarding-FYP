@@ -61,7 +61,7 @@ class AdminCharts extends Component
         ->where('companyusers.isAdmin', '=', 0); //Exclude admins
 
         //Data for Bar Chart
-        $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        $barChartData = $usersessions->whereBetween('first_activity_at', [now()->subDays(7)->startOfWeek(Carbon::SUNDAY), now()->subDays(7)->endOfWeek(Carbon::SATURDAY)])
         ->selectRaw('SEC_TO_TIME(AVG(TIME_TO_SEC(duration))) as average_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
@@ -96,7 +96,7 @@ class AdminCharts extends Component
         );
 
         //Data for Line Chart
-        $lineChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        $lineChartData = $usersessions->whereBetween('first_activity_at', [now()->subDays(7)->startOfWeek(Carbon::SUNDAY), now()->subDays(7)->endOfWeek(Carbon::SATURDAY)])
         ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
