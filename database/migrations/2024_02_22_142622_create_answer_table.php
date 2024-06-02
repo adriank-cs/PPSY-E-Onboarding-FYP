@@ -18,7 +18,8 @@ class CreateAnswerTable extends Migration
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             $table->unsignedBigInteger('PostID');
-            $table->mediumText('content'); // Content may include videos, images, etc. (Maximum 16MB)
+            $table->mediumText('content'); // text only
+            $table->string('image')->nullable(); //image only
             $table->timestamps();
             $table->boolean('is_anonymous')->default(false)->nullable();
 

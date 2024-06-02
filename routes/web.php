@@ -56,18 +56,6 @@ Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
 
 
-//Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
-Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
-Route::get('/discussion/typeown', [DiscussionController::class, 'typeown'])->name('discussion.typeown'); // Display discussion searched question page
-Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
-Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
-Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
-Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay'); // Display individual post with a specific post ID
-Route::post('/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('discussion.submitAnswer');
-
-//Route::post('/discussion/createAnswer', [AnswerController::class, 'createAnswer'])->name('discussion.postDisplay'); // Create a answer
-
-
 Route::middleware(['web', 'auth'])->group(function () {
     // Common authenticated user routes (both admin and employee)
 
@@ -103,6 +91,30 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
         Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
         Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
+
+        //DISCUSSION
+        // Route::get('/admin/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
+        // Route::get('/admin/discussion/create-post', [DiscussionController::class, 'typeOwn'])->name('admin.create-post'); // Display discussion searched question page
+
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts   
+        Route::get('/admin/discussion/create-post', [PostController::class, 'typeOwn'])->name('admin.create-post'); // Display type own question page
+        Route::post('admin/discussion/create-post', [PostController::class, 'createPost'])->name('admin.createPost'); // Create a new post
+        Route::post('/admin/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('admin.submitAnswer');
+        Route::get('admin/check-post', [PostController::class, 'checkPostedQuestions'])->name('admin.check-post');
+        Route::get('/admin/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('admin.postDisplay');
+        Route::get('/admin/discussion/delete-post/{PostID}', [PostController::class, 'deletePost'])->name('admin.deletePost');
+        Route::get('/admin/discussion/view-history/{PostID}', [PostController::class, 'viewHistory'])->name('admin.viewHistory');
+        Route::get('/admin/discussion/edit-post/{PostID}', [PostController::class, 'editPost'])->name('admin.editPost');
+        Route::post('/admin/discussion/update-post/{PostID}', [PostController::class, 'updatePost'])->name('admin.updatePost');
+
+        // //Route::get('/admin/discussion/', [DiscussionController::class, 'homepage'])->name('admin.discussion'); // Display discussion homepage
+        // Route::get('/admin/discussion/', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
+        // //Route::get('/admin/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
+        // Route::post('/admin/discussion/createPost', [PostController::class, 'createPost'])->name('admin.postDisplay'); // Create a new post
+
+        // Route::get('/discussion/autocomplete', [PostController::class, 'autocomplete'])->name('discussion.autocomplete'); // Autocomplete route
+
+        Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image');
 
         //TEST ACTIONS
         
