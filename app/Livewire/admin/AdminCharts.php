@@ -166,9 +166,6 @@ class AdminCharts extends Component
         //Calculate average engagement level
         $engagementLevel = round($engagementLevel / count($this->days), 0);
 
-        //TODO: For testing purpose only
-        //$engagementLevel = 35;
-
         //Set colors based on engagement level
         if ($engagementLevel < 40) {
             $lineChartModel
@@ -181,7 +178,7 @@ class AdminCharts extends Component
 
         //Calculate average session length
         $avgSessionLength = round($avgSessionLength / count($this->days), 0);
-        $avgSessionLength = Carbon::createFromTimestampMs($avgSessionLength)->format('G:i');
+        $avgSessionLength = Carbon::createFromTimestampMs($avgSessionLength, 'UTC')->format('G:i');
 
         return view('livewire.admin.admin-charts')
         ->with([
