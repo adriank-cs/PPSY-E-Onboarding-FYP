@@ -43,14 +43,33 @@
                     </a>
                 </li>
                 
+                <!-- Discussions Section -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
                             <i class="ti ti-messages"></i>
                         </span>
                         <span class="hide-menu">Discussions</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="{{ route('employee.discussion') }}" class="sidebar-link">
+                                <span class="hide-menu">Homepage</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('employee.create-post') }}" class="sidebar-link">
+                                <span class="hide-menu">Ask Questions</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('employee.check-post') }}" class="sidebar-link">
+                                <span class="hide-menu">Check Posted Questions</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
                         <span>

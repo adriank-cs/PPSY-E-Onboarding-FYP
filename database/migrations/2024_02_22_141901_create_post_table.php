@@ -19,7 +19,6 @@ class CreatePostTable extends Migration
             $table->unsignedBigInteger('CompanyID');
             $table->string('title');
             $table->mediumText('content'); //text only
-            $table->string('image')->nullable(); //image only
             $table->boolean('is_answered')->default(false);
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_archived')->default(false);
