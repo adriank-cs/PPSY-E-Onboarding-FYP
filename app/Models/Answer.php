@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Thiagoprz\CompositeKey\HasCompositeKey;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Answer extends Model
 {
+    use HasFactory, HasCompositeKey, SoftDeletes;
 
     protected $table = 'answer';
     protected $primaryKey = 'AnswerID';

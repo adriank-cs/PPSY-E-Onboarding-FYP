@@ -1,4 +1,4 @@
-@extends('admin-layout')
+@extends('employee-layout')
 
 @section('content')
 <div class="container-fluid">
@@ -37,7 +37,7 @@
             <!-- Type your own question button -->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <a href="{{ route('admin.create-post') }}">
+                    <a href="{{ route('employee.create-post') }}">
                         <button type="submit" class="btn btn-primary btn-sm" style="width: 100%; padding: 10px;">
                             <i class="bi bi-search"></i> Cannot find your questions? Write your own now!
                         </button>
@@ -63,7 +63,7 @@
                             @if(isset($randomPosts[$index]))
                                 <div class="col-md-6 mb-3">
                                     <!-- Wrap each card in an anchor tag -->
-                                    <a href="{{ route('admin.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
+                                    <a href="{{ route('employee.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
                                         <div class="card twoxtwo-gray-card border-gray">
                                             <div class="card-body">
                                                 <!-- Card content goes here -->
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', function () {
         const query = searchInput.value;
         if (query.length > 2) {
-            fetch(`/discussion/autocomplete?query=${query}`)
+            fetch(`/employee/discussion/autocomplete?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     resultsContainer.innerHTML = '';
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             div.classList.add('autocomplete-item');
                             div.textContent = item.title;
                             div.addEventListener('click', function () {
-                                window.location.href = `/discussion/post/${item.PostID}`;
+                                window.location.href = `/employee/discussion/post/${item.PostID}`;
                             });
                             resultsContainer.appendChild(div);
                         });

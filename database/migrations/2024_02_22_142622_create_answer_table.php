@@ -19,8 +19,8 @@ class CreateAnswerTable extends Migration
             $table->unsignedBigInteger('CompanyID');
             $table->unsignedBigInteger('PostID');
             $table->mediumText('content'); // text only
-            $table->string('image')->nullable(); //image only
             $table->timestamps();
+            $table->softDeletes();
             $table->boolean('is_anonymous')->default(false)->nullable();
 
             // Remove the explicit definition of the composite primary key

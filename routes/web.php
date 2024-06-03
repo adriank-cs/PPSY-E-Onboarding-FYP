@@ -8,6 +8,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\EmployeePostController;
 use App\Http\Controllers\ForgetPassController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ModuleController;
@@ -51,6 +52,8 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
+Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image');
+
 
 Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
@@ -93,28 +96,21 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
 
         //DISCUSSION
-        // Route::get('/admin/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
-        // Route::get('/admin/discussion/create-post', [DiscussionController::class, 'typeOwn'])->name('admin.create-post'); // Display discussion searched question page
-
-        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts   
-        Route::get('/admin/discussion/create-post', [PostController::class, 'typeOwn'])->name('admin.create-post'); // Display type own question page
-        Route::post('admin/discussion/create-post', [PostController::class, 'createPost'])->name('admin.createPost'); // Create a new post
-        Route::post('/admin/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('admin.submitAnswer');
-        Route::get('admin/check-post', [PostController::class, 'checkPostedQuestions'])->name('admin.check-post');
-        Route::get('/admin/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('admin.postDisplay');
-        Route::get('/admin/discussion/delete-post/{PostID}', [PostController::class, 'deletePost'])->name('admin.deletePost');
-        Route::get('/admin/discussion/view-history/{PostID}', [PostController::class, 'viewHistory'])->name('admin.viewHistory');
-        Route::get('/admin/discussion/edit-post/{PostID}', [PostController::class, 'editPost'])->name('admin.editPost');
-        Route::post('/admin/discussion/update-post/{PostID}', [PostController::class, 'updatePost'])->name('admin.updatePost');
-
-        // //Route::get('/admin/discussion/', [DiscussionController::class, 'homepage'])->name('admin.discussion'); // Display discussion homepage
-        // Route::get('/admin/discussion/', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
-        // //Route::get('/admin/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
-        // Route::post('/admin/discussion/createPost', [PostController::class, 'createPost'])->name('admin.postDisplay'); // Create a new post
-
-        // Route::get('/discussion/autocomplete', [PostController::class, 'autocomplete'])->name('discussion.autocomplete'); // Autocomplete route
-
-        Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image');
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts on the homepage
+        Route::get('/admin/discussion/create-post', [PostController::class, 'typeOwn'])->name('admin.create-post'); // Display the form for creating a new post
+        Route::post('/admin/discussion/create-post', [PostController::class, 'createPost'])->name('admin.createPost'); // Handle the submission of a new post
+        Route::post('/admin/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('admin.submitAnswer'); // Handle the submission of a new answer to a post
+        Route::get('/admin/check-post', [PostController::class, 'checkPostedQuestions'])->name('admin.check-post'); // Display posts based on a filter (all posts or my questions)
+        Route::get('/admin/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('admin.postDisplay'); // Display a specific post along with its answers
+        Route::get('/admin/discussion/delete-post/{PostID}', [PostController::class, 'deletePost'])->name('admin.deletePost'); // Handle the deletion of a post
+        Route::get('/admin/discussion/view-history/{PostID}', [PostController::class, 'viewHistory'])->name('admin.viewHistory'); // View the history of a specific post
+        Route::get('/admin/discussion/edit-post/{PostID}', [PostController::class, 'editPost'])->name('admin.editPost'); // Display the form for editing a specific post
+        Route::post('/admin/discussion/update-post/{PostID}', [PostController::class, 'updatePost'])->name('admin.updatePost'); // Handle the update of a specific post
+        Route::get('/admin/discussion/edit-answer/{AnswerID}', [PostController::class, 'editAnswer'])->name('admin.editAnswer'); // Display the form for editing a specific answer
+        Route::post('/admin/discussion/update-answer/{AnswerID}', [PostController::class, 'updateAnswer'])->name('admin.updateAnswer'); // Handle the update of a specific answer
+        Route::get('/admin/discussion/delete-answer/{AnswerID}', [PostController::class, 'deleteAnswer'])->name('admin.deleteAnswer'); // Handle the deletion of a specific answer
+        Route::get('/admin/discussion/answer-history/{AnswerID}', [PostController::class, 'viewAnswerHistory'])->name('admin.viewAnswerHistory'); // View the history of a specific answer
+                
 
         //TEST ACTIONS
         
@@ -130,6 +126,21 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
         Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout'); 
 
+        Route::get('/employee/discussion', [EmployeePostController::class, 'homepageName'])->name('employee.discussion'); 
+        Route::get('/employee/discussion/create-post', [EmployeePostController::class, 'typeOwn'])->name('employee.create-post'); 
+        Route::post('/employee/discussion/create-post', [EmployeePostController::class, 'createPost'])->name('employee.createPost'); 
+        Route::post('/employee/discussion/submit-answer/{PostID}', [EmployeePostController::class, 'submitAnswer'])->name('employee.submitAnswer');
+        Route::get('/employee/check-post', [EmployeePostController::class, 'checkPostedQuestions'])->name('employee.check-post');
+        Route::get('/employee/discussion/post/{PostID}', [EmployeePostController::class, 'postDisplay'])->name('employee.postDisplay');
+        Route::get('/employee/discussion/delete-post/{PostID}', [EmployeePostController::class, 'deletePost'])->name('employee.deletePost');
+        Route::get('/employee/discussion/view-history/{PostID}', [EmployeePostController::class, 'viewHistory'])->name('employee.viewHistory');
+        Route::get('/employee/discussion/edit-post/{PostID}', [EmployeePostController::class, 'editPost'])->name('employee.editPost');
+        Route::post('/employee/discussion/update-post/{PostID}', [EmployeePostController::class, 'updatePost'])->name('employee.updatePost');
+        Route::get('/employee/discussion/edit-answer/{AnswerID}', [EmployeePostController::class, 'editAnswer'])->name('employee.editAnswer');
+        Route::post('/employee/discussion/update-answer/{AnswerID}', [EmployeePostController::class, 'updateAnswer'])->name('employee.updateAnswer');
+        Route::get('/employee/discussion/delete-answer/{AnswerID}', [EmployeePostController::class, 'deleteAnswer'])->name('employee.deleteAnswer');
+        Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
+    
     });
 
     Route::middleware(['superadmin'])->group(function () {

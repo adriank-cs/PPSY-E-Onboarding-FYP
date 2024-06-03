@@ -26,7 +26,16 @@
                                 </div>
                             @endif
                             <h5 class="card-title">{{ $post->title }}</h5>
-                            <p class="card-text">Asked by: {{ Auth::id() == $post->UserID ? 'You' : $users[$post->UserID] }}</p>
+                            <p class="card-text">
+                                Asked by: 
+                                @if($post->UserID == Auth::id())
+                                    You
+                                @elseif($post->is_anonymous)
+                                    Your Friendly Colleague
+                                @else
+                                    {{ $users[$post->UserID] ?? 'Unknown' }}
+                                @endif
+                            </p>
                             <p class="card-text">Number of answers: {{ $post->answers_count }}</p>
                         </a>
                     </div>
@@ -38,7 +47,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                 @if(is_null($post->deleted_at))
                                     <li><a class="dropdown-item text-dark" href="{{ route('admin.editPost', ['PostID' => $post->PostID]) }}"><i class="fas fa-edit"></i> Edit</a></li>
-                                    <li><a class="dropdown-item text-dark" href="#" onclick="confirmDelete('{{ $post->PostID }}', '{{ Auth::id() == $post->UserID ? 'You' : $users[$post->UserID] }}')"><i class="fas fa-trash-alt"></i> Delete</a></li>
+                                    <li><a class="dropdown-item text-dark" href="#" onclick="confirmDelete('{{ $post->PostID }}', '{{ Auth::id() == $post->UserID ? 'You' : $users[$post->UserID] ?? 'Unknown' }}')"><i class="fas fa-trash-alt"></i> Delete</a></li>
                                 @endif
                                 <li><a class="dropdown-item text-dark" href="{{ route('admin.viewHistory', ['PostID' => $post->PostID]) }}"><i class="fas fa-history"></i> View History</a></li>
                             </ul>

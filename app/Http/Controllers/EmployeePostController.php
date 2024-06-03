@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class PostController extends Controller
+class EmployeePostController extends Controller
 {
     // HOMEPAGE
     public function homepageName()
@@ -31,16 +32,13 @@ class PostController extends Controller
         $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
     
         // Pass the retrieved data to the view
-        return view('admin.discussion', ['randomPosts' => $randomPosts, 'users' => $users]);
+        return view('employee.discussion', ['randomPosts' => $randomPosts, 'users' => $users]);
     }
-    
 
     // TYPE YOUR OWN QUESTION
     public function typeOwn()
     {
-    
-        // Pass the retrieved data to the view
-        return view('admin.create-post');
+        return view('employee.create-post');
     }
 
     public function autocomplete(Request $request)
@@ -140,7 +138,7 @@ class PostController extends Controller
          ]);
     
         // Optionally, you can return a response or redirect the user to a different page
-        return redirect()->route('admin.postDisplay', ['PostID' => $postID]);
+        return redirect()->route('employee.postDisplay', ['PostID' => $postID]);
     }
 
     public function postDisplay($PostID)
@@ -148,8 +146,8 @@ class PostController extends Controller
         // Fetch the post details including soft-deleted posts
         $post = Post::withTrashed()->where('PostID', $PostID)->firstOrFail();
         
-        // Fetch answers including soft-deleted answers
-        $answers = Answer::withTrashed()->where('PostID', $PostID)->get();
+        // Fetch answers excluding soft-deleted answers
+        $answers = Answer::where('PostID', $PostID)->whereNull('deleted_at')->get();
         
         // Get user name from db with name field
         $user = User::where('id', $post->UserID)->first(['name']);
@@ -159,8 +157,9 @@ class PostController extends Controller
         $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
         
         // Pass the post details to the blade view
-        return view('admin.postdisplay', compact('post', 'answers', 'user', 'users'));
+        return view('employee.postdisplay', compact('post', 'answers', 'user', 'users'));
     }
+    
     
     public function submitAnswer(Request $request, $PostID)
     {
@@ -212,7 +211,7 @@ class PostController extends Controller
         $post->deleted_at = Carbon::now();
         $post->save();
     
-        return redirect()->route('admin.check-post', ['filter' => request('filter', 'all_posts')]);
+        return redirect()->route('employee.check-post', ['filter' => request('filter', 'all_posts')]);
     }
         
     public function checkPostedQuestions(Request $request)
@@ -220,38 +219,25 @@ class PostController extends Controller
         // Retrieve the logged-in user
         $user = Auth::user();
     
-        // Get the company ID of the logged-in user
-        $companyID = $user->companyUser->CompanyID ?? null;
-    
-        // Determine the filter type
-        $filter = $request->query('filter', 'all_posts');
-    
-        if ($filter == 'my_questions') {
-            // Retrieve posts that match the user's ID and company ID, including soft deleted posts
-            $postedQuestions = Post::withTrashed()->where('CompanyID', $companyID)
-                ->where('UserID', $user->id)
-                ->withCount('answers') // Get the count of answers for each post
-                ->get();
-        } else {
-            // Retrieve posts that match the company ID, including soft deleted posts
-            $postedQuestions = Post::withTrashed()->where('CompanyID', $companyID)
-                ->withCount('answers') // Get the count of answers for each post
-                ->get();
-        }
+        // Retrieve posts that match the user's ID and are not soft deleted
+        $postedQuestions = Post::where('UserID', $user->id)
+            ->whereNull('deleted_at')
+            ->withCount('answers') // Get the count of answers for each post
+            ->get();
     
         // Fetch user names from the database
         $userIds = $postedQuestions->pluck('UserID')->unique()->toArray();
         $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
     
         // Pass the retrieved data to the view
-        return view('admin.check-post', ['postedQuestions' => $postedQuestions, 'users' => $users]);
-    }      
-    
+        return view('employee.check-post', ['postedQuestions' => $postedQuestions, 'users' => $users]);
+    }
+            
     public function viewHistory($PostID)
     {
         $postHistories = PostHistory::where('PostID', $PostID)->get();
     
-        return view('admin.post-history', compact('postHistories'));
+        return view('employee.post-history', compact('postHistories'));
     }
 
     public function editPost($PostID)
@@ -263,7 +249,7 @@ class PostController extends Controller
         $user = User::where('id', $post->UserID)->first(['name']);
 
         // Pass the post details to the blade view
-        return view('admin.edit-post', compact('post', 'user'));
+        return view('employee.edit-post', compact('post', 'user'));
     }
 
     public function updatePost(Request $request, $PostID)
@@ -314,7 +300,7 @@ class PostController extends Controller
         ]);
 
         // Redirect back to the post display page
-        return redirect()->route('admin.postDisplay', ['PostID' => $post->PostID]);
+        return redirect()->route('employee.postDisplay', ['PostID' => $post->PostID]);
     }
 
     public function editAnswer($AnswerID)
@@ -326,7 +312,7 @@ class PostController extends Controller
         $user = User::where('id', $answer->UserID)->first(['name']);
         
         // Pass the answer details to the blade view
-        return view('admin.edit-answer', compact('answer', 'user'));
+        return view('employee.edit-answer', compact('answer', 'user'));
     }
     
     public function updateAnswer(Request $request, $AnswerID)
@@ -358,7 +344,7 @@ class PostController extends Controller
         ]);
     
         // Redirect back to the post display page
-        return redirect()->route('admin.postDisplay', ['PostID' => $answer->PostID]);
+        return redirect()->route('employee.postDisplay', ['PostID' => $answer->PostID]);
     }
     
     public function deleteAnswer($AnswerID)
@@ -374,7 +360,6 @@ class PostController extends Controller
     {
         $answerHistories = AnswerHistory::where('AnswerID', $AnswerID)->get();
         
-        return view('admin.answer-history', compact('answerHistories'));
+        return view('employee.answer-history', compact('answerHistories'));
     }        
 }
-
