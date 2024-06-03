@@ -61,7 +61,7 @@ class AdminCharts extends Component
         ->where('companyusers.isAdmin', '=', 0); //Exclude admins
 
         //Data for Bar Chart
-        $barChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        $barChartData = $usersessions->whereBetween('first_activity_at', [now()->subDays(7)->startOfWeek(Carbon::SUNDAY), now()->subDays(7)->endOfWeek(Carbon::SATURDAY)])
         ->selectRaw('SEC_TO_TIME(AVG(TIME_TO_SEC(duration))) as average_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
@@ -96,7 +96,7 @@ class AdminCharts extends Component
         );
 
         //Data for Line Chart
-        $lineChartData = $usersessions->whereBetween('first_activity_at', [now()->startOfWeek(Carbon::MONDAY), now()->endOfWeek(Carbon::SUNDAY)])
+        $lineChartData = $usersessions->whereBetween('first_activity_at', [now()->subDays(7)->startOfWeek(Carbon::SUNDAY), now()->subDays(7)->endOfWeek(Carbon::SATURDAY)])
         ->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')
         ->groupBy('DayOfWeek', 'DayNum')->get();
 
@@ -166,9 +166,6 @@ class AdminCharts extends Component
         //Calculate average engagement level
         $engagementLevel = round($engagementLevel / count($this->days), 0);
 
-        //TODO: For testing purpose only
-        //$engagementLevel = 35;
-
         //Set colors based on engagement level
         if ($engagementLevel < 40) {
             $lineChartModel
@@ -181,7 +178,7 @@ class AdminCharts extends Component
 
         //Calculate average session length
         $avgSessionLength = round($avgSessionLength / count($this->days), 0);
-        $avgSessionLength = Carbon::createFromTimestampMs($avgSessionLength)->format('G:i');
+        $avgSessionLength = Carbon::createFromTimestampMs($avgSessionLength, 'UTC')->format('G:i');
 
         return view('livewire.admin.admin-charts')
         ->with([
