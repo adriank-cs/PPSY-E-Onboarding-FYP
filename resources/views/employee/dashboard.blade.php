@@ -17,7 +17,7 @@
                 @livewireChartsScripts
             </div>
             <div class="row py-5">
-                <h3>Upcoming Events</h1>
+                <h3>Events</h1>
 
                 @livewireCalendarScripts
                 <!-- Calendar -->
