@@ -1,5 +1,6 @@
 @extends('employee-layout')
 
+@section('title', 'Employee | Dashboard')
 @section('content')
 <div class="container-fluid">
     <div class="row vh-100">
