@@ -24,9 +24,14 @@ use App\Models\Company;
 
 $user = auth()->user();
 
-$companyId = $user->companyUser->CompanyID;
+//$companyId = $user->companyUser->CompanyID;
 
-$company = Company::find($companyId);
+//$company = Company::find($companyId);
+
+//For null check
+$companyUser = $user->companyUser ?? null;
+$companyId = $companyUser ? $companyUser->CompanyID : null;
+$company = $companyId ? Company::find($companyId) : null;
 
 $buttonColor = $company->button_color;
 $sidebarColor = $company->sidebar_color;

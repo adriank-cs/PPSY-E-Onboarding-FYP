@@ -88,8 +88,8 @@ class User extends Authenticatable
         return $this->hasMany(UserSession::class, 'UserID');
     }
 
-    //TODO: Might be wrong
-    public function responses()
+    //TODO: Define the relationship with the UserResponse model
+    public function responses(): HasMany
     {
         return $this->hasMany(UserResponse::class);
     }
