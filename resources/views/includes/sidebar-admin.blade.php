@@ -1,11 +1,11 @@
 <!-- Sidebar Start -->
 <aside class="left-sidebar">
-    <!--Sidebar Scroll -->
+    <!-- Sidebar Scroll -->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
-                <img src="{{asset('images/pp-logo.png')}}" width="180" alt="" />
-            </a>
+                <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
+                    <img src="{{ Storage::url($company_logo) }}" width="180" alt="Company Logo" />
+                </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>
             </div>
@@ -57,13 +57,31 @@
                         <span class="hide-menu">Modules</span>
                     </a>
                 </li>
+                <!-- Discussions Section -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
                             <i class="ti ti-messages"></i>
                         </span>
                         <span class="hide-menu">Discussions</span>
                     </a>
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item">
+                            <a href="{{ route('randomPost') }}" class="sidebar-link">
+                                <span class="hide-menu">Homepage</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('admin.create-post') }}" class="sidebar-link">
+                                <span class="hide-menu">Ask Questions</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="{{ route('admin.check-post') }}" class="sidebar-link">
+                                <span class="hide-menu">Check Posted Questions</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
@@ -81,9 +99,7 @@
                         <span class="hide-menu">Log Out</span>
                     </a>
                 </li>
-                
             </ul>
-
         </nav>
         <!-- End Sidebar navigation -->
     </div>

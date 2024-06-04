@@ -18,7 +18,7 @@ class CreatePostTable extends Migration
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('CompanyID');
             $table->string('title');
-            $table->mediumText('content'); //Content may include videos, images etc. (Maximum 16MB) (Should self impose limits)
+            $table->mediumText('content'); //text only
             $table->boolean('is_answered')->default(false);
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_archived')->default(false);

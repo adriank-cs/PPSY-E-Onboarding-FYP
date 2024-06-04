@@ -32,17 +32,24 @@ $company = Company::find($companyId);
 $buttonColor = $company->button_color;
 
 $sidebarColor = $company->sidebar_color;
+
+$company_logo = $company->company_logo;
 ?>
 
 <style>
 
-   .btn-primary {
+    :root,[data-bs-theme = light]{
+        --bs-primary:{{ $buttonColor }};
+        --bs-secondary:{{ $sidebarColor }};
+    }
+
+    /* .btn-primary, .card {
         --custom-button-color: {{ $buttonColor }};
     }
 
     .left-sidebar {
         --custom-sidebar-color: {{ $sidebarColor }};
-    }
+    } */
 
 </style>
 
@@ -52,7 +59,7 @@ $sidebarColor = $company->sidebar_color;
         data-sidebar-position="fixed" data-header-position="fixed">
 
         @auth
-        @include('includes.sidebar-admin')
+        @include('includes.sidebar-admin', ['company_logo' => $company_logo])
 
         <div class="body-wrapper">
             @include('includes.header')
@@ -67,6 +74,7 @@ $sidebarColor = $company->sidebar_color;
     <script type="text/javascript" src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/simplebar/dist/simplebar.js') }}"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

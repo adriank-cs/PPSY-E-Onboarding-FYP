@@ -360,6 +360,7 @@ class DatabaseSeeder extends Seeder
         //Call other seeder classes
         $this->call([
             ActivitySeeder::class,
+            UserSessionSeeder::class,
         ]);
     }
 }
