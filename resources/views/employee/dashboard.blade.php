@@ -36,6 +36,7 @@
                         :drag-and-drop-enabled="false"
                         calendar-view="vendor.livewire-calendar.calendar"
                         day-view="vendor.livewire-calendar.day"
+                        before-calendar-view="vendor.livewire-calendar.calendar-control"
                         
                     />
                 </div>
