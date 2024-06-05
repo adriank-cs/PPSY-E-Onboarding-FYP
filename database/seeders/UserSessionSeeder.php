@@ -84,7 +84,7 @@ class UserSessionSeeder extends Seeder
         }
 
         //Simulate 2 days
-        for ($i = 1; $i <= 2; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
             $activityDay = now()->subDays($i);
             $morningShift = Carbon::parse($activityDay)->setTime(rand(8,12), rand(0,59), rand(0,59));
             $break = Carbon::parse($activityDay)->setTime(rand(13,14), rand(0,59), rand(0,59));
