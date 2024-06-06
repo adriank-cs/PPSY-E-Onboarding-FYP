@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Superadmin;
 
+use Carbon\Carbon;
 use App\Models\UserSession;
+use App\Models\Company;
 use App\Models\Profile;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -16,17 +18,10 @@ class SuperAdminDashboardTable extends DataTableComponent
     //Query to get users, profiles and user sessions
     public function builder(): Builder
     {
-        //TODO: Query all companies and calculate how far from subscription end date with progress bar
-        //Currently logged in admin
-        $user = auth()->user();
-
-        //Table Query
-        $query = UserSession::query()
-            ->join('users', 'user_session.UserID', '=', 'users.id')
-            ->join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
-            ->where('companyusers.CompanyID', '=', '1')
-            ->whereColumn('users.last_active_session', '=', 'user_session.id');
+        
+        $query = Company::query()
+            ->addSelect('CompanyID', 'Name', 'Industry', 'subscription_starts_at', 'subscription_ends_at')
+            ->selectRaw('DATEDIFF(subscription_ends_at, subscription_starts_at) as durationDays');
 
         return $query;
     }
@@ -34,14 +29,17 @@ class SuperAdminDashboardTable extends DataTableComponent
     public function configure(): void
     {
         //General Configuration
-        $this->setPrimaryKey('id');
+        $this->setPrimaryKey('CompanyID');
         $this->setOfflineIndicatorStatus(false);
 
         //Search Configuration
-        $this->setSearchPlaceholder('Search Names...');
+        $this->setSearchPlaceholder('Search Company...');
 
         //Filter Configuration
         $this->setFilterLayoutPopover();
+
+        //Default Sort Configuration
+        $this->setDefaultSort('subscription_ends_at', 'asc');
 
     }
 
@@ -49,21 +47,26 @@ class SuperAdminDashboardTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Employee ID", "user.profile.employee_id")
+            Column::make("Company ID", "CompanyID")
                 ->sortable(),
-            Column::make("Name", "user.name")
+            Column::make("Name", "Name")
                 ->searchable()
                 ->sortable(),
-            Column::make("Department", "user.profile.dept")
+            Column::make("Industry", "Industry")
                 ->sortable(),
-            ComponentColumn::make('Progress', 'UserID')
+            Column::make("Subscription Start", "subscription_starts_at")
+                ->format (fn ($value, $row, Column $column) => Carbon::parse($value)->setTimezone('Asia/Kuala_Lumpur')->toFormattedDateString())
+                ->sortable(),
+            Column::make("Subscription End", "subscription_ends_at")
+                ->format (fn ($value, $row, Column $column) => Carbon::parse($value)->setTimezone('Asia/Kuala_Lumpur')->toFormattedDateString())
+                ->sortable(),
+            ComponentColumn::make('Subscription Usage', 'subscription_starts_at')
                 ->component('table.progress-bar')
-                ->attributes(fn ($value, $row, Column $column) => [
-                    'progress' => '50%' //TODO: Implement logic to calculate progress
+                ->attributes(fn ($value, $row, Column $column) => 
+                [
+                    $percentage = round(now()->diffInDays($row->subscription_starts_at) / $row->durationDays * 100, 0),
+                    'progress' => "{$percentage}%",
                 ]),
-            Column::make("Last Activity At", "last_activity_at")
-                ->format (fn ($value, $row, Column $column) => $value->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString())
-                ->sortable(),
         ];
     }
 
@@ -71,30 +74,23 @@ class SuperAdminDashboardTable extends DataTableComponent
 
     public function filters(): array
     {
-        //Queries only departments in the company
-        $query = Profile::query()
-        ->join('users', 'profiles.user_id', '=', 'users.id')
-        ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
-        ->where('companyusers.CompanyID', '=', 1)
-        ->select('dept')
+        //Queries only industries of companies
+        $query = Company::query()
+        ->select('Industry')
         ->distinct()
-        ->orderBy('dept')
+        ->orderBy('Industry')
         ->get()
-        ->keyBy('dept')
-        ->map(fn ($dept) => $dept->dept)
+        ->keyBy('Industry')
+        ->map(fn ($industry) => $industry->Industry)
         ->toArray();
 
-        //Log::info($query);
-
         return [
-            MultiSelectFilter::make('Department')
+            MultiSelectFilter::make('Industry')
                 ->options(
                     $query
                 )
                 ->filter(function(Builder $builder, array $values) {
-                    //Filter to department
-                    //Log::info(print_r($values, true));
-                    $builder->whereHas('user.profile', fn($query) => $query->whereIn('dept', $values));
+                    $builder->whereIn('Industry', $values);
                 })
                 
         ];
