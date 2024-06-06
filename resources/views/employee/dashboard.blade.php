@@ -8,7 +8,7 @@
         <div class="col-8 vh-100 overflow-auto">
             <!-- Column Heading -->
             <h1 class="display-6 py-2">Dashboard</h1>
-            <h3>Overview</h1>
+            <h3>Overview</h3>
 
             <div class="row py-2">
                 <!-- Dashboard Charts -->
@@ -17,7 +17,7 @@
                 @livewireChartsScripts
             </div>
             <div class="row py-5">
-                <h3>Events</h1>
+                <h3>Events</h3>
 
                 @livewireCalendarScripts
                 <!-- Calendar -->

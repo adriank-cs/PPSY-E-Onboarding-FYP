@@ -17,6 +17,7 @@
                 @livewireChartsScripts
             </div>
             <div class="row py-5">
+                <h3 class="pb-3">Company Subscriptions</h3>
                 <!-- Table -->
                 <livewire:superadmin.super-admin-dashboard-table theme="bootstrap-5" /> <!-- https://rappasoft.com/docs/laravel-livewire-tables/v3/introduction -->
             </div>

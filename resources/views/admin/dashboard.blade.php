@@ -17,6 +17,7 @@
                 @livewireChartsScripts
             </div>
             <div class="row py-5">
+                <h3 class="pb-3">Employee Progress</h3>
                 <!-- Table -->
                 <livewire:admin.admin-dashboard-table theme="bootstrap-5" />
             </div>
