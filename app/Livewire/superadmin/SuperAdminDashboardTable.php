@@ -3,9 +3,7 @@
 namespace App\Livewire\Superadmin;
 
 use Carbon\Carbon;
-use App\Models\UserSession;
 use App\Models\Company;
-use App\Models\Profile;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
