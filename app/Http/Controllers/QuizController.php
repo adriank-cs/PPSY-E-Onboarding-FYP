@@ -37,6 +37,7 @@ class QuizController extends Controller
     // Store a newly created quiz
     public function store(Request $request)
     {
+        // Validate the request
         $request->validate([
             'title' => 'required|string|max:255',
             'attempt_limit' => 'required|integer|min:1', // Validate attempt limit
@@ -44,7 +45,6 @@ class QuizController extends Controller
             'questions.*' => 'required|string|min:3',
             'question_types' => 'required|array|min:1',
             'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
-            // 'attempt_limit' => 'required|integer|min:1', // Validate attempt limit
         ], [
             'questions.*.required' => 'The question field is required.',
             'questions.*.min' => 'The question field must be at least 3 characters.',
@@ -64,6 +64,7 @@ class QuizController extends Controller
             $quizQuestion = new QuizQuestion;
             $quizQuestion->quiz_id = $quiz->id;
             $quizQuestion->question = $question;
+            $quizQuestion->type = $request->input('question_types')[$key];
             $quizQuestion->type = $request->input('question_types')[$key];
 
             if (in_array($quizQuestion->type, ['multiple_choice', 'checkbox'])) {

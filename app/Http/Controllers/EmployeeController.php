@@ -62,6 +62,8 @@ class EmployeeController extends Controller {
         $css = View::make('css.colors', compact('company'))->render();
         file_put_contents(public_path('css/colors.css'), $css);
     }
+
+
 }
     
 

@@ -25,6 +25,8 @@ class Company extends Model
         'sidebar_color',
         'button_color',
         'company_logo',
+        'subscription_starts_at',
+        'subscription_ends_at',
     ];
 
     //Relationship

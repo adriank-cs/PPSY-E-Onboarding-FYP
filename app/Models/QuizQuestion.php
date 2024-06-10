@@ -17,6 +17,9 @@ class QuizQuestion extends Model
         'answer_options',
     ];
 
+    protected $casts = [
+        'answer_options' => 'array',
+    ];
     public function quiz()
     {
         return $this->belongsTo(Quiz::class); // Define relationship with modules table

@@ -1,5 +1,6 @@
 @extends('superadmin-layout')
 
+@section('title', 'Superadmin | Dashboard')
 @section('content')
 <div class="container-fluid">
     <div class="row vh-100">
@@ -9,13 +10,14 @@
             <h1 class="display-6 py-2">Dashboard</h1>
             <h3>Overview</h1>
 
-            <div class="row">
+            <div class="row py-2">
                 <!-- Dashboard Charts -->
                 <livewire:superadmin.super-admin-charts/>
                 <livewire:scripts />
                 @livewireChartsScripts
             </div>
-            <div class="row">
+            <div class="row py-5">
+                <h3 class="pb-3">Company Subscriptions</h3>
                 <!-- Table -->
                 <livewire:superadmin.super-admin-dashboard-table theme="bootstrap-5" /> <!-- https://rappasoft.com/docs/laravel-livewire-tables/v3/introduction -->
             </div>
@@ -29,175 +31,7 @@
             <h3>Timeline</h3>
 
             <!-- Timeline Start -->
-            <!-- TODO: Add looping logic for each event in timeline -->
-
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Card -->
-            <div class="card text-bg-light mb-3">
-                <div class="card-body">
-                    <div class="row"> 
-                        <!-- Profile Picture -->
-                        <div class="col-lg-3 d-flex align-items-center p-2">
-                        <img src="http://127.0.0.1:8000/storage/profile_pictures/leon.png" alt="" class="img-fluid rounded-circle" style="max-height:60px;">
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="col-lg-9">
-                            <h5 class="card-title"><b>Employee Leon</b> has completed Quiz 1, Chapter 2.</h5>
-                        </div>
-                    </div>
-                    <!-- Timestamp and Relevant Info -->
-                    <div class="row gx-3 mt-2">
-                        <div class="col-lg-8 d-flex align-items-center">
-                            <!-- Timestamp -->
-                            <p class="card-subtitle">20/11/2023 20:55:19</p>
-                        </div>
-                        <div class="col-lg-4 d-flex align-items-center">
-                            <!-- Info -->
-                            <p class="card-subtitle">Admin Department Onboarding</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <livewire:superadmin.dashboard-timeline />
             
         </div>
 

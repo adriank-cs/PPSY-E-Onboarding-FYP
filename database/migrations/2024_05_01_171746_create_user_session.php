@@ -19,8 +19,8 @@ return new class extends Migration
             //Composite Keys
             $table->primary('id');
             //Tracks user activities
-            $table->timestamp('first_activity_at')->nullable();
-            $table->timestamp('last_activity_at')->nullable();
+            $table->dateTime('first_activity_at')->nullable();
+            $table->dateTime('last_activity_at')->nullable();
             $table->time('duration')->nullable();
 
             //Soft Delete Column

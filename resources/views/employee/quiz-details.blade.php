@@ -1,5 +1,4 @@
 @extends('employee-layout')
-
 @section('content')
 
 <div class="container-fluid">
@@ -30,6 +29,8 @@
 
         <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
             aria-hidden="true">
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -43,12 +44,15 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
                             data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
+                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <?php
+$questionCount = 1; // Initialize counter for question number
 $questionCount = 1; // Initialize counter for question number
         ?>
 
@@ -116,6 +120,22 @@ $questionCount = 1; // Initialize counter for question number
     <br>
 
 </div>
+
+<style>
+    .form-check-input {
+        transform: scale(1.1);
+        /* Adjust scale to make checkbox smaller */
+        margin-right: 10px;
+        position: relative;
+        border: 1px solid #b8bdc2;
+        /* Set the checkbox border color */
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+</style>
 
 <style>
     .form-check-input {
