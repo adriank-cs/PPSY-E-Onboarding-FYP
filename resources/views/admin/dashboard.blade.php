@@ -10,13 +10,14 @@
             <h1 class="display-6 py-2">Dashboard</h1>
             <h3>Overview</h1>
 
-            <div class="row">
+            <div class="row py-2">
                 <!-- Dashboard Charts -->
                 <livewire:admin.admin-charts/>
                 <livewire:scripts />
                 @livewireChartsScripts
             </div>
-            <div class="row">
+            <div class="row py-5">
+                <h3 class="pb-3">Employee Progress</h3>
                 <!-- Table -->
                 <livewire:admin.admin-dashboard-table theme="bootstrap-5" />
             </div>

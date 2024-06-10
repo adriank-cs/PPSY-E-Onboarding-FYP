@@ -14,9 +14,13 @@ class UserResponse extends Model
     protected $fillable = [
         'user_id',
         'quiz_question_id',
-        'answer', // Store all answers as JSON string
+        'answer', // Add answer field to store user's response
     ];
 
+
+    protected $casts = [
+        'answer' => 'array',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class); // Define relationship with users table
@@ -29,5 +33,5 @@ class UserResponse extends Model
 
     public $quiz_question_id;
 
-    
+
 }

@@ -25,6 +25,8 @@ class Company extends Model
         'sidebar_color',
         'button_color',
         'company_logo',
+        'subscription_starts_at',
+        'subscription_ends_at',
     ];
 
     //Relationship
@@ -38,4 +40,18 @@ class Company extends Model
     {
         return $this->hasMany(Module::class, 'CompanyID', 'CompanyID');
     }
+
+    // Accessor to get the full URL of the company logo
+    public function getCompanyLogoUrlAttribute()
+    {
+        return $this->attributes['company_logo']
+            ? asset('storage/' . $this->attributes['company_logo'])
+            : null;
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class,'company_id','CompanyID');
+    }
+
 }

@@ -41,4 +41,12 @@ class Post extends Model
     {
         return $this->belongsTo(Company::class, 'CompanyID');
     }
+
+    // Post.php model
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'PostID', 'PostID');
+    }
+
 }

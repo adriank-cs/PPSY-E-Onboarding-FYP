@@ -33,16 +33,15 @@ $company = Company::find($companyId);
 $buttonColor = $company->button_color;
 
 $sidebarColor = $company->sidebar_color;
+
+$company_logo = $company->company_logo;
 ?>
 
 <style>
 
-   .btn-primary {
-        --custom-button-color: {{ $buttonColor }};
-    }
-
-    .left-sidebar {
-        --custom-sidebar-color: {{ $sidebarColor }};
+    :root,[data-bs-theme = light]{
+        --bs-primary:{{ $buttonColor }};
+        --bs-secondary:{{ $sidebarColor }};
     }
 
 </style>
@@ -53,7 +52,7 @@ $sidebarColor = $company->sidebar_color;
         data-sidebar-position="fixed" data-header-position="fixed">
 
         @auth
-        @include('includes.sidebar-admin')
+        @include('includes.sidebar-admin', ['company_logo' => $company_logo])
 
         <div class="body-wrapper">
             @include('includes.header')
@@ -71,6 +70,7 @@ $sidebarColor = $company->sidebar_color;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

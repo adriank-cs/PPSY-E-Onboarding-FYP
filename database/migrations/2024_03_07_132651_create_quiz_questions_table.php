@@ -23,7 +23,6 @@ return new class extends Migration {
             if (!empty (config('broadcasting.connections.pusher'))) {
                 $table->timestamps();
             }
-            //$table->timestamps(1);
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         });
     }

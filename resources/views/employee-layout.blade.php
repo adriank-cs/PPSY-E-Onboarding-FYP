@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'PP-FYP')</title>
+    <title>@yield('title', 'E-Onboarding')</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -24,25 +24,26 @@ use App\Models\Company;
 
 $user = auth()->user();
 
-$companyId = $user->companyUser->CompanyID;
+//$companyId = $user->companyUser->CompanyID;
 
-$company = Company::find($companyId);
+//$company = Company::find($companyId);
+
+//For null check
+$companyUser = $user->companyUser ?? null;
+$companyId = $companyUser ? $companyUser->CompanyID : null;
+$company = $companyId ? Company::find($companyId) : null;
 
 $buttonColor = $company->button_color;
-
 $sidebarColor = $company->sidebar_color;
+$company_logo = $company->company_logo;
+
 ?>
 
 <style>
-
-   .btn-primary {
-        --custom-button-color: {{ $buttonColor }};
+    :root,[data-bs-theme = light]{
+        --bs-primary:{{ $buttonColor }};
+        --bs-secondary:{{ $sidebarColor }};
     }
-
-    .left-sidebar {
-        --custom-sidebar-color: {{ $sidebarColor }};
-    }
-
 </style>
 
 <body>
@@ -55,7 +56,7 @@ $sidebarColor = $company->sidebar_color;
 
 
         <div class="body-wrapper">
-            @include('includes.header')
+            @include('includes.header', ['company_logo' => $company_logo])
 
             @yield('content')
         </div>
