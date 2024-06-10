@@ -1,6 +1,7 @@
 @extends('admin-layout')
 
 @section('content')
+
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
@@ -12,16 +13,18 @@
                 </div>
             </div>
 
-            <!-- entry box and search button -->
+            <!-- Entry box and search button -->
             <br>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
+                        <!-- Text above the search bar -->
+                        <div class="mb-2">Type to find already asked questions!</div>
                         <!-- Autocomplete search bar -->
                         <form>
-                            <div class="input-group">
-                                <input type="text" id="search" name="search" placeholder="Type your questions here!" class="form-control">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="input-group no-border">
+                                <input type="text" id="search" name="search" placeholder="Type your questions here!" class="form-control typeahead">
+                                <button type="button" class="btn btn-primary" id="search-button">
                                     <i class="bi bi-search"></i> Search
                                 </button>
                             </div>
@@ -32,7 +35,7 @@
                 </div>
             </div>
 
-            <!-- type your own question button -->
+            <!-- Type your own question button -->
             <div class="row">
                 <div class="col-md-12 mb-3">
                     <a href="{{ route('admin.create-post') }}">
@@ -47,6 +50,7 @@
             <div class="row mt-3">
                 <div class="col-md-12 mb-3">
                     <h1>Existing Questions</h1>
+                    <p>Check out the existing questions that were asked by our fellow colleagues.</p>
                 </div>
             </div>
             
@@ -60,19 +64,26 @@
                             @if(isset($randomPosts[$index]))
                                 <div class="col-md-6 mb-3">
                                     <!-- Wrap each card in an anchor tag -->
-                                    <a href="{{ route('discussion.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
-                                        <div class="card twoxtwo-gray-card">
+                                    <a href="{{ route('admin.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
+                                        <div class="card twoxtwo-gray-card border-gray">
                                             <div class="card-body">
                                                 <!-- Card content goes here -->
-                                                @php $postId = $randomPosts[$index]->user_id; @endphp
+                                                @php $userId = $randomPosts[$index]->UserID; @endphp
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h5 class="card-title truncate-text" style="width: 70%;">Asked by: {{ isset($users[$postId]) ? $users[$postId] : 'Unknown User' }}</h5>
+                                                    <h5 class="card-title truncate-text" style="width: 70%;">
+                                                        <strong>Asked By:</strong> 
+                                                        @if ($randomPosts[$index]->is_anonymous)
+                                                            Your friendly colleague
+                                                        @else
+                                                            {{ isset($users[$userId]) ? $users[$userId] : 'Unknown User' }}
+                                                        @endif
+                                                    </h5>
+                                                    <p class="text-muted" style="margin-left: auto;">{{ $randomPosts[$index]->created_at->format('F d, Y') }}</p>
                                                 </div>
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">{{ $randomPosts[$index]->title }}</h5>
-                                                    </div>
-                                                </div>
+                                                <h5 class="card-title">
+                                                    <strong>Question:</strong>
+                                                    <span class="card-content">{{ $randomPosts[$index]->title }}</span>
+                                                </h5>
                                             </div>
                                         </div>
                                     </a> <!-- Close anchor tag -->
@@ -105,6 +116,24 @@
     /* Ensure the cards have the same height */
     .twoxtwo-gray-card {
         height: 100%;
+        background-color: #f8f9fa; /* Light grey background */
+        border: 1px solid #ccc; /* Grey border */
+        box-shadow: none; /* Remove any box shadow */
+    }
+
+    /* Set a fixed height for card content and truncate with ellipsis if content overflows */
+    .card-content {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 3em; /* Adjust this to limit the height */
+    }
+
+    /* Remove the pink/purple border */
+    .border-gray {
+        border-color: #ccc !important;
     }
 
     /* Style for autocomplete results */
@@ -127,5 +156,28 @@
     .autocomplete-item:hover {
         background-color: #f4f4f4;
     }
+
+    /* Remove outer border of input group */
+    .no-border .input-group {
+        border: none;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+    }
+
+    .text-muted {
+        font-size: 0.9rem;
+        color: #6c757d !important;
+    }
 </style>
 @endpush
+
