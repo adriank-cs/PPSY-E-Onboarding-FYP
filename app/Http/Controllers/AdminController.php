@@ -276,5 +276,3 @@ class AdminController extends Controller
         //return response()->json(['location' => asset('storage/' . $path)]);
     }
 }
-
-}
