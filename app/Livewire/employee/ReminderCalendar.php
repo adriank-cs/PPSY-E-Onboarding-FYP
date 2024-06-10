@@ -37,4 +37,23 @@ class ReminderCalendar extends LivewireCalendar
             ],
         ]);
     }
+
+    //Return Next Month
+    public function nextMonth()
+    {
+        $this->goToNextMonth();
+    }
+
+    //Return Previous Month
+    public function previousMonth()
+    {
+        $this->goToPreviousMonth();
+    }
+
+    //Back to Current Month
+    public function currentMonth()
+    {
+        $this->goToCurrentMonth();
+    }
+
 }

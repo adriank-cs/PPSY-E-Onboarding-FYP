@@ -2,6 +2,9 @@
 
 namespace App\Livewire\Superadmin;
 
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class DashboardTimeline extends Component
@@ -51,7 +54,7 @@ class DashboardTimeline extends Component
         ->join('users', 'activity_log.causer_id', '=', 'users.id')
         ->join('profiles', 'users.id', '=', 'profiles.user_id')
         ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
-        ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
+        ->where('companyusers.isAdmin', '=', 1) //Only log all admins
         ->orderBy('activity_created_at', 'desc')
         ->limit(15) //Limit to 15 activities
         ->get();
