@@ -248,7 +248,6 @@ class SuperAdminController extends Controller
 
           //update company_logo field to be companyLogoPath
           $company->update(['company_logo' => $companyLogoPath]);
-
     
         return redirect()->route('superadmin.manage_company')->with('success', 'Company created successfully.');
     }

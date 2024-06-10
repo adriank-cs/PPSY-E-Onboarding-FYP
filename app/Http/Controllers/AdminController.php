@@ -132,10 +132,7 @@ class AdminController extends Controller
             'gender' => 'required|string',
             'email' => 'required|email',
             'address' => 'required|string',
-            'department' => 'required|string',
-            'position' => 'required|string',
-            'age' => 'required|integer',
-            'biography' => 'required|string',
+            'bio' => 'required|string'
         ]);
 
         // Get the authenticated user
@@ -150,10 +147,7 @@ class AdminController extends Controller
             'dob' => $request->input('dob'),
             'gender' => $request->input('gender'),
             'address' => $request->input('address'),
-            'dept' => $request->input('department'),
-            'position' => $request->input('position'),
-            'age' => $request->input('age'),
-            'bio' => $request->input('biography'),
+            'bio' => $request->input('bio'),
         ]);
 
         // Update the user's email
@@ -162,7 +156,7 @@ class AdminController extends Controller
         ]);
 
         // Redirect back to the profile page with a success message
-        return redirect()->route('admin.profile-page')->with('success', 'Profile updated successfully.');
+        return redirect()->route('admin.profile_page')->with('success', 'Profile updated successfully.');
     }
 
     public function editAccount($id)
@@ -283,3 +277,4 @@ class AdminController extends Controller
     }
 }
 
+}

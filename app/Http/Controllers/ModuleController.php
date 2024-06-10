@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\ItemProgress;
 use App\Models\Module;
 use App\Models\Chapter;
+use App\Models\User;
+use App\Models\AssignedModule;
+use App\Models\CompanyUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Import Storage for image handling
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CompanyUser;
-use App\Models\UserResponse;
-use App\Models\ModuleQuestion;
-use App\Http\Requests\StoreModuleRequest;
+use Illuminate\Support\Facades\DB;
+use Smalot\PdfParser\Parser;
+
+
 
 class ModuleController extends Controller
 {
@@ -51,13 +55,17 @@ class ModuleController extends Controller
         // Validate the form data
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'croppedImage' => 'required|string',
         ]);
     
-        // Store the uploaded image
-        $fileName = time() . '.' . $request->image->getClientOriginalExtension();
-        $request->image->storeAs('modules', $fileName, 'public');
-        $path = 'modules/'. $fileName;
+
+         // Handle the cropped image (Base64 encoded)
+        $croppedImage = $request->input('croppedImage');
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $croppedImage));
+        $fileName = time() . '.jpg';
+        $path = 'modules/' . $fileName;
+        Storage::disk('public')->put($path, $imageData);
+    
         
         // Insert the record into the database
         Module::create([
@@ -81,21 +89,30 @@ class ModuleController extends Controller
         // Validate the form data
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif',
+            'due_date' => 'required|date',
         ]);
 
         $module = Module::find($id);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
+        if ($request->hasFile('croppedImage')) {
+            // $image = $request->file('image');
+            // $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
 
-            $module->update(['image_path' => $imagePath]);
+            // $module->update(['image_path' => $imagePath]);
+
+            $croppedImage = $request->input('croppedImage');
+            $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $croppedImage));
+            $fileName = time() . '.jpg';
+            $path = 'modules/' . $fileName;
+            Storage::disk('public')->put($path, $imageData);
+
+            $module->update(['image_path' => $path]);
 
         }
 
         $module->update([
             'title' => $request->title,
+            'due_date' => $request->due_date,
         ]);
 
         return redirect()->route('admin.manage_modules')->with('success', 'Module updated successfully.');
@@ -180,15 +197,30 @@ class ModuleController extends Controller
 
     public function managePage($id){
 
+        $chapter = Chapter::find($id);
+        $moduleId = $chapter->module_id;
         $chapterId = $id;
 
         // Fetch modules belonging to the company ID of the currently logged-in admin
         $pages = Item::where('chapter_id', $chapterId)->get();
 
         // Pass the profiles to the view
-        return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId]);
+        return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId, 'moduleId' => $moduleId]);
 
     }
+
+    public function updatePageOrder(Request $request)
+{
+    $order = $request->input('order');
+
+    foreach ($order as $index => $id) {
+        $page = Item::find($id);
+        $page->order = $index + 1;
+        $page->save();
+    }
+
+    return response()->json(['status' => 'success']);
+}
 
     public function add_page($chapterId)
     {
@@ -202,8 +234,24 @@ class ModuleController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content' => 'required|string',
-            'due_date' => 'required|date',
+            'pdfAttachments.*' => 'mimes:pdf|max:20480',
         ]);
+
+        $pdfAttachmentPaths = [];
+
+        if ($request->hasFile('pdfAttachments')) {
+            foreach ($request->file('pdfAttachments') as $pdfFile) {
+                $path = $pdfFile->store('pdf_attachments', 'public');
+                $pdfAttachmentPaths[] = [
+                    'url' => Storage::url($path),
+                    'name' => $pdfFile->getClientOriginalName(),
+                ];
+            }
+        }
+
+        // Fetch the latest order for the given chapter
+    $latestOrder = Item::where('chapter_id', $chapterId)->max('order');
+    $newOrder = $latestOrder ? $latestOrder + 1 : 1;
     
         // Create and save the chapter
         Item::create([
@@ -211,7 +259,8 @@ class ModuleController extends Controller
             'chapter_id' => $chapterId,
             'description' => $request->description,
             'content' => $request->content,
-            'due_date' => $request->due_date,
+            'pdf_attachments' => json_encode($pdfAttachmentPaths),
+            'order' => $newOrder,
         ]);
     
         // Redirect back to the configure module page
@@ -232,7 +281,6 @@ class ModuleController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content' => 'required|string',
-            'due_date' => 'required|date',
         ]);
 
         $page = Item::find($id);
@@ -241,7 +289,6 @@ class ModuleController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
-            'due_date' => $request->due_date,
         ]);
 
         return redirect()->route('admin.manage_page', ['id' => $page->chapter_id])->with('success', 'Page updated successfully.');
@@ -256,24 +303,93 @@ class ModuleController extends Controller
         return redirect()->route('admin.manage_page', ['id' => $chapterId])->with('success', 'Page deleted successfully.');
     }
 
+    public function viewPage($id){
 
+        $viewpage = Item::find($id);
+        $chapterId = $viewpage->chapter_id;
+        $chapter = Chapter::find($chapterId);
+        $moduleId = Chapter::find($chapterId)->module_id;
+        $module = Module::find($moduleId);
+        $chapters = Chapter::where('module_id', $moduleId)->get();
+        $pages = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
+        $pdfAttachments = json_decode($viewpage->pdf_attachments, true);
 
+        return view('admin.view-page', compact('viewpage', 'chapter', 'module', 'chapters', 'pages','pdfAttachments'));
 
+    }
 
-    // public function show(Module $module)
-    // {
-    //     $user = auth()->user(); // Assuming you have a user authentication system
-    //     if (auth()->check()) {
+    public function assignModule($id){
+        $moduleId = $id;
 
-    //         return view('employee.module-details', compact('module', 'completionPercentage', 'userResponses'));
-    //     } else {
-    //         // Redirect to login or handle unauthenticated user scenario
-    //         return redirect()->route('login');
-    //     }
-    // }
+        $adminUser = auth()->user();
+
+        $companyId = $adminUser->companyUser->CompanyID;
+
+        //$users = CompanyUser::where('CompanyID', $companyId)->get();
+
+        $users = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+            ->where('companyusers.CompanyID', '=', $companyId)
+            ->get();
+
+        return view('admin.assign-module', compact('users', 'moduleId'));
+    }
+
+    public function assignModulePost(Request $request){
+        $request->validate([
+            'user' => 'required|exists:users,id',
+            'due_date' => 'required|date',
+        ]);
+
+        $userId = $request->input('user');
+        $adminUser = auth()->user();
+
+        $companyId = $adminUser->companyUser->CompanyID;
+        $moduleId = $request->input('module_id');
+
+        // AssignedModule::create([
+        //     'UserID' => $userId,
+        //     'CompanyID' => $companyId,
+        //     'ModuleID' => $moduleId,
+        //     'DateAssigned' => now(),
+        //     'due_date' => $request->input('due_date'),
+        // ]);
+
+        DB::table('assigned_module')->insert([
+            'UserID' => $userId,
+            'CompanyID' => $companyId,
+            'ModuleID' => $moduleId,
+            'DateAssigned' => now(),
+            'due_date' => $request->input('due_date'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Module assigned successfully.');
+    }
+
+    public function uploadPdf(Request $request)
+    {
+        $request->validate([
+            'pdf' => 'required|mimes:pdf|max:20480', // Validate PDF file
+        ]);
+
+        if ($request->hasFile('pdf')) {
+            $pdf = $request->file('pdf');
+            $path = $pdf->store('pdfs', 'public'); // Store the uploaded PDF
+
+            // Use PDFParser to extract text
+            $parser = new Parser();
+            $pdf = $parser->parseFile(storage_path('app/public/' . $path));
+            $text = $pdf->getText();
+            $pdf_with_line_breaks = nl2br($text);
+
+            Storage::disk('public')->delete($path); // Delete the uploaded PDF
+
+            return response()->json(['success' => true, 'text' => $pdf_with_line_breaks]);
+        }
+
+        return response()->json(['success' => false]);
+    }
 
 
 }
-
-
-

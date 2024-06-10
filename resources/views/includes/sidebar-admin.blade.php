@@ -57,7 +57,17 @@
                         <span class="hide-menu">Modules</span>
                     </a>
                 </li>
-                <!-- Discussions Section -->
+
+                <!-- Add by aifei -->
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('admin.onboarding-quiz')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-book-2"></i>
+                        </span>
+                        <span class="hide-menu">Quiz</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>

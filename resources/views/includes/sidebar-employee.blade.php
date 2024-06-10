@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('employee.onboarding-quiz')}}" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ route('employee.my_modules')}}" aria-expanded="false">
                         <span>
                             <i class="ti ti-book-2"></i>
                         </span>

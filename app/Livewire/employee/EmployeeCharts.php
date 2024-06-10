@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Employee;
 
-use App\Models\User;
 use App\Models\UserSession;
 
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;

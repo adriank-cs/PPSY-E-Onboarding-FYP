@@ -2,10 +2,16 @@
 
 @section('content')
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 <div class="container-fluid">
     <h1 class="fw-semibold mb-4">Manage Pages</h1>
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-10">
             <div class="col-md-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text">
@@ -18,19 +24,25 @@
         </div>
         <div class="col-md-1">
             <button type="button" class="btn btn-primary m-1"
+                onclick="window.location.href='{{ route('admin.manage_chapter', ['id' => $moduleId]) }}'">Back</button>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary m-1"
                 onclick="window.location.href='{{ route('admin.add_page', ['chapterId' => $chapterId]) }}'">Add</button>
         </div>
     </div>
     <br>
+    <div id="sortable" class="col-md-12">
     @foreach($pages as $page)
-    <div class="col-md-12 profile-card">
+    <div class="col-md-12 profile-card" data-id="{{ $page->id }}">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <h5 class="card-title">{{ $page->title }}</h5>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
+                        <a href="{{route('admin.view_page', ['id' => $page->id])}}" class="card-link">View</a>
                         <a href="{{ route('admin.edit_page', ['id' => $page->id]) }}" class="card-link">Edit</a>
                         <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_page', ['id' => $page->id]) }}')">Delete</a>
                     </div>
@@ -39,6 +51,7 @@
         </div>
     </div>
     @endforeach
+    </div>
 
 </div>
 
@@ -55,6 +68,26 @@
                     $(this).hide();
                 }
             });
+        });
+
+        $('#sortable').sortable({
+            update: function (event, ui) {
+                var order = $(this).sortable('toArray', { attribute: 'data-id' });
+                $.ajax({
+                    url: '{{ route('admin.update_page_order') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        order: order
+                    },
+                    success: function (response) {
+                        alert('Order updated successfully');
+                    },
+                    error: function (error) {
+                        alert('Error updating order');
+                    }
+                });
+            }
         });
     });
 

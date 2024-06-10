@@ -29,4 +29,5 @@ class QuizQuestion extends Model
         // Define the relationship with user_responses table:
         return $this->hasMany(UserResponse::class);
     }
+
 }

@@ -94,6 +94,8 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => '2024-01-26 08:16:00',
                 'button_color' => '#A6708E',
                 'sidebar_color' => '#fff',
+                'subscription_starts_at' => '2024-01-20 08:00:00',
+                'subscription_ends_at' => '2024-06-28 08:00:00',
             ],
             [
                 'CompanyID' => '2',
@@ -105,6 +107,8 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => '2024-01-26 08:42:00',
                 'button_color' => '#A6708E',
                 'sidebar_color' => '#fff',
+                'subscription_starts_at' => '2024-01-20 08:00:00',
+                'subscription_ends_at' => '2025-01-20 08:00:00',
             ],
             [
                 'CompanyID' => '3',
@@ -116,6 +120,8 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => '2024-01-26 08:16:00',
                 'button_color' => '#A6708E',
                 'sidebar_color' => '#fff',
+                'subscription_starts_at' => '2024-02-10 08:00:00',
+                'subscription_ends_at' => '2026-01-11 08:00:00',
             ],
             [
                 'CompanyID' => '4',
@@ -127,6 +133,8 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => '2024-01-26 08:16:00',
                 'button_color' => '#A6708E',
                 'sidebar_color' => '#fff',
+                'subscription_starts_at' => '2024-03-16 08:00:00',
+                'subscription_ends_at' => '2025-03-16 08:00:00',
             ],
             [
                 'CompanyID' => '5',
@@ -138,6 +146,8 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => '2024-01-26 08:16:00',
                 'button_color' => '#A6708E',
                 'sidebar_color' => '#fff',
+                'subscription_starts_at' => '2024-01-25 08:00:00',
+                'subscription_ends_at' => '2026-01-25 08:00:00',
             ]
         ];
 

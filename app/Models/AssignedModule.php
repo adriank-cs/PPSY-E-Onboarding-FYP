@@ -25,6 +25,7 @@ class AssignedModule extends Model
         'CompanyID',
         'ModuleID',
         'DateAssigned',
+        'due_date',
     ];
 
     // Relationship with the Company User model
