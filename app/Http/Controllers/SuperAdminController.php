@@ -223,12 +223,19 @@ class SuperAdminController extends Controller
             'website' => 'required|string',
         ]);
 
+        $companyLogo = $request->file('logo');
+        $companyLogoPath = $companyLogo->storeAs('CompanyLogos', $companyLogo->getClientOriginalName(), 'public');
+
         $company = Company::create([
             'Name' => $request->input('name'),
             'Industry' => $request->input('industry'),
             'Address' => $request->input('address'),
             'Website' => $request->input('website'),
         ]);
+
+        //update company_logo field to be companyLogoPath
+
+        $company->update(['company_logo' => $companyLogoPath]);
 
         return redirect()->route('superadmin.manage_company')->with('success', 'Account created successfully.');
     }

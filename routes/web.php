@@ -59,13 +59,13 @@ Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColo
 //Route::get('/discussion/homepage', [DiscussionController::class, 'homepage'])->name('homepage'); // Display discussion homepage
 Route::get('/discussion/searched', [DiscussionController::class, 'searched'])->name('searched'); // Display discussion searched question page
 Route::get('/discussion/typeown', [DiscussionController::class, 'typeown'])->name('discussion.typeown'); // Display discussion searched question page
-Route::get('/discussion/homepage', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
 Route::get('/discussion/typeOwn', [PostController::class, 'typeOwn'])->name('discussion.typeOwn'); // Display type own question page
 Route::post('/discussion/createPost', [PostController::class, 'createPost'])->name('discussion.createPost'); // Create a new post
 Route::get('/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('discussion.postDisplay'); // Display individual post with a specific post ID
 Route::post('/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('discussion.submitAnswer');
 
 //Route::post('/discussion/createAnswer', [AnswerController::class, 'createAnswer'])->name('discussion.postDisplay'); // Create a answer
+Route::post('/admin/upload_image', [AdminController::class, 'uploadImage'])->name('admin.upload_image');
 
 
 Route::middleware(['web', 'auth'])->group(function () {
@@ -89,6 +89,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/edit-module/{id}', [ModuleController::class, 'editModule'])->name('admin.edit_module');
         Route::post('/admin/edit-module/{id}', [ModuleController::class, 'editModulePost'])->name('admin.edit_module.post');
         Route::get('/admin/delete_module/{id}', [ModuleController::class, 'deleteModule'])->name('admin.delete_module');
+        // Route::post('/admin/upload_image', [ModuleController::class, 'uploadImage'])->name('admin.upload_image');
+
 
         Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
@@ -103,8 +105,18 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
         Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
         Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
+        Route::post('admin/update_page_order', [ModuleController::class, 'updatePageOrder'])->name('admin.update_page_order');
+
+
+        Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
+
+        Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
+        Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
+
+        Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
 
         //TEST ACTIONS
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
         
         //TODO: REMOVE TEST ACTIONS
         Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
@@ -117,6 +129,13 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
         Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
         Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout'); 
+        Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
+
+        Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
+        // Route::get('/employee/view-module/{id}', [EmployeeController::class, 'viewModule'])->name('employee.view_module');
+
+        Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
+        Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
 
     });
 

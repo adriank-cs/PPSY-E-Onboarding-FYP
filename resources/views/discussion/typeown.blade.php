@@ -39,7 +39,7 @@
                 <!-- Content Field -->
                 <div class="form-group editor-content" id="content-fields">
                     <label for="content">Content</label>
-                    <textarea id="content" name="content" class="form-control" placeholder="Enter content here, 1000 characters max" maxlength="1000"></textarea>
+                    <textarea id="content" name="content" class="form-control tinymce" placeholder="Enter content here, 1000 characters max" maxlength="1000"></textarea>
                 </div>
 
 

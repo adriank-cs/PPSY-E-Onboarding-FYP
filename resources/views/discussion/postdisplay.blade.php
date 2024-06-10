@@ -44,7 +44,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="answer">Your Answer</label>
-                            <textarea id="content" name="answer" class="form-control" placeholder="Type your answer here" rows="5"></textarea>
+                            <textarea id="content" name="answer" class="form-control tinymce" placeholder="Type your answer here" rows="5"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary float-end">Submit Answer</button>
                     </form>

@@ -31,7 +31,7 @@ class PostController extends Controller
         $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
 
         // Pass the retrieved data to the view
-        return view('discussion.homepage', ['randomPosts' => $randomPosts, 'users' => $users]);
+        return view('admin.discussion', ['randomPosts' => $randomPosts, 'users' => $users]);
     }
 
     // TYPE YOUR OWN QUESTION

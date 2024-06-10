@@ -23,7 +23,8 @@ class Item extends Model
         'title',
         'description',
         'content',
-        'due_date',
+        'pdf_attachments',
+        'order',
     ];
 
     //Relationship with Chapter model

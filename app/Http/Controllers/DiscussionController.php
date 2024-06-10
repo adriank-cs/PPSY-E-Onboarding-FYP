@@ -18,7 +18,7 @@ class DiscussionController extends Controller {
     function homepage() {
         //$buttonColor = $company->button_color;
         //dd($buttonColor);
-        return view('discussion.homepage');
+        return view('admin.discussion');
     }
 
     function searched() {

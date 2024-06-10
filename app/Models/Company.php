@@ -24,6 +24,7 @@ class Company extends Model
         'Website',
         'sidebar_color',
         'button_color',
+        'company_logo',
     ];
 
     //Relationship

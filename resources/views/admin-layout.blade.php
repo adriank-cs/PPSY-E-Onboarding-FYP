@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tabler-icons/tabler-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/simplebar/dist/simplebar.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 
 
 </head>
@@ -67,6 +68,9 @@ $sidebarColor = $company->sidebar_color;
     <script type="text/javascript" src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/simplebar/dist/simplebar.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
 </body>
 
 </html>
