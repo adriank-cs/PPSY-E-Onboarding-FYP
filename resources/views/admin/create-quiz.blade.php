@@ -1,42 +1,55 @@
-@extends('employee-layout')
+@extends('admin-layout')
+
 @section('content')
 <div class="container-fluid">
   <div style="padding-bottom: 2rem;">
     <h1>Create New Quiz</h1>
   </div>
   @if ($errors->any())
-    <div class="alert alert-danger">
+  <div class="alert alert-danger">
     <ul>
-      @foreach ($errors->all() as $error)
-      <li>{{ $error }}</li>
-    @endforeach
+    @foreach ($errors->all() as $error)
+    <li>{{ $error }}</li>
+  @endforeach
     </ul>
-    </div>
-  @endif
+  </div>
+@endif
 
   @if (session()->has('success'))
-    <div class="alert alert-success">
+  <div class="alert alert-success">
     {{ session()->get('success') }}
-    </div>
-  @endif
+  </div>
+@endif
 
   <form action="{{ route('quizzes.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
+
     <div class="mb-3">
       <label for="title" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Title:</label>
       <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}">
     </div>
+
+    <!-- Add by aifei -->
+    <div class="mb-3">
+      <label for="attempt_limit" class="form-label" style="font-size: 15px; font-weight: bold;">Attempt Limit:</label>
+      <input type="number" class="form-control" id="attempt_limit" name="attempt_limit" value="{{ old('attempt_limit') }}">
+    </div>
+
     <div class="mb-2">
       <label for="questions" class="form-label" style="font-size: 15px; font-weight: bold;">Quiz Questions:</label>
       <div id="question-fields"></div>
     </div>
+
     <div class="mb-3">
       <button type="button" class="btn btn-success" onclick="addQuestionField()">Add Question</button>
     </div>
+
     <div class="mb-3">
       <button type="submit" class="confirm-quiz-button">Create Quiz</button>
     </div>
+
   </form>
+
   <style>
     .btn-success {
       background-color: #6A1043 !important;

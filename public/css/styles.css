@@ -20259,6 +20259,15 @@ ul {
     cursor: pointer;
 }
 
+/* Add by aifei for quiz question color */
+.column-quiz {
+    background-color: var(--bs-primary); 
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 5px 20px;
+    border-radius: 5px;
+}
+
 @media (max-width: 30px) {
     .btn-primary {
         /* Styles for smaller screens */

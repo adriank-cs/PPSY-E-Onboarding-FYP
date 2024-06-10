@@ -169,11 +169,21 @@ Route::middleware(['web', 'auth'])->group(function () {
 Route::resource('quizzes', QuizController::class);
 Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
 
-Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
 Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+//add by aifei
+Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
 
 
 Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
 
 Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
+
+// Quiz for Admin
+Route::get('/admin/onboarding-quiz', [QuizController::class, 'adminViewQuiz'])->name('admin.onboarding-quiz');
+//Route::get('/quizzes/{quiz}/edit-quiz', [QuizController::class, 'show'])->name('quizzes.show');
+Route::get('quizzes/{quiz}/edit', [QuizController::class, 'editQuiz'])->name('quizzes.edit');
+Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizzes.update');
+// Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
+Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
 
