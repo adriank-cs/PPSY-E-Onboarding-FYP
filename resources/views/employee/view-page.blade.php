@@ -35,6 +35,41 @@
         <div class="col-md-12">
             <div class="viewpage-content">
                 {!! $item->content !!}
+
+                @if(!empty($pdfAttachments))
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>PDF Attachments:</h5>
+                            <ul>
+                                @foreach($pdfAttachments as $pdf)
+                                    <li><a class="pdf-link"
+                                            data-url="{{ $pdf['url'] }}">{{ $pdf['name'] }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary fixed-bottom-button" id="markAsCompletedButton" data-item-id="{{ $item->id }}">Mark As
+        Completed</button>
+
+    <!-- Modal for PDF viewing -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">PDF Viewer</h5>
+                    <button type="button" class="btn btn-secondary" id="cancelButton" data-bs-dismiss="modal"
+                        aria-label="Close">Close</button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="pdfFrame" src="" style="width: 100%; height: 100vh;" frameborder="0"></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -60,11 +95,11 @@
                         @if($items->has($chapter->id))
                             @foreach($items[$chapter->id] as $item)
                                 <div class="sidebar-custom-page-list"><span>
-                                    <input type="checkbox"
-                                        {{ $item->itemProgress && $item->itemProgress->IsCompleted ? 'checked' : '' }}
-                                        disabled></span>
+                                        <input type="checkbox"
+                                            {{ $item->itemProgress && $item->itemProgress->IsCompleted ? 'checked' : '' }}
+                                            disabled></span>
                                     <span><a
-                                        href="{{ route('employee.view_page', ['itemId' => $item->id]) }}">{{ $item->title }}</a></span>
+                                            href="{{ route('employee.view_page', ['itemId' => $item->id]) }}">{{ $item->title }}</a></span>
                                 </div>
                             @endforeach
                         @endif
@@ -107,6 +142,39 @@
                 pageDetails.style.display = 'block';
                 this.classList.add('expanded');
             }
+        });
+    });
+
+    // Open PDF in modal
+    document.querySelectorAll('.pdf-link').forEach(link => {
+        link.addEventListener('click', function () {
+            const pdfUrl = this.getAttribute('data-url');
+            document.getElementById('pdfFrame').src = pdfUrl;
+            $('#pdfModal').modal('show');
+        });
+    });
+
+    // Handle Mark As Completed button click
+    document.getElementById('markAsCompletedButton').addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        fetch(`{{ url('employee/mark-completed') }}/${itemId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                alert('Failed to get the redirection URL');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while marking the item as completed');
         });
     });
 

@@ -35,7 +35,7 @@
             <!-- type your own question button -->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <a href="{{ route('discussion.typeown') }}">
+                    <a href="{{ route('admin.create-post') }}">
                         <button type="submit" class="btn btn-primary btn-sm" style="width: 100%; padding: 10px;">
                             <i class="bi bi-search"></i> Cannot find your questions? Write your own now!
                         </button>
