@@ -19,7 +19,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, LogsActivity;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -66,41 +65,59 @@ class User extends Authenticatable
         return $this->superadmin()->exists();
     }
 
-    //Relationships
+    // Relationships
 
+    // Relationship with CompanyUser model
     public function companyUser() : HasOne
     {
         return $this->hasOne(CompanyUser::class, 'UserID');
     }
 
+    // Relationship with Profile model
     public function profile() : HasOne
     {
         return $this->hasOne(Profile::class, 'user_id');
     }
     
+    // Relationship with Superadmin model
     public function superadmin() : HasOne
     {
         return $this->hasOne(Superadmin::class, 'UserID');
     }
 
+    // Relationship with UserSession model
     public function userSession() : HasMany 
     {
         return $this->hasMany(UserSession::class, 'UserID');
     }
 
-    //TODO: Might be wrong
+    // Relationship with UserResponse model
     public function responses()
     {
         return $this->hasMany(UserResponse::class);
     }
 
-    //Logging model changes
+    // Logging model changes
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logOnly(['name', 'email', 'password'])
             ->dontLogIfAttributesChangedOnly(['updated_at', 'created_at', 'last_active_session'])
-            ->setDescriptionForEvent(fn(string $eventName) => "User account {$eventName}"); //User account updated/deleted/created
+            ->setDescriptionForEvent(fn(string $eventName) => "User account {$eventName}");
     }
+
+    // Relationship with UserQuizAttempt model
+    public function quizAttempts()
+    {
+        return $this->hasMany(UserQuizAttempt::class);
+    }
+
+    // Relationship with Company model through companyusers pivot table
+    public function company()
+    {
+        return $this->belongsToMany(Company::class, 'companyusers', 'UserID', 'CompanyID');
+    }
+
+    
 
 }

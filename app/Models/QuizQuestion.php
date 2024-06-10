@@ -14,6 +14,7 @@ class QuizQuestion extends Model
         'quiz_id',
         'question',
         'type',
+        'answer_options',
     ];
 
     public function quiz()
@@ -25,4 +26,5 @@ class QuizQuestion extends Model
         // Define the relationship with user_responses table:
         return $this->hasMany(UserResponse::class);
     }
+
 }

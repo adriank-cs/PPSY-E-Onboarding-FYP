@@ -43,14 +43,6 @@ $company_logo = $company->company_logo;
         --bs-secondary:{{ $sidebarColor }};
     }
 
-    /* .btn-primary, .card {
-        --custom-button-color: {{ $buttonColor }};
-    }
-
-    .left-sidebar {
-        --custom-sidebar-color: {{ $sidebarColor }};
-    } */
-
 </style>
 
 <body>

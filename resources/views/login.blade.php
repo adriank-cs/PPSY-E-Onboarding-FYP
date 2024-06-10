@@ -46,11 +46,28 @@
 
 		</form>
 
-		<div class="GoogleLogin">
+		<!-- <div class="GoogleLogin">
 			<a href="{{ route('google-auth') }}">
-				<button>Continue with Google</button>
+			<button>
+				<i class="fab fa-google"></i>Continue with Google
+			</button>
 			</a>
-        </div>
+        </div> -->
+
+		<div class="GoogleLogin">
+                <a href="{{ route('google-auth') }}">
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
+                            <path fill="#4285F4" d="M24 9.5c3.2 0 5.7 1.1 7.5 2.8l5.5-5.5C33.6 3.2 29.1 1 24 1 14.8 1 7.4 6.4 4.1 14.3l6.8 5.3C12.4 13 17.7 9.5 24 9.5z"/>
+                            <path fill="#34A853" d="M46.9 24.5c0-1.7-.2-3.3-.5-4.8H24v9.5h13c-.5 2.5-2.1 4.5-4.5 5.9l6.8 5.3c4-3.6 6.6-8.9 6.6-15.9z"/>
+                            <path fill="#FBBC05" d="M8.9 28.6C7.7 25.7 7.7 22.3 8.9 19.4L2.1 14.1C.7 17.4 0 21.6 0 24s.7 6.6 2.1 9.9l6.8-5.3z"/>
+                            <path fill="#EA4335" d="M24 47c6.1 0 11.2-2 14.9-5.4l-6.8-5.3c-1.9 1.3-4.3 2.1-7 2.1-6.2 0-11.5-4.2-13.4-9.9L2.1 33.9C5.4 41.8 14.8 47 24 47z"/>
+                            <path fill="none" d="M0 0h48v48H0z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                </a>
+            </div>
 
 	</div>
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropCompanyLogoFromCompaniesTable extends Migration
+class DropForeignKeyConstraintFromUserQuizAttemptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class DropCompanyLogoFromCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('company_logo');
+        Schema::table('user_quiz_attempts', function (Blueprint $table) {
+            $table->dropForeign(['quiz_id']); // Drop the existing foreign key constraint
         });
     }
 
@@ -25,8 +25,6 @@ class DropCompanyLogoFromCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->string('company_logo')->nullable()->after('button_color');
-        });
+        // If you want to recreate the foreign key constraint on rollback, you can add it here
     }
 };

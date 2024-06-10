@@ -4,7 +4,8 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="mb-4">Onboarding Modules Quiz</h1>
-    <a href="{{ route('quizzes.create') }}">Create New Quiz</a> <div class="row">
+    
+    <div class="row">
         @foreach ($quizzes as $quiz)
         <div class="col-md-5">
             <div class="card mb-3">
@@ -16,8 +17,7 @@
                 </div>
 
                  <div class="card-footer">
-                  <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary btn-sm " style= "background-color: #6A1043; color:white;">View Quiz</a>
-
+                    <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary btn-sm " >View Quiz</a>
                 </div>
 
             </div>

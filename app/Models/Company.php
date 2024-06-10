@@ -45,25 +45,11 @@ class Company extends Model
         return $this->attributes['company_logo']
             ? asset('storage/' . $this->attributes['company_logo'])
             : null;
-            
-        
     }
 
-    // // Mutator to store the company logo in storage
-    // public function setCompanyLogoAttribute($file)
-    // {
-    //     // $this->attributes['company_logo'] = $file
-    //     // ? Storage::disk('public')->put('company_logos', $file)
-    //     // : null;
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class,'company_id','CompanyID');
+    }
 
-    //     $this->attributes['company_logo'] = $file
-    //         ? str_replace('public/', '', $file->store('public/company_logos'))
-    //         : null;
-    // }
-
-    // //Relationship
-    // function company() : BelongsTo
-    // {
-    //     return $this->belongsTo(Company::class, 'company_id');
-    // }
 }
