@@ -16,7 +16,7 @@ class Module extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'modules';
-    protected $fillable = ['title', 'image_path', 'CompanyID'];
+    protected $fillable = ['title', 'image_path', 'CompanyID', 'due_date',];
 
     // Define the relationship with the Company model
     public function company() : BelongsTo

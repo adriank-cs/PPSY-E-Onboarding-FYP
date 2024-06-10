@@ -11,7 +11,7 @@ use Spatie\Activitylog\LogOptions;
 
 class ItemProgress extends Model
 {
-    use HasFactory, HasCompositeKey, LogsActivity;
+    use HasFactory, HasCompositeKey;
 
     protected $table = 'item_progress';
 
@@ -24,6 +24,7 @@ class ItemProgress extends Model
         'ModuleID',
         'ItemID',
         'IsCompleted',
+        'order',
     ];
 
     //Relationship with Assigned Module model
@@ -38,11 +39,5 @@ class ItemProgress extends Model
         return $this->belongsTo(Item::class, 'ItemID', 'id');
     }
 
-    //Logging Model Changes
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['UserID', 'CompanyID', 'ModuleID', 'ItemID', 'IsCompleted']);
-    }
 
 }

@@ -80,6 +80,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/edit-module/{id}', [ModuleController::class, 'editModule'])->name('admin.edit_module');
         Route::post('/admin/edit-module/{id}', [ModuleController::class, 'editModulePost'])->name('admin.edit_module.post');
         Route::get('/admin/delete_module/{id}', [ModuleController::class, 'deleteModule'])->name('admin.delete_module');
+        // Route::post('/admin/upload_image', [ModuleController::class, 'uploadImage'])->name('admin.upload_image');
+
 
         Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
         Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
@@ -94,6 +96,16 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
         Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
         Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
+        Route::post('admin/update_page_order', [ModuleController::class, 'updatePageOrder'])->name('admin.update_page_order');
+
+
+        Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
+
+        Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
+        Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
+
+        Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
+                
 
         //DISCUSSION
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts on the homepage
@@ -113,6 +125,7 @@ Route::middleware(['web', 'auth'])->group(function () {
                 
 
         //TEST ACTIONS
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
         
         //TODO: REMOVE TEST ACTIONS
         Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
@@ -140,7 +153,14 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::post('/employee/discussion/update-answer/{AnswerID}', [EmployeePostController::class, 'updateAnswer'])->name('employee.updateAnswer');
         Route::get('/employee/discussion/delete-answer/{AnswerID}', [EmployeePostController::class, 'deleteAnswer'])->name('employee.deleteAnswer');
         Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
-    
+            Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
+
+        Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
+        // Route::get('/employee/view-module/{id}', [EmployeeController::class, 'viewModule'])->name('employee.view_module');
+
+        Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
+        Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
+
     });
 
     Route::middleware(['superadmin'])->group(function () {

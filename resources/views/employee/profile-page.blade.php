@@ -23,7 +23,8 @@
             </div>
             <!-- </div> -->
 
-            <form>
+            <form method="POST" action="{{ route('employee.update_profile') }}" enctype="multipart/form-data">
+            @csrf
                 <div class="row">
                     <div class="col-md-6">
 
@@ -37,7 +38,7 @@
 
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone No:</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Enter phone number"
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number"
                                 value="{{ $employee->phone_no }}">
                         </div>
 
@@ -50,24 +51,24 @@
 
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth:</label>
-                            <input type="date" class="form-control" id="dob" value="{{ $employee->dob }}">
+                            <input type="date" class="form-control" id="dob" name="dob" value="{{ $employee->dob }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="gender" class="form-label">Gender:</label>
-                            <input type="text" class="form-control" id="gender" value="{{ $employee->gender }}">
+                            <input type="text" class="form-control" id="gender" name="gender" value="{{ $employee->gender }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address:</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email address"
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address"
                                 value="{{ $employee->user->email }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="mailingAddress" class="form-label">Mailing Address:</label>
                             <textarea class="form-control" id="mailingAddress" rows="3"
-                                placeholder="Enter mailing address">{{ $employee->address }}</textarea>
+                                placeholder="Enter mailing address" name="address">{{ $employee->address }}</textarea>
                         </div>
                     </div>
 
@@ -98,14 +99,14 @@
 
                         <div class="mb-3">
                             <label for="biography" class="form-label">Biography:</label>
-                            <textarea class="form-control" id="biography" rows="10"
+                            <textarea class="form-control" id="biography" name="bio" rows="10"
                                 placeholder="Enter biography">{{ $employee->bio }}</textarea>
                         </div>
 
 
                     </div>
                 </div>
-                <input type="hidden" name="user_id" value="{{ $employee->user_id }}">
+                <!-- <input type="hidden" name="user_id" value="{{ $employee->user_id }}"> -->
                 <button type="submit" class="btn btn-primary float-end">Save</button>
             </form>
 
