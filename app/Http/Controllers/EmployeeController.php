@@ -118,87 +118,145 @@ class EmployeeController extends Controller {
 
 
     public function checkItemProgress($moduleId)
-{
-    $user = auth()->user();
-    $companyId = $user->companyUser->CompanyID;
-    $module = Module::findOrFail($moduleId);
+    {
+        $user = auth()->user();
+        $companyId = $user->companyUser->CompanyID;
+        $module = Module::findOrFail($moduleId);
 
-    // Check if the module is assigned to the user
-    $assignedModule = AssignedModule::where('UserID', $user->id)
-                                    ->where('ModuleID', $moduleId)
-                                    ->firstOrFail();
-
-    // Ensure all item progress records exist for the user
-    $this->ensureAllItemProgressRecordsExist($user->id, $companyId, $moduleId);
-
-    // Fetch the latest incomplete item
-    $latestItemProgress = \DB::table('item_progress')
-        ->join('item', 'item_progress.ItemID', '=', 'item.id')
-        ->join('chapters', 'item.chapter_id', '=', 'chapters.id')
-        ->where('item_progress.UserID', $user->id)
-        ->where('item_progress.ModuleID', $moduleId)
-        ->where('item_progress.CompanyID', $companyId)
-        ->whereNull('item_progress.IsCompleted')
-        ->orderBy('chapters.id') // prioritize chapters
-        ->orderBy('item_progress.order') // prioritize items by order within chapters
-        ->first();
-
-    if ($latestItemProgress) {
-        return redirect()->route('employee.view_page', ['itemId' => $latestItemProgress->ItemID]);
-    } else {
-        // Get the first chapter and first item of the module
-        $firstChapter = Chapter::where('module_id', $moduleId)->orderBy('id')->first();
-        $firstItem = Item::where('chapter_id', $firstChapter->id)->orderBy('id')->first();
-        return redirect()->route('employee.view_page', ['itemId' => $firstItem->id]);
-    }
-}
-
-public function viewPage($itemId)
-{
-    $item = Item::findOrFail($itemId);
-    $module = $item->chapter->module;
-    $chapters = Chapter::where('module_id', $module->id)->get();
-    //$items = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
-    $items = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
-
-    return view('employee.view-page', compact('module', 'chapters', 'items', 'item'));
-}
-
-protected function ensureAllItemProgressRecordsExist($userId, $companyId, $moduleId)
-{
-    $chapters = Chapter::where('module_id', $moduleId)->orderBy('id')->get();
-    foreach ($chapters as $chapter) {
-        $items = Item::where('chapter_id', $chapter->id)->orderBy('order')->get();
-
-        foreach ($items as $item) {
-            $itemProgress = ItemProgress::where('UserID', $userId)
-                                        ->where('CompanyID', $companyId)
+        // Check if the module is assigned to the user
+        $assignedModule = AssignedModule::where('UserID', $user->id)
                                         ->where('ModuleID', $moduleId)
-                                        ->where('ItemID', $item->id)
-                                        ->first();
+                                        ->firstOrFail();
 
-            if (!$itemProgress) {
-                // $maxOrder = ItemProgress::where('UserID', $userId)
-                //                         ->where('CompanyID', $companyId)
-                //                         ->where('ModuleID', $moduleId)
-                //                         ->max('order');
+        // Ensure all item progress records exist for the user
+        $this->ensureAllItemProgressRecordsExist($user->id, $companyId, $moduleId);
 
-                // $order = $maxOrder ? $maxOrder + 1 : 1;
+        // Fetch the latest incomplete item
+        $latestItemProgress = \DB::table('item_progress')
+            ->join('item', 'item_progress.ItemID', '=', 'item.id')
+            ->join('chapters', 'item.chapter_id', '=', 'chapters.id')
+            ->where('item_progress.UserID', $user->id)
+            ->where('item_progress.ModuleID', $moduleId)
+            ->where('item_progress.CompanyID', $companyId)
+            ->whereNull('item_progress.IsCompleted')
+            ->orderBy('chapters.id') // prioritize chapters
+            ->orderBy('item_progress.order') // prioritize items by order within chapters
+            ->first();
 
-                ItemProgress::create([
-                    'UserID' => $userId,
-                    'CompanyID' => $companyId,
-                    'ModuleID' => $moduleId,
-                    'ItemID' => $item->id,
-                    'IsCompleted' => null,
-                    'order' => $item->order,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
+        if ($latestItemProgress) {
+            return redirect()->route('employee.view_page', ['itemId' => $latestItemProgress->ItemID]);
+        } else {
+            // Get the first chapter and first item of the module
+            $firstChapter = Chapter::where('module_id', $moduleId)->orderBy('id')->first();
+            $firstItem = Item::where('chapter_id', $firstChapter->id)->orderBy('id')->first();
+            return redirect()->route('employee.view_page', ['itemId' => $firstItem->id]);
+        }
+    }
+
+    public function viewPage($itemId)
+    {
+        $item = Item::findOrFail($itemId);
+        $module = $item->chapter->module;
+        $chapters = Chapter::where('module_id', $module->id)->get();
+        //$items = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
+        $items = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
+        $pdfAttachments = json_decode($item->pdf_attachments, true);
+
+        return view('employee.view-page', compact('module', 'chapters', 'items', 'item','pdfAttachments'));
+    }
+
+    protected function ensureAllItemProgressRecordsExist($userId, $companyId, $moduleId)
+    {
+        $chapters = Chapter::where('module_id', $moduleId)->orderBy('id')->get();
+        foreach ($chapters as $chapter) {
+            $items = Item::where('chapter_id', $chapter->id)->orderBy('order')->get();
+
+            foreach ($items as $item) {
+                $itemProgress = ItemProgress::where('UserID', $userId)
+                                            ->where('CompanyID', $companyId)
+                                            ->where('ModuleID', $moduleId)
+                                            ->where('ItemID', $item->id)
+                                            ->first();
+
+                if ($itemProgress) {
+                    // Update the order if it has changed
+                    if ($itemProgress->order != $item->order) {
+                        $itemProgress->update(['order' => $item->order]);
+                    }
+                } else {
+                    // Create new item progress record
+                    ItemProgress::create([
+                        'UserID' => $userId,
+                        'CompanyID' => $companyId,
+                        'ModuleID' => $moduleId,
+                        'ItemID' => $item->id,
+                        'IsCompleted' => null,
+                        'order' => $item->order,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }
             }
         }
     }
-}
+
+    public function markCompleted(Request $request, $itemId)
+    {
+        $user = auth()->user();
+        $companyId = $user->companyUser->CompanyID;
+
+        // Update the current item's progress to completed
+        $itemProgress = ItemProgress::where('UserID', $user->id)
+                                    ->where('ItemID', $itemId)
+                                    ->firstOrFail();
+        $itemProgress->IsCompleted = 1;
+        $itemProgress->save();
+
+        // Get the module ID of the current item
+        $item = Item::findOrFail($itemId);
+        $moduleId = $item->chapter->module->id;
+        $chapterId = $item->chapter_id;
+
+        // Get the next incomplete item in the same chapter
+        $nextItemProgress = ItemProgress::where('UserID', $user->id)
+                                        ->where('CompanyID', $companyId)
+                                        ->where('ModuleID', $moduleId)
+                                        ->whereHas('item', function ($query) use ($chapterId) {
+                                            $query->where('chapter_id', $chapterId);
+                                        })
+                                        ->whereNull('IsCompleted')
+                                        ->orderBy('order')
+                                        ->first();
+
+        if (!$nextItemProgress) {
+            $nextChapter = Chapter::where('module_id', $moduleId)
+                                    ->where('id', '>', $chapterId)
+                                    ->orderBy('id')
+                                    ->first();
+    
+            if ($nextChapter) {
+                $nextItemProgress = ItemProgress::where('UserID', $user->id)
+                                                ->where('CompanyID', $companyId)
+                                                ->where('ModuleID', $moduleId)
+                                                ->whereHas('item', function ($query) use ($nextChapter) {
+                                                    $query->where('chapter_id', $nextChapter->id);
+                                                })
+                                                ->whereNull('IsCompleted')
+                                                ->orderBy('order')
+                                                ->first();
+            }
+        }
+    
+        if ($nextItemProgress) {
+            $redirectUrl = route('employee.view_page', ['itemId' => $nextItemProgress->ItemID]);
+        } else {
+            // No more items, redirect to a completion page or somewhere appropriate
+            $redirectUrl = route('employee.module_complete', ['moduleId' => $moduleId]);
+        }
+
+        // Return JSON response
+        return response()->json(['redirect' => $redirectUrl]);
+    }
 }
     
 

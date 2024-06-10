@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <div class="module-title-page">
                 <h5 class="page-title">{{ $module->title }}</h5>
-                <i class="ti ti-menu-2" id="openSidebar"></i>
+                <i class="ti ti-list-check" id="openSidebar"></i>
             </div>
         </div>
     </div>
@@ -57,6 +57,8 @@
         </div>
     </div>
 
+    <button type="button" class="btn btn-primary fixed-bottom-button">Next</button>
+
 <!-- Modal for PDF viewing -->
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
@@ -91,9 +93,13 @@
                     </div>
                     <div class="chapter-page-details">
                         @if($pages->has($chapter->id))
-                            @foreach($pages[$chapter->id] as $page)
-                                <div>
-                                    <input type="checkbox"> {{ $page->title }}
+                            @foreach($pages[$chapter->id] as $item)
+                                <div class="sidebar-custom-page-list"><span>
+                                        <input type="checkbox"
+                                            {{ $item->itemProgress && $item->itemProgress->IsCompleted ? 'checked' : '' }}
+                                            disabled></span>
+                                    <span><a
+                                            href="{{ route('admin.view_page', ['id' => $item->id]) }}">{{ $item->title }}</a></span>
                                 </div>
                             @endforeach
                         @endif

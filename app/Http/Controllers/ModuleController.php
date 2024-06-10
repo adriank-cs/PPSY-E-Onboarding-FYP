@@ -202,7 +202,7 @@ class ModuleController extends Controller
         $chapterId = $id;
 
         // Fetch modules belonging to the company ID of the currently logged-in admin
-        $pages = Item::where('chapter_id', $chapterId)->get();
+        $pages = Item::where('chapter_id', $chapterId)->orderBy('order')->get();
 
         // Pass the profiles to the view
         return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId, 'moduleId' => $moduleId]);
@@ -271,7 +271,8 @@ class ModuleController extends Controller
     public function editPage($id)
     {
         $page = Item::find($id);
-        return view('admin.edit-page', compact('page'));
+        $pdfAttachments = json_decode($page->pdf_attachments, true) ?? [];
+        return view('admin.edit-page', compact('page', 'pdfAttachments'));
     }
 
     public function editPagePost(Request $request, $id)
@@ -281,14 +282,43 @@ class ModuleController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'content' => 'required|string',
+            'pdfAttachments.*' => 'mimes:pdf|max:20480',
         ]);
 
+
         $page = Item::find($id);
+
+        $pdfAttachmentPaths = json_decode($page->pdf_attachments, true) ?? [];
+
+        // Remove selected existing files
+    if ($request->has('removeExistingFiles')) {
+        foreach ($request->input('removeExistingFiles') as $fileUrl) {
+            $key = array_search($fileUrl, array_column($pdfAttachmentPaths, 'url'));
+            if ($key !== false) {
+                // Delete the file from storage
+                Storage::disk('public')->delete(str_replace('/storage/', '', $fileUrl));
+                // Remove from the array
+                unset($pdfAttachmentPaths[$key]);
+            }
+        }
+    }
+
+    // Add new files
+    if ($request->hasFile('pdfAttachments')) {
+        foreach ($request->file('pdfAttachments') as $pdfFile) {
+            $path = $pdfFile->store('pdf_attachments', 'public');
+            $pdfAttachmentPaths[] = [
+                'url' => Storage::url($path),
+                'name' => $pdfFile->getClientOriginalName(),
+            ];
+        }
+    }
 
         $page->update([
             'title' => $request->title,
             'description' => $request->description,
             'content' => $request->content,
+            'pdf_attachments' => json_encode(array_values($pdfAttachmentPaths)), // Re-index array
         ]);
 
         return redirect()->route('admin.manage_page', ['id' => $page->chapter_id])->with('success', 'Page updated successfully.');
@@ -311,8 +341,9 @@ class ModuleController extends Controller
         $moduleId = Chapter::find($chapterId)->module_id;
         $module = Module::find($moduleId);
         $chapters = Chapter::where('module_id', $moduleId)->get();
-        $pages = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
+        //$pages = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
         $pdfAttachments = json_decode($viewpage->pdf_attachments, true);
+        $pages = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
 
         return view('admin.view-page', compact('viewpage', 'chapter', 'module', 'chapters', 'pages','pdfAttachments'));
 
