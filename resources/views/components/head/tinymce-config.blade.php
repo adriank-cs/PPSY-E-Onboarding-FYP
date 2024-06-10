@@ -60,4 +60,5 @@
         image_upload_url: '{{ route('admin.upload_image') }}',
         images_upload_handler: images_upload_handler_callback
     });    
+
 </script>

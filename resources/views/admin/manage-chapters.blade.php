@@ -6,7 +6,7 @@
     <h1 class="fw-semibold mb-4">Manage Chapters</h1>
 
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-10">
             <div class="col-md-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text">
@@ -19,6 +19,10 @@
         </div>
         <div class="col-md-1">
             <button type="button" class="btn btn-primary m-1"
+                onclick="window.location.href='{{ route('admin.manage_modules') }}'">Back</button>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary m-1"
                 onclick="window.location.href='{{ route('admin.add_chapter', ['moduleId' => $moduleId]) }}'">Add</button>
         </div>
     </div>
@@ -28,10 +32,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <h5 class="card-title">{{ $chapter->title }}</h5>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <a href="{{ route('admin.manage_page', ['id' => $chapter->id]) }}" class="card-link">Configure</a>
                         <a href="{{ route('admin.edit_chapter', ['id' => $chapter->id]) }}" class="card-link">Edit</a>
                         <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_chapter', ['id' => $chapter->id]) }}')">Delete</a>

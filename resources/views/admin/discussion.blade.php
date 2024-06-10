@@ -12,18 +12,16 @@
                 </div>
             </div>
 
-            <!-- Entry box and search button -->
+            <!-- entry box and search button -->
             <br>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <!-- Text above the search bar -->
-                        <div class="mb-2">Type to find already asked questions!</div>
                         <!-- Autocomplete search bar -->
                         <form>
-                            <div class="input-group no-border">
+                            <div class="input-group">
                                 <input type="text" id="search" name="search" placeholder="Type your questions here!" class="form-control">
-                                <button type="button" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-search"></i> Search
                                 </button>
                             </div>
@@ -34,10 +32,10 @@
                 </div>
             </div>
 
-            <!-- Type your own question button -->
+            <!-- type your own question button -->
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <a href="{{ route('admin.create-post') }}">
+                    <a href="{{ route('discussion.typeown') }}">
                         <button type="submit" class="btn btn-primary btn-sm" style="width: 100%; padding: 10px;">
                             <i class="bi bi-search"></i> Cannot find your questions? Write your own now!
                         </button>
@@ -49,7 +47,6 @@
             <div class="row mt-3">
                 <div class="col-md-12 mb-3">
                     <h1>Existing Questions</h1>
-                    <p>Check out the existing questions that were asked by our fellow colleagues.</p>
                 </div>
             </div>
             
@@ -63,26 +60,19 @@
                             @if(isset($randomPosts[$index]))
                                 <div class="col-md-6 mb-3">
                                     <!-- Wrap each card in an anchor tag -->
-                                    <a href="{{ route('admin.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
-                                        <div class="card twoxtwo-gray-card border-gray">
+                                    <a href="{{ route('discussion.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
+                                        <div class="card twoxtwo-gray-card">
                                             <div class="card-body">
                                                 <!-- Card content goes here -->
-                                                @php $userId = $randomPosts[$index]->UserID; @endphp
+                                                @php $postId = $randomPosts[$index]->user_id; @endphp
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h5 class="card-title truncate-text" style="width: 70%;">
-                                                        <strong>Asked By:</strong> 
-                                                        @if ($randomPosts[$index]->is_anonymous)
-                                                            Your friendly colleague
-                                                        @else
-                                                            {{ isset($users[$userId]) ? $users[$userId] : 'Unknown User' }}
-                                                        @endif
-                                                    </h5>
-                                                    <p class="text-muted" style="margin-left: auto;">{{ $randomPosts[$index]->created_at->format('F d, Y') }}</p>
+                                                    <h5 class="card-title truncate-text" style="width: 70%;">Asked by: {{ isset($users[$postId]) ? $users[$postId] : 'Unknown User' }}</h5>
                                                 </div>
-                                                <h5 class="card-title">
-                                                    <strong>Question:</strong>
-                                                    <span class="card-content">{{ $randomPosts[$index]->title }}</span>
-                                                </h5>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ $randomPosts[$index]->title }}</h5>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </a> <!-- Close anchor tag -->
@@ -115,24 +105,6 @@
     /* Ensure the cards have the same height */
     .twoxtwo-gray-card {
         height: 100%;
-        background-color: #f8f9fa; /* Light grey background */
-        border: 1px solid #ccc; /* Grey border */
-        box-shadow: none; /* Remove any box shadow */
-    }
-
-    /* Set a fixed height for card content and truncate with ellipsis if content overflows */
-    .card-content {
-        display: -webkit-box;
-        -webkit-line-clamp: 2; /* number of lines to show */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 3em; /* Adjust this to limit the height */
-    }
-
-    /* Remove the pink/purple border */
-    .border-gray {
-        border-color: #ccc !important;
     }
 
     /* Style for autocomplete results */
@@ -155,69 +127,5 @@
     .autocomplete-item:hover {
         background-color: #f4f4f4;
     }
-
-    /* Remove outer border of input group */
-    .no-border .input-group {
-        border: none;
-    }
-
-    .d-flex {
-        display: flex;
-    }
-
-    .align-items-center {
-        align-items: center;
-    }
-
-    .justify-content-between {
-        justify-content: space-between;
-    }
-
-    .text-muted {
-        font-size: 0.9rem;
-        color: #6c757d !important;
-    }
 </style>
-@endpush
-
-@push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('search');
-    const resultsContainer = document.getElementById('autocompleteResults');
-
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value;
-        if (query.length > 2) {
-            fetch(`/discussion/autocomplete?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultsContainer.innerHTML = '';
-                    if (data.length > 0) {
-                        resultsContainer.style.display = 'block';
-                        data.forEach(item => {
-                            const div = document.createElement('div');
-                            div.classList.add('autocomplete-item');
-                            div.textContent = item.title;
-                            div.addEventListener('click', function () {
-                                window.location.href = `/discussion/post/${item.PostID}`;
-                            });
-                            resultsContainer.appendChild(div);
-                        });
-                    } else {
-                        resultsContainer.style.display = 'none';
-                    }
-                });
-        } else {
-            resultsContainer.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('click', function (event) {
-        if (!resultsContainer.contains(event.target) && event.target !== searchInput) {
-            resultsContainer.style.display = 'none';
-        }
-    });
-});
-</script>
 @endpush
