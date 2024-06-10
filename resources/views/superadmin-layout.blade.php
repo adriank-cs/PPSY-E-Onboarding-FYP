@@ -18,6 +18,13 @@
     <link rel="stylesheet" href="{{ asset('lib/simplebar/dist/simplebar.css') }}">
 </head>
 
+<?php
+use App\Models\Company;
+
+$user = auth()->user();
+
+?>
+
 <body>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"

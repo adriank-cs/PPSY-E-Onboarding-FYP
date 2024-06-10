@@ -13,11 +13,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 
 class AdminDashboardTable extends DataTableComponent
 {
-    //For simple tables
-    //protected $model = User::class;
-
     //Query to get users, profiles and user sessions
-
     public function builder(): Builder
     {
         //Currently logged in admin
@@ -30,11 +26,6 @@ class AdminDashboardTable extends DataTableComponent
             ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
             ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
             ->whereColumn('users.last_active_session', '=', 'user_session.id');
-
-        //Log::info($query->get());
-        // return User::query()
-        // ->when($this->columnSearch['name'] ?? null, fn ($query, $name) => $query->where('users.name', 'like', '%' . $name . '%'))
-        // ->when($this->columnSearch['email'] ?? null, fn ($query, $email) => $query->where('users.email', 'like', '%' . $email . '%'));
 
         return $query;
     }
@@ -89,8 +80,6 @@ class AdminDashboardTable extends DataTableComponent
         ->keyBy('dept')
         ->map(fn ($dept) => $dept->dept)
         ->toArray();
-
-        //Log::info($query);
 
         return [
             MultiSelectFilter::make('Department')
