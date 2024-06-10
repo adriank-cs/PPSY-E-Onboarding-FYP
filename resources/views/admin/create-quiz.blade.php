@@ -52,8 +52,6 @@
 
   <style>
     .btn-success {
-      background-color: #6A1043 !important;
-      color: white !important;
       min-width: 120px;
       text-align: center;
     }
