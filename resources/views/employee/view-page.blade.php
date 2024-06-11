@@ -57,22 +57,6 @@
     <button type="button" class="btn btn-primary fixed-bottom-button" id="markAsCompletedButton" data-item-id="{{ $item->id }}">Mark As
         Completed</button>
 
-    <!-- Modal for PDF viewing -->
-    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel">PDF Viewer</h5>
-                    <button type="button" class="btn btn-secondary" id="cancelButton" data-bs-dismiss="modal"
-                        aria-label="Close">Close</button>
-                </div>
-                <div class="modal-body p-0">
-                    <iframe id="pdfFrame" src="" style="width: 100%; height: 100vh;" frameborder="0"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Sidebar -->
     <div id="mySidebar" class="sidebar-page-custom">
@@ -85,11 +69,14 @@
                 </div>
                 <div class="chapter-details-container">
                     <div class="chapter-box-details">
-                        <div>{{ $chapter->description }}</div>
                         <div>
                             {{ $items->has($chapter->id) ? $items[$chapter->id]->count() : 0 }}
                             page(s)
                         </div>
+
+                    </div>
+                    <div class="chapter-box-details">
+                        <div class="justify-description">{{ $chapter->description }}</div>
                     </div>
                     <div class="chapter-page-details">
                         @if($items->has($chapter->id))

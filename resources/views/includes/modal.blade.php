@@ -10,7 +10,24 @@
                 <p id="errorModalMessage"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for PDF viewing -->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">PDF Viewer</h5>
+                <button type="button" class="btn btn-primary" id="cancelButton" data-bs-dismiss="modal"
+                    aria-label="Close">Close</button>
+            </div>
+            <div class="modal-body p-0">
+                <iframe id="pdfFrame" src="" style="width: 100%; height: 100vh;" frameborder="0"></iframe>
             </div>
         </div>
     </div>

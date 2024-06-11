@@ -30,6 +30,12 @@ class Module extends Model
         return $this->hasOne(AssignedModule::class, 'ModuleID', 'id');
     }
 
+    // Define the relationship with the Chapter model
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class, 'module_id');
+    }
+
 
     public function getImageUrlAttribute()
     {

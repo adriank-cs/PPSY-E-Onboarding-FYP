@@ -367,6 +367,159 @@ class DatabaseSeeder extends Seeder
 
         DB::table('answer')->insert($answers);
 
+        //Module table seeding
+        $modules = [
+            [
+                'id' => 1,
+                'title' => 'My First Module',
+                'image_path' => 'modules/1718076298.jpg',
+                'CompanyID' => 1,
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+            ],
+            [
+                'id' => 2,
+                'title' => 'My Second Module',
+                'image_path' => 'modules/1718076452.jpg',
+                'CompanyID' => 1,
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+            ]
+        ];
+
+        DB::table('modules')->insert($modules);
+
+        //Chapter table seeding
+        $chapters = [
+            [
+                'id' => 1,
+                'module_id' => 1,
+                'title' => 'Chapter 1 : Welcome to People Psyence',
+                'description' => 'In this introductory chapter, we warmly welcome you to People Psyence. 
+                This chapter aims to provide you with a comprehensive overview of our organization, our mission, and the values that guide us. 
+                You will get to know the team, understand the structure of our organization, and learn about your role and the resources available to support your success.
+                This foundational chapter sets the stage for your exciting journey with us, ensuring you feel welcomed and well-prepared as you begin your new role.',
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+            ],
+            [
+                'id' => 2,
+                'module_id' => 1,
+                'title' => 'Chapter 2: Orientation and Training',
+                'description' => 'Chapter 2 focuses on equipping you with the knowledge and skills necessary to thrive in your new role at People Psyence. 
+                This chapter includes a detailed orientation to our organizations systems, processes, and culture. 
+                You will participate in training sessions designed to provide you with essential tools and information, 
+                ensuring you are well-prepared to contribute effectively to our team. By the end of this chapter, you will have a solid understanding of our operational procedures, 
+                key policies, and your specific responsibilities, setting you up for a successful start.',
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+            ]
+        ];
+
+        DB::table('chapters')->insert($chapters);
+
+         //Page/Item table seeding
+         $items = [
+            [
+                'id' => 1,
+                'chapter_id' => 1,
+                'title' => 'Page 1: A Warm Welcome to People Psyence',
+                'description' => '<p>Welcome to the People Psyence family! This page provides a warm introduction to our organization and outlines what you can expect from this welcome module. 
+                You will learn about our team, mission, values, organizational structure, your specific role, and the resources available to support your success. 
+                This is your first step toward becoming an integral part of our mission to advance psychological science and improve mental health outcomes. Welcome aboard!</p>',
+                'content' => '<p><img src="../../storage/TinyMceImages/1718076943.jpg" alt="" width="629" height="271"></p>
+                            <p>Welcome to the People Psyence family! We are excited to have you on board and look forward to the unique contributions you will bring to our team. This chapter is designed to provide you with a warm introduction to our organization and set the stage for your journey with us.</p>
+                            <h4>What to Expect from This Module</h4>
+                            <p>In this welcome module, you will:</p>
+                            <ol>
+                            <li><strong>Meet the Team</strong>: Get to know the diverse and talented individuals who make up People Psyence. You will learn about our leadership, key team members, and their roles within the organization.</li>
+                            <li><strong>Our Mission and Values</strong>: Gain a deeper understanding of our mission, vision, and core values that drive everything we do.</li>
+                            <li><strong>Organizational Overview</strong>: Explore the structure of People Psyence, including our various departments, research initiatives, and community outreach programs.</li>
+                            <li><strong>Your Role</strong>: Learn about your specific role and how it fits into the larger picture of our work. This includes an overview of your responsibilities, expectations, and goals.</li>
+                            <li><strong>Resources and Support</strong>: Discover the resources available to you, from training materials and professional development opportunities to support systems designed to help you succeed.</li>
+                            </ol>
+                            <p>We believe that a smooth and informative onboarding process is crucial for your success and satisfaction in your new role. This module is your first step towards becoming an integral part of our mission to advance psychological science and improve mental health outcomes.</p>
+                            <p>Welcome aboard, and let us embark on this exciting journey together!</p>',
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+                'pdf_attachments' => '[]',
+                'order' => 1,
+            ],
+            [
+                'id' => 2,
+                'chapter_id' => 1,
+                'title' => 'Page 2: Understanding Our Culture and Policies',
+                'description' => '<p>Welcome to your second page in the Welcome chapter. At People Psyence, we believe that our culture and policies are the foundation of our success and the well-being of our team members. This page will give you an overview of our organizational culture and direct you to our comprehensive policies document.</p>',
+                'content' => '<h4>Our Culture</h4>
+                                <p>At People Psyence, we foster a culture of innovation, collaboration, and excellence. Here&rsquo;s what you can expect from our work environment:</p>
+                                <ul>
+                                <li><strong>Innovation</strong>: We encourage creative thinking and continuous improvement. Your ideas and initiatives are highly valued and welcomed.</li>
+                                <li><strong>Collaboration</strong>: Teamwork is at the heart of what we do. We believe in the power of diverse perspectives and working together to achieve common goals.</li>
+                                <li><strong>Excellence</strong>: We strive for the highest standards in our research, practices, and interactions. Every team member is committed to delivering their best.</li>
+                                <li><strong>Integrity</strong>: Ethical behavior and honesty are paramount. We uphold integrity in all our actions and decisions.</li>
+                                <li><strong>Support</strong>: We provide a supportive and inclusive environment where everyone can thrive. Your growth and well-being are important to us.</li>
+                                </ul>
+                                <h4>Company Policies</h4>
+                                <p>Our policies are designed to ensure a safe, productive, and respectful workplace for everyone. These policies cover a wide range of areas including:</p>
+                                <ul>
+                                <li><strong>Code of Conduct</strong>: Guidelines on professional behavior and interactions within the workplace.</li>
+                                <li><strong>Equal Opportunity</strong>: Commitment to diversity, equity, and inclusion in all our practices.</li>
+                                <li><strong>Health and Safety</strong>: Procedures and protocols to maintain a safe working environment.</li>
+                                <li><strong>Privacy and Confidentiality</strong>: Policies on handling sensitive information and respecting privacy.</li>
+                                <li><strong>Work Hours and Leave</strong>: Information on working hours, leave entitlements, and procedures.</li>
+                                </ul>
+                                <p>For a detailed understanding of our policies, please refer to the</p>
+                                <h4>Our Culture</h4>
+                                <p>At People Psyence, we foster a culture of innovation, collaboration, and excellence. Here&rsquo;s what you can expect from our work environment:</p>
+                                <ul>
+                                <li><strong>Innovation</strong>: We encourage creative thinking and continuous improvement. Your ideas and initiatives are highly valued and welcomed.</li>
+                                <li><strong>Collaboration</strong>: Teamwork is at the heart of what we do. We believe in the power of diverse perspectives and working together to achieve common goals.</li>
+                                <li><strong>Excellence</strong>: We strive for the highest standards in our research, practices, and interactions. Every team member is committed to delivering their best.</li>
+                                <li><strong>Integrity</strong>: Ethical behavior and honesty are paramount. We uphold integrity in all our actions and decisions.</li>
+                                <li><strong>Support</strong>: We provide a supportive and inclusive environment where everyone can thrive. Your growth and well-being are important to us.</li>
+                                </ul>
+                                <h4>Company Policies</h4>
+                                <p>Our policies are designed to ensure a safe, productive, and respectful workplace for everyone. These policies cover a wide range of areas including:</p>
+                                <ul>
+                                <li><strong>Code of Conduct</strong>: Guidelines on professional behavior and interactions within the workplace.</li>
+                                <li><strong>Equal Opportunity</strong>: Commitment to diversity, equity, and inclusion in all our practices.</li>
+                                <li><strong>Health and Safety</strong>: Procedures and protocols to maintain a safe working environment.</li>
+                                <li><strong>Privacy and Confidentiality</strong>: Policies on handling sensitive information and respecting privacy.</li>
+                                <li><strong>Work Hours and Leave</strong>: Information on working hours, leave entitlements, and procedures.</li>
+                                </ul>
+                                <p>For a detailed understanding of our policies, please refer to the People Psyence Policies PDF attached below. This document is a comprehensive resource that outlines all our policies and procedures in detail. It is important to familiarize yourself with these policies to ensure compliance and to know your rights and responsibilities as a member of our team.</p>
+                                <p>This document is a comprehensive resource that outlines all our policies and procedures in detail. It is important to familiarize yourself with these policies to ensure compliance and to know your rights and responsibilities as a member of our team.</p>',
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+                'pdf_attachments' => '[{"url":"\/storage\/pdf_attachments\/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf","name":"People Psyence Policies.pdf"}]',
+                'order' => 2,
+            ],
+        ];
+
+        DB::table('item')->insert($items);
+
+        //Assign Module table seeding
+        $assignmodule = [
+            [
+                'UserID' => 2,
+                'CompanyID' => 1,
+                'ModuleID' => 1,
+                'DateAssigned' => '2024-06-11 23:18:05',
+                'due_date' => '2024-06-30',
+                'created_at' => '2024-06-11 11:24:59',
+                'updated_at' => '2024-06-11 11:24:59',
+                'deleted_at' => null,
+            ],
+        ];
+
+        DB::table('assigned_module')->insert($assignmodule);
+
         //Call other seeder classes
         $this->call([
             ActivitySeeder::class,

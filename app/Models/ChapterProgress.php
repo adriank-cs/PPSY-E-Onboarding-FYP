@@ -11,7 +11,7 @@ use Spatie\Activitylog\LogOptions;
 
 class ChapterProgress extends Model
 {
-    use HasFactory, HasCompositeKey, LogsActivity;
+    use HasFactory, HasCompositeKey;
 
     protected $table = 'chapters_progress';
 
@@ -38,10 +38,5 @@ class ChapterProgress extends Model
         return $this->belongsTo(Chapter::class, 'ChapterID', 'id');
     }
 
-    //Logging Model Changes
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['UserID', 'CompanyID', 'ModuleID', 'ChapterID', 'IsCompleted']);
-    }
+    
 }

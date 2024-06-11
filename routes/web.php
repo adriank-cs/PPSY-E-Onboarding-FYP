@@ -100,6 +100,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
         Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
+        Route::post('admin/next-page/{itemId}', [ModuleController::class, 'nextPage'])->name('admin.next_page');   
 
         Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
         Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
@@ -122,7 +123,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::post('/admin/discussion/update-answer/{AnswerID}', [PostController::class, 'updateAnswer'])->name('admin.updateAnswer'); // Handle the update of a specific answer
         Route::get('/admin/discussion/delete-answer/{AnswerID}', [PostController::class, 'deleteAnswer'])->name('admin.deleteAnswer'); // Handle the deletion of a specific answer
         Route::get('/admin/discussion/answer-history/{AnswerID}', [PostController::class, 'viewAnswerHistory'])->name('admin.viewAnswerHistory'); // View the history of a specific answer
-                
+             
 
         //TEST ACTIONS
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
@@ -155,12 +156,15 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
             Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
 
-        Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
+        // Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
         // Route::get('/employee/view-module/{id}', [EmployeeController::class, 'viewModule'])->name('employee.view_module');
+        Route::get('/employee/my-modules', [EmployeeController::class, 'myModules'])->name('employee.my_modules');
 
         Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
         Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
         Route::post('employee/mark-completed/{itemId}', [EmployeeController::class, 'markCompleted'])->name('employee.mark_completed');
+        // Define the route for the module completion page
+        Route::get('employee/module-complete/{moduleId}', [EmployeeController::class, 'moduleComplete'])->name('employee.module_complete');
         
 
     });
