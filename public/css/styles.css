@@ -20403,6 +20403,10 @@ ul {
     margin-bottom:20px;
 }
 
+#sortable .profile-card {
+    cursor: move; /* Change cursor to bidirectional cursor (move) */
+}
+
 /*view page css*/
 .module-title-page {
     display: flex;
@@ -20525,6 +20529,12 @@ ul {
 .viewpage-content img{
     max-width: 100%;
     height: auto;
+}
+
+.fixed-bottom-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
 
 /*end viewpage css*/

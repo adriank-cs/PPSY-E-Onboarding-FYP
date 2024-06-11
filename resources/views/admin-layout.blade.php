@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('css/tabler-icons/tabler-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/simplebar/dist/simplebar.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
 
 </head>
@@ -56,6 +58,7 @@ $company_logo = $company->company_logo;
 
         <div class="body-wrapper">
             @include('includes.header')
+            @include('includes.modal')
 
             @yield('content')
         </div>

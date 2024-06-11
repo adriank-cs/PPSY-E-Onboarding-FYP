@@ -161,6 +161,8 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
         Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
+        Route::post('employee/mark-completed/{itemId}', [EmployeeController::class, 'markCompleted'])->name('employee.mark_completed');
+        
 
     });
 
