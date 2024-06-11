@@ -122,7 +122,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::post('/admin/discussion/update-answer/{AnswerID}', [PostController::class, 'updateAnswer'])->name('admin.updateAnswer'); // Handle the update of a specific answer
         Route::get('/admin/discussion/delete-answer/{AnswerID}', [PostController::class, 'deleteAnswer'])->name('admin.deleteAnswer'); // Handle the deletion of a specific answer
         Route::get('/admin/discussion/answer-history/{AnswerID}', [PostController::class, 'viewAnswerHistory'])->name('admin.viewAnswerHistory'); // View the history of a specific answer
-                
+        Route::get('/admin/discussion/search', [PostController::class, 'search'])->name('admin.search');
+
 
         //TEST ACTIONS
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
