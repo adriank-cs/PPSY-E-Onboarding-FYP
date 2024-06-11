@@ -422,5 +422,26 @@ class ModuleController extends Controller
         return response()->json(['success' => false]);
     }
 
+    public function nextPage($itemId)
+    {
+        // Get the current item
+        $currentItem = Item::findOrFail($itemId);
+        $chapterId = $currentItem->chapter_id;
+        
+        // Find the next item within the same chapter based on the order
+        $nextItem = Item::where('chapter_id', $chapterId)
+                        ->where('order', '>', $currentItem->order)
+                        ->orderBy('order')
+                        ->first();
+
+        if ($nextItem) {
+            // Redirect to the next item
+            return response()->json(['redirect' => route('admin.view_page', ['id' => $nextItem->id])]);
+        } else {
+            // No next item, handle accordingly (e.g., stay on the current page or show a message)
+            return response()->json(['message' => 'No more pages in this chapter']);
+        }
+    }
+
 
 }

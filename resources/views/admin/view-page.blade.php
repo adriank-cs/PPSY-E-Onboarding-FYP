@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary fixed-bottom-button">Next</button>
+    <button type="button" class="btn btn-primary fixed-bottom-button" id="nextButton">Next</button>
 
 <!-- Modal for PDF viewing -->
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
@@ -65,7 +65,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="pdfModalLabel">PDF Viewer</h5>
-                    <button type="button" class="btn btn-secondary" id="cancelButton" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    <button type="button" class="btn btn-primary" id="cancelButton" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 </div>
                 <div class="modal-body p-0">
                     <iframe id="pdfFrame" src="" style="width: 100%; height: 100vh;" frameborder="0"></iframe>
@@ -85,11 +85,14 @@
                 </div>
                 <div class="chapter-details-container">
                     <div class="chapter-box-details">
-                        <div>{{ $chapter->description }}</div>
                         <div>
                             {{ $pages->has($chapter->id) ? $pages[$chapter->id]->count() : 0 }}
                             page(s)
                         </div>
+                        
+                    </div>
+                    <div class="chapter-box-details">
+                    <div class="justify-description">{{ $chapter->description }}</div>
                     </div>
                     <div class="chapter-page-details">
                         @if($pages->has($chapter->id))
@@ -111,6 +114,15 @@
 </div>
 
 <script>
+
+function showErrorModal(message) {
+        // Update the modal content
+        document.getElementById('errorModalMessage').textContent = message;
+        // Show the modal
+        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    }
+
     document.getElementById("openSidebar").onclick = function () {
         document.getElementById("mySidebar").classList.add('open');
     }
@@ -151,6 +163,32 @@
             const pdfUrl = this.getAttribute('data-url');
             document.getElementById('pdfFrame').src = pdfUrl;
             $('#pdfModal').modal('show');
+        });
+    });
+
+    // Handle Next button click
+    document.getElementById('nextButton').addEventListener('click', function () {
+        var itemId = {{ $viewpage->id }};
+        console.log(itemId);
+        fetch('{{ route('admin.next_page', ['itemId' => $viewpage->id]) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                showErrorModal('Failed to get the redirection URL');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorModal('An error occurred while navigating to the next page');
         });
     });
 
