@@ -275,6 +275,34 @@ class AdminController extends Controller
 
         //return response()->json(['location' => asset('storage/' . $path)]);
     }
+
+    public function findColleagues()
+    {
+        $companyId = auth()->user()->companyUser->CompanyID;
+
+        // Fetch and sort users
+        $adminUsers = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('companyusers.CompanyID', '=', $companyId)
+            ->where('companyusers.isAdmin', '=', 1)
+            ->select('users.*', 'profiles.*')
+            ->get();
+
+        $nonAdminUsers = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('companyusers.CompanyID', '=', $companyId)
+            ->where('companyusers.isAdmin', '=', 0)
+            ->select('users.*', 'profiles.*')
+            ->get();
+
+        return view('admin.find-colleagues', compact('adminUsers', 'nonAdminUsers'));
+    }
+
+    public function colleagueDetails($id)
+    {
+        $colleague = User::with('profile')->findOrFail($id);
+        return view('admin.colleague-details', compact('colleague'));
+    }
 }
 
 

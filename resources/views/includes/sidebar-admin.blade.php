@@ -103,6 +103,14 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.find_colleagues')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-friends"></i>
+                        </span>
+                        <span class="hide-menu">Colleagues</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
                         <span>
                             <i class="ti ti-info-circle"></i>
