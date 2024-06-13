@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Models\UserResponse;
@@ -34,51 +35,55 @@ class QuizController extends Controller
         return view('admin.create-quiz');
     }
 
-    // Store a newly created quiz
+    // Admin store quiz
     public function store(Request $request)
-    {
-        // Validate the request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'attempt_limit' => 'required|integer|min:1', // Validate attempt limit
-            'questions' => 'required|array|min:1',
-            'questions.*' => 'required|string|min:3',
-            'question_types' => 'required|array|min:1',
-            'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
-        ], [
-            'questions.*.required' => 'The question field is required.',
-            'questions.*.min' => 'The question field must be at least 3 characters.',
-            'question_types.*.required' => 'The question type field is required.',
-            'question_types.*.in' => 'The question type field must be one of: multiple_choice, short_answer, checkbox',
-        ]);
+{
+    // Validate the request
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'attempt_limit' => 'required|integer|min:1',
+        'questions' => 'required|array|min:1',
+        'questions.*' => 'required|string|min:3',
+        'question_types' => 'required|array|min:1',
+        'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
+        'answers' => 'required|array|min:1',
+        'answers.*' => 'array|min:2', // Ensure at least two answer options for multiple choice and checkbox
+    ], [
+        'questions.*.required' => 'The question field is required.',
+        'questions.*.min' => 'The question field must be at least 3 characters.',
+        'question_types.*.required' => 'The question type field is required.',
+        'question_types.*.in' => 'The question type field must be one of: multiple_choice, short_answer, checkbox',
+    ]);
 
-        $user = auth()->user();;
-        
-        $quiz = Quiz::create([
-            'title' => $request->input('title'),
-            'attempt_limit' => $request->input('attempt_limit'), // Save attempt limit
-            'company_id' => $user->companyUser->CompanyID,
-        ]);
+    $user = auth()->user();
+    
+    $quiz = Quiz::create([
+        'title' => $request->input('title'),
+        'attempt_limit' => $request->input('attempt_limit'),
+        'company_id' => $user->companyUser->CompanyID,
+    ]);
 
-        foreach ($request->questions as $key => $question) {
-            $quizQuestion = new QuizQuestion;
-            $quizQuestion->quiz_id = $quiz->id;
-            $quizQuestion->question = $question;
-            $quizQuestion->type = $request->input('question_types')[$key];
-            $quizQuestion->type = $request->input('question_types')[$key];
+    foreach ($request->questions as $key => $question) {
+        $quizQuestion = new QuizQuestion;
+        $quizQuestion->quiz_id = $quiz->id;
+        $quizQuestion->question = $question;
+        $quizQuestion->type = $request->input('question_types')[$key];
 
-            if (in_array($quizQuestion->type, ['multiple_choice', 'checkbox'])) {
-                $answerOptions = $request->input('answers')[$key] ?? [];
-                if (!empty($answerOptions)) {
-                    $quizQuestion->answer_options = json_encode($answerOptions);
-                }
-            }
-
-            $quizQuestion->save();
+        if (in_array($quizQuestion->type, ['multiple_choice', 'checkbox'])) {
+            $answerOptions = $request->input('answers')[$key] ?? [];
+            $answerOptionIds = array_map(fn() => uniqid('option_', true), $answerOptions);
+            $quizQuestion->answer_options = json_encode($answerOptions);
+            $quizQuestion->answer_option_id = json_encode($answerOptionIds);
         }
 
-        return redirect()->route('admin.onboarding-quiz')->with('success', 'Quiz created successfully!');
+        $quizQuestion->save();
     }
+
+    return redirect()->route('admin.onboarding-quiz')->with('success', 'Quiz created successfully!');
+}
+
+
+    
 
     // Admin edit quiz
     public function editQuiz(Quiz $quiz)
@@ -148,18 +153,9 @@ class QuizController extends Controller
 
         return redirect()->route('quizzes.edit', $quiz->id)->with('success', 'Quiz updated successfully.');
     }
-
-    // Admin delete quiz
-    // public function delete(Quiz $quiz)
-    // {
-    //     // Delete the quiz
-    //     $quiz->delete();
-
-    //     return redirect()->route('admin.onboarding-quiz')->with('success', 'Quiz deleted successfully.');
-    // }
-
+    
     public function delete(Quiz $quiz)
-{
+    {
     // Check if the quiz belongs to the user's company
     $user = Auth::user();
     if ($quiz->company_id !== $user->companyUser->CompanyID) {
@@ -179,17 +175,13 @@ class QuizController extends Controller
     $quiz->delete();
 
     return redirect()->route('admin.onboarding-quiz')->with('success', 'Quiz deleted successfully.');
-}
+    }
 
 
-    // Show quiz details
+    //Show quiz details
     public function show(Quiz $quiz)
     {
         $user = Auth::user();
-
-        // if ($quiz->company_id !== $user->company_id) {
-        //     return redirect()->route('employee.onboarding-quiz')->with('error', 'You do not have permission to view this quiz.');
-        // }
 
         $attempts = $quiz->attempts()->where('user_id', $user->id)->count();
 
@@ -217,14 +209,21 @@ class QuizController extends Controller
         }
     }
 
+    // Add a method to retrieve correct answers in QuizController
+    public function getCorrectAnswers(Quiz $quiz)
+    {
+        $correctAnswers = $quiz->questions()
+        ->whereIn('type', ['multiple_choice', 'checkbox'])
+        ->pluck('correct_answer', 'id')
+        ->toArray();
+
+        return response()->json($correctAnswers);
+    }
+
    // Submit quiz answers
    public function submitAnswers(Quiz $quiz, Request $request)
    {
        $user = Auth::user();
-
-       if ($quiz->company_id !== $user->company_id) {
-           return redirect()->route('quizzes.show', $quiz->id)->with('error', 'You do not have permission to submit answers for this quiz.');
-       }
 
        $attempts = $quiz->attempts()->where('user_id', $user->id)->count();
 
@@ -286,6 +285,6 @@ class QuizController extends Controller
        }
 
        return view('employee.view-responses', compact('quiz', 'formattedAnswers'));
-   }
+   }   
 }     
 
