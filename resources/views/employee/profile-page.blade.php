@@ -23,6 +23,8 @@
             </div>
             <!-- </div> -->
 
+            <x-head.tinymce-config />
+
             <form method="POST" action="{{ route('employee.update_profile') }}" enctype="multipart/form-data">
             @csrf
                 <div class="row">
@@ -99,8 +101,8 @@
 
                         <div class="mb-3">
                             <label for="biography" class="form-label">Biography:</label>
-                            <textarea class="form-control" id="biography" name="bio" rows="10"
-                                placeholder="Enter biography">{{ $employee->bio }}</textarea>
+                            <textarea class="form-control tinymce" id="biography" name="bio" rows="10"
+                                placeholder="Enter biography">{!! $employee->bio !!}</textarea>
                         </div>
 
 

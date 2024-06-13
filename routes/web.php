@@ -111,7 +111,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/get-due-date/{moduleId}/{userId}', [ModuleController::class, 'getDueDate'])->name('admin.get_due_date');
 
         Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
-                
+        
+        Route::get('/admin/find-colleagues', [AdminController::class, 'findColleagues'])->name('admin.find_colleagues');
+        Route::get('/admin/colleague-details/{id}', [AdminController::class, 'colleagueDetails'])->name('admin.colleague_details');
+
 
         //DISCUSSION
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts on the homepage

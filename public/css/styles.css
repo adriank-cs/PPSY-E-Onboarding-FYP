@@ -20589,3 +20589,74 @@ i.ti.ti-checklist{
 i.ti.ti-checklist:hover{
     color: blue;
 }
+
+.profile-picture-colleagues {
+    padding: 10px;
+    width: 150px; /* Reduced size for better fit */
+    height: 150px; /* Reduced size for better fit */
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+    border-radius: 50%; /* Make the image circular */
+}
+
+.colleagues-card {
+    width: 100%; /* Use full width of the col-md-4 */
+    height: 400px; /* Fixed height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0; /* Margin top and bottom for spacing */
+    border: 1px solid #ddd; /* Add a border for better visibility */
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: shadow for depth */
+}
+
+.colleagues-card-body {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.colleagues-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.colleagues-title {
+    margin-top: 10px;
+}
+
+.profile-picture-large {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+.gradient-bg {
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Replace with random gradient if necessary */
+    color: white;
+}
+
+i.ti.colleague-details-email{
+    margin-right:4px;
+}
+
+.colleague-details-mailink{
+    color: white;
+}
+
+.colleague-details-mailink:hover{
+    color: cyan;
+}
+
+.card-profile-details{
+
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+
+}
