@@ -20577,3 +20577,15 @@ ul {
 .show {
     opacity: 1;
 }
+
+.dropdown-toggle:after{
+    display:none;
+}
+
+i.ti.ti-checklist{
+    color: var(--bs-primary);
+}
+
+i.ti.ti-checklist:hover{
+    color: blue;
+}
