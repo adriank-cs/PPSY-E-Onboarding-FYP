@@ -76,18 +76,27 @@
                         <span class="hide-menu">Discussions</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('randomPost') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-home"></i>
+                                </span>
                                 <span class="hide-menu">Homepage</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('admin.create-post') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-question-mark"></i>
+                                </span>
                                 <span class="hide-menu">Ask Questions</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('admin.check-post') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-zoom-question"></i>
+                                </span>
                                 <span class="hide-menu">Check Posted Questions</span>
                             </a>
                         </li>
