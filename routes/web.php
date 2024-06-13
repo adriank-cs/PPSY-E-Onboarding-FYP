@@ -104,6 +104,11 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
         Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
+        Route::get('admin/unassign_module/{id}', [ModuleController::class, 'unassignModule'])->name('admin.unassign_module');
+        Route::post('/admin/unassign-module/', [ModuleController::class, 'unassignModulePost'])->name('admin.unassign_module.post');
+        Route::get('admin/configure-duedate/{id}', [ModuleController::class, 'configureDueDate'])->name('admin.configure_duedate');
+        Route::post('/admin/configure-duedate/', [ModuleController::class, 'configureDueDatePost'])->name('admin.configure_duedate.post');
+        Route::get('/admin/get-due-date/{moduleId}/{userId}', [ModuleController::class, 'getDueDate'])->name('admin.get_due_date');
 
         Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
                 

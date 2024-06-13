@@ -356,13 +356,35 @@ class ModuleController extends Controller
 
         $companyId = $adminUser->companyUser->CompanyID;
 
-        //$users = CompanyUser::where('CompanyID', $companyId)->get();
-
         $users = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
-            ->where('companyusers.CompanyID', '=', $companyId)
-            ->get();
+        ->leftJoin('assigned_module', function($join) use ($moduleId) {
+            $join->on('users.id', '=', 'assigned_module.UserID')
+                 ->where('assigned_module.ModuleID', '=', $moduleId);
+        })
+        ->where('companyusers.CompanyID', '=', $companyId)
+        ->whereNull('assigned_module.ModuleID') // Exclude users already assigned to this module
+        ->where('companyusers.isAdmin', '=', 0) // Exclude admins
+        ->get(['users.*']);
 
         return view('admin.assign-module', compact('users', 'moduleId'));
+    }
+    public function unassignModule($id){
+        $moduleId = $id;
+
+        $adminUser = auth()->user();
+
+        $companyId = $adminUser->companyUser->CompanyID;
+
+        $users = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+        ->join('assigned_module', function($join) use ($moduleId) {
+            $join->on('users.id', '=', 'assigned_module.UserID')
+                 ->where('assigned_module.ModuleID', '=', $moduleId);
+        })
+        ->where('companyusers.CompanyID', '=', $companyId)
+        ->where('companyusers.isAdmin', '=', 0) // Exclude admins
+        ->get(['users.*']);
+
+        return view('admin.unassign-module', compact('users', 'moduleId'));
     }
 
     public function assignModulePost(Request $request){
@@ -377,14 +399,6 @@ class ModuleController extends Controller
         $companyId = $adminUser->companyUser->CompanyID;
         $moduleId = $request->input('module_id');
 
-        // AssignedModule::create([
-        //     'UserID' => $userId,
-        //     'CompanyID' => $companyId,
-        //     'ModuleID' => $moduleId,
-        //     'DateAssigned' => now(),
-        //     'due_date' => $request->input('due_date'),
-        // ]);
-
         DB::table('assigned_module')->insert([
             'UserID' => $userId,
             'CompanyID' => $companyId,
@@ -397,6 +411,87 @@ class ModuleController extends Controller
 
         return redirect()->back()->with('success', 'Module assigned successfully.');
     }
+
+    public function unassignModulePost(Request $request){
+        $request->validate([
+            'user' => 'required|exists:users,id',
+        ]);
+
+
+        $adminUser = auth()->user();
+        $userId = $request->input('user');
+        $moduleId = $request->input('module_id');
+
+        $assignedModule = AssignedModule::where('UserID', $userId)
+                                    ->where('ModuleID', $moduleId);
+
+        if ($assignedModule) {
+            $assignedModule->delete();
+            return redirect()->back()->with('success', 'Module unassigned successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to unassign module.');
+        }
+    }
+
+    public function getDueDate($moduleId, $userId)
+{
+    $assignedModule = AssignedModule::where('ModuleID', $moduleId)
+                                    ->where('UserID', $userId)
+                                    ->first();
+
+    return response()->json(['due_date' => $assignedModule ? $assignedModule->due_date : null]);
+}
+
+public function configureDueDate($id){
+    $moduleId = $id;
+
+    $adminUser = auth()->user();
+
+    $companyId = $adminUser->companyUser->CompanyID;
+
+    $users = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+    ->join('assigned_module', function($join) use ($moduleId) {
+        $join->on('users.id', '=', 'assigned_module.UserID')
+             ->where('assigned_module.ModuleID', '=', $moduleId);
+    })
+    ->where('companyusers.CompanyID', '=', $companyId)
+    ->where('companyusers.isAdmin', '=', 0) // Exclude admins
+    ->get(['users.*']);
+
+    return view('admin.configure-duedate', compact('users', 'moduleId'));
+}
+
+public function configureDueDatePost(Request $request){
+    $request->validate([
+        'user' => 'required|exists:users,id',
+        'due_date' => 'required|date',
+    ]);
+
+    $userId = $request->input('user');
+    $adminUser = auth()->user();
+
+    $companyId = $adminUser->companyUser->CompanyID;
+    $moduleId = $request->input('module_id');
+
+    // Fetch the existing record
+    $assignedModule = AssignedModule::where('UserID', $userId)
+                                    ->where('CompanyID', $companyId)
+                                    ->where('ModuleID', $moduleId)
+                                    ->first();
+
+    if ($assignedModule) {
+        // Update the existing record
+        $assignedModule->due_date = $request->input('due_date');
+        $assignedModule->updated_at = now();
+        $assignedModule->save();
+
+        return redirect()->back()->with('success', 'Due date changed successfully.');
+    } else {
+        // Handle the case where the record does not exist
+        return redirect()->back()->with('error', 'Assigned module not found.');
+    }
+}
+
 
     public function uploadPdf(Request $request)
     {

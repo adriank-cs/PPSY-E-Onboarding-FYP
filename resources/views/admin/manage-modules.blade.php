@@ -29,19 +29,29 @@
 
                 <div class="card module-card">
                     <div class="card-body module-card-body">
-                        <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
+                        <a
+                            href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
                             <div class="row module-image">
                                 <img src="{{ $module->image_url }}" alt="Module Photo">
                             </div>
                         </a>
                         <div class="row module-title">
-                        <div class="col-md-9"><a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
-                                <h5 class="card-title">{{ $module->title }}</h5></a>
+                            <div class="col-md-9"><a
+                                    href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
+                                    <h5 class="card-title">{{ $module->title }}</h5>
+                                </a>
                             </div>
                             <div class="col-md-1 text-center module-buttons">
-                                <a
-                                    href="{{ route('admin.assign_module', ['id' => $module->id]) }}"><span
-                                        class="module-box-icons"><i class="ti ti-checklist"></i></span></a>
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="module-box-icons"><i class="ti ti-checklist"></i></span></a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="{{ route('admin.assign_module', ['id' => $module->id]) }}">Assign Module</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.unassign_module', ['id' => $module->id]) }}">Unassign Module</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('admin.configure_duedate', ['id' => $module->id]) }}">Configure Due Date</a></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="col-md-1 text-center module-buttons">
                                 <a
@@ -65,30 +75,29 @@
 </div>
 
 <script>
-
     $(document).ready(function () {
-    var $modulesContainer = $('.modules-container').masonry({
-        itemSelector: '.module-card',
-        columnWidth: '.col-md-4',
-        percentPosition: true
-    });
-
-    $('#searchField').on('input', function () {
-        var searchValue = $(this).val().toLowerCase();
-        $('.module-card').each(function () {
-            var nameText = $(this).find('.card-title').text().toLowerCase();
-            var idText = $(this).find('.card-subtitle').text().toLowerCase();
-            if (nameText.includes(searchValue) || idText.includes(searchValue)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
+        var $modulesContainer = $('.modules-container').masonry({
+            itemSelector: '.module-card',
+            columnWidth: '.col-md-4',
+            percentPosition: true
         });
 
-        // Trigger Masonry layout update after hiding/showing elements
-        $modulesContainer.masonry('layout');
+        $('#searchField').on('input', function () {
+            var searchValue = $(this).val().toLowerCase();
+            $('.module-card').each(function () {
+                var nameText = $(this).find('.card-title').text().toLowerCase();
+                var idText = $(this).find('.card-subtitle').text().toLowerCase();
+                if (nameText.includes(searchValue) || idText.includes(searchValue)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Trigger Masonry layout update after hiding/showing elements
+            $modulesContainer.masonry('layout');
+        });
     });
-});
 
     function confirmDelete(url) {
         if (confirm('Are you sure you want to delete this module?')) {

@@ -101,61 +101,87 @@ class EmployeeController extends Controller {
     }
 
 
+// public function myModules()
+// {
+//     $user = auth()->user();
+//     $companyId = $user->companyUser->CompanyID;
+
+//     // Fetch all assigned modules for the user
+//     $assignedModules = AssignedModule::where('UserID', $user->id)->pluck('ModuleID')->toArray();
+    
+//     // Fetch modules based on assigned modules
+//     $modules = Module::whereIn('id', $assignedModules)->get();
+    
+//     $inProgressModules = [];
+//     $completedModules = [];
+//     $overdueModules = [];
+
+//     $currentDate = date('Y-m-d');
+
+//     foreach ($modules as $module) {
+//         $totalChapters = $module->chapters()->count();
+//         $completedChapters = ChapterProgress::where('UserID', $user->id)
+//                                             ->where('CompanyID', $companyId)
+//                                             ->where('ModuleID', $module->id)
+//                                             ->where('IsCompleted', 1)
+//                                             ->count();
+        
+//         $completionPercentage = ($totalChapters > 0) ? ($completedChapters / $totalChapters) * 100 : 0;
+//         $module->completion_percentage = round($completionPercentage);
+//         $module->progress = $completionPercentage;
+
+//         if ($completionPercentage == 100) {
+//             $completedModules[] = $module;
+//         } elseif ($completionPercentage < 100 && ($module->due_date >= $currentDate)) {
+//             $inProgressModules[] = $module;
+//         }
+//         elseif($completionPercentage < 100 && ($module->due_date < $currentDate) ){
+//             $overdueModules[] = $module;
+//         }
+//     }
+
+//     return view('employee.my-modules', compact('inProgressModules', 'completedModules', 'overdueModules'));
+// }
+
 public function myModules()
 {
     $user = auth()->user();
     $companyId = $user->companyUser->CompanyID;
 
     // Fetch all assigned modules for the user
-    $assignedModules = AssignedModule::where('UserID', $user->id)->pluck('ModuleID')->toArray();
-    
-    // Fetch modules based on assigned modules
-    $modules = Module::whereIn('id', $assignedModules)->get();
-    
+    $assignedModules = AssignedModule::where('UserID', $user->id)
+        ->with('module') // Eager load the module relationship
+        ->get();
+
     $inProgressModules = [];
     $completedModules = [];
+    $overdueModules = [];
 
-    foreach ($modules as $module) {
+    $currentDate = date('Y-m-d');
+
+    foreach ($assignedModules as $assignedModule) {
+        $module = $assignedModule->module;
         $totalChapters = $module->chapters()->count();
         $completedChapters = ChapterProgress::where('UserID', $user->id)
-                                            ->where('CompanyID', $companyId)
-                                            ->where('ModuleID', $module->id)
-                                            ->where('IsCompleted', 1)
-                                            ->count();
-        
+            ->where('CompanyID', $companyId)
+            ->where('ModuleID', $module->id)
+            ->where('IsCompleted', 1)
+            ->count();
+
         $completionPercentage = ($totalChapters > 0) ? ($completedChapters / $totalChapters) * 100 : 0;
         $module->completion_percentage = round($completionPercentage);
+        $module->progress = $completionPercentage;
 
         if ($completionPercentage == 100) {
             $completedModules[] = $module;
-        } else {
+        } elseif ($completionPercentage < 100 && $assignedModule->due_date >= $currentDate) {
             $inProgressModules[] = $module;
-        }
-
-    // Calculate progress for each module
-        foreach ($inProgressModules as $module) {
-            $totalChapters = Chapter::where('module_id', $module->id)->count();
-            $completedChapters = ChapterProgress::where('UserID', $user->id)
-                                                ->where('CompanyID', $user->companyUser->CompanyID)
-                                                ->where('ModuleID', $module->id)
-                                                ->where('IsCompleted', 1)
-                                                ->count();
-            $module->progress = $totalChapters > 0 ? ($completedChapters / $totalChapters) * 100 : 0;
-        }
-
-    // Calculate progress for each module
-        foreach ($completedModules as $module) {
-            $totalChapters = Chapter::where('module_id', $module->id)->count();
-            $completedChapters = ChapterProgress::where('UserID', $user->id)
-                                                ->where('CompanyID', $user->companyUser->CompanyID)
-                                                ->where('ModuleID', $module->id)
-                                                ->where('IsCompleted', 1)
-                                                ->count();
-            $module->progress = $totalChapters > 0 ? ($completedChapters / $totalChapters) * 100 : 0;
+        } elseif ($completionPercentage < 100 && $assignedModule->due_date < $currentDate) {
+            $overdueModules[] = $module;
         }
     }
 
-    return view('employee.my-modules', compact('inProgressModules', 'completedModules'));
+    return view('employee.my-modules', compact('inProgressModules', 'completedModules', 'overdueModules'));
 }
 
 
