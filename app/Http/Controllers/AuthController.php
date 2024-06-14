@@ -42,6 +42,21 @@ class AuthController extends Controller {
     // Attempt to login
     if (Auth::attempt($credentials)) {
         $user = Auth::user();
+        $currentDate = now()->format('Y-m-d');
+        $lastLoginDate = $user->last_login_date;
+
+        // Check if the last login was yesterday
+        if ($lastLoginDate === now()->subDay()->format('Y-m-d')) {
+            // Increment the login streak
+            $user->login_streak += 1;
+        } else if ($lastLoginDate !== $currentDate) {
+            // Reset the login streak if the last login was not yesterday and not today
+            $user->login_streak = 1;
+        }
+
+         // Update the last login date to today
+         $user->last_login_date = $currentDate;
+         $user->save();
 
         // Check if the user is a superadmin
         if ($user->superadmin) {

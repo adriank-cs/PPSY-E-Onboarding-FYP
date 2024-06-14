@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -100,48 +101,6 @@ class EmployeeController extends Controller {
         file_put_contents(public_path('css/colors.css'), $css);
     }
 
-
-// public function myModules()
-// {
-//     $user = auth()->user();
-//     $companyId = $user->companyUser->CompanyID;
-
-//     // Fetch all assigned modules for the user
-//     $assignedModules = AssignedModule::where('UserID', $user->id)->pluck('ModuleID')->toArray();
-    
-//     // Fetch modules based on assigned modules
-//     $modules = Module::whereIn('id', $assignedModules)->get();
-    
-//     $inProgressModules = [];
-//     $completedModules = [];
-//     $overdueModules = [];
-
-//     $currentDate = date('Y-m-d');
-
-//     foreach ($modules as $module) {
-//         $totalChapters = $module->chapters()->count();
-//         $completedChapters = ChapterProgress::where('UserID', $user->id)
-//                                             ->where('CompanyID', $companyId)
-//                                             ->where('ModuleID', $module->id)
-//                                             ->where('IsCompleted', 1)
-//                                             ->count();
-        
-//         $completionPercentage = ($totalChapters > 0) ? ($completedChapters / $totalChapters) * 100 : 0;
-//         $module->completion_percentage = round($completionPercentage);
-//         $module->progress = $completionPercentage;
-
-//         if ($completionPercentage == 100) {
-//             $completedModules[] = $module;
-//         } elseif ($completionPercentage < 100 && ($module->due_date >= $currentDate)) {
-//             $inProgressModules[] = $module;
-//         }
-//         elseif($completionPercentage < 100 && ($module->due_date < $currentDate) ){
-//             $overdueModules[] = $module;
-//         }
-//     }
-
-//     return view('employee.my-modules', compact('inProgressModules', 'completedModules', 'overdueModules'));
-// }
 
 public function myModules()
 {
@@ -362,6 +321,52 @@ public function myModules()
     {
         $module = Module::findOrFail($moduleId);
         return view('employee.completion-module', compact('module'));
+    }
+
+    public function findColleagues()
+    {
+        $companyId = auth()->user()->companyUser->CompanyID;
+
+        // Fetch and sort users
+        $adminUsers = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('companyusers.CompanyID', '=', $companyId)
+            ->where('companyusers.isAdmin', '=', 1)
+            ->select('users.*', 'profiles.*')
+            ->get();
+
+        $nonAdminUsers = User::join('companyusers', 'users.id', '=', 'companyusers.UserID')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('companyusers.CompanyID', '=', $companyId)
+            ->where('companyusers.isAdmin', '=', 0)
+            ->select('users.*', 'profiles.*')
+            ->get();
+
+        return view('employee.find-colleagues', compact('adminUsers', 'nonAdminUsers'));
+    }
+
+    public function colleagueDetails($id)
+    {
+        $colleague = User::with('profile')->findOrFail($id);
+        return view('employee.colleague-details', compact('colleague'));
+    }
+
+    public function leaderboard()
+    {
+    
+        $companyId = Auth::user()->companyUser->CompanyID;
+
+        // Get users of the same company, ordered by login streak in descending order, with profiles eager loaded
+        $users = User::with('profile')->whereHas('companyUser', function ($query) use ($companyId) {
+            $query->where('CompanyID', $companyId);
+        })->orderBy('login_streak', 'desc')->get();
+
+        // Find the current user's rank
+        $rank = $users->search(function($user) {
+            return $user->id === Auth::id();
+        }) + 1;
+
+        return view('employee.leaderboard', compact('users', 'rank'));
     }
 
 
