@@ -39,7 +39,7 @@
                         <span>
                             <i class="ti ti-book-2"></i>
                         </span>
-                        <span class="hide-menu">Quiz</span>
+                        <span class="hide-menu">Modules</span>
                     </a>
                 </li>
                 
@@ -77,6 +77,24 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('employee.find_colleagues')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-friends"></i>
+                        </span>
+                        <span class="hide-menu">Colleagues</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('employee.leaderboard')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-trophy"></i>
+                        </span>
+                        <span class="hide-menu">Login Streak Leaderboard</span>
+                    </a>
                 </li>
                 
                 <li class="sidebar-item">

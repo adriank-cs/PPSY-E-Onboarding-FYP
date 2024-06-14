@@ -272,9 +272,8 @@ class AdminController extends Controller
         $fullUrl = config('app.url') . '/' . $path;
 
         return response()->json(['location' => $fullUrl]);
-
-        //return response()->json(['location' => asset('storage/' . $path)]);
     }
+
 
     public function findColleagues()
     {
@@ -302,6 +301,23 @@ class AdminController extends Controller
     {
         $colleague = User::with('profile')->findOrFail($id);
         return view('admin.colleague-details', compact('colleague'));
+    }
+
+    public function leaderboard()
+    {
+        $companyId = Auth::user()->companyUser->CompanyID;
+
+    // Get users of the same company, ordered by login streak in descending order, with profiles eager loaded
+    $users = User::with('profile')->whereHas('companyUser', function ($query) use ($companyId) {
+        $query->where('CompanyID', $companyId);
+    })->orderBy('login_streak', 'desc')->get();
+
+    // Find the current user's rank
+    $rank = $users->search(function($user) {
+        return $user->id === Auth::id();
+    }) + 1;
+
+    return view('admin.leaderboard', compact('users', 'rank'));
     }
 }
 

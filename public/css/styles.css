@@ -20660,3 +20660,59 @@ i.ti.colleague-details-email{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 
 }
+
+.leaderboard-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+
+.profile-picture-leaderboard {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+
+.leaderboard-card .card-body {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height:120px;
+}
+
+.leaderboard-card .card-body > div {
+    flex: 1;
+    text-align: center;
+}
+
+@media (max-width: 610px) {
+    .leaderboard-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        
+    }
+
+    .leaderboard-card .card-body {
+        flex-direction: column;
+        height:auto;
+    }
+
+    .leaderboard-card .card-body > div {
+        margin-bottom: 10px; /* Add space below each item */
+    }
+
+    .profile-picture-leaderboard {
+        margin-bottom: 10px;
+    }
+}

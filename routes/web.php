@@ -140,6 +140,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         //TODO: REMOVE TEST ACTIONS
         Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
+        Route::get('/admin/leaderboard', [AdminController::class, 'leaderboard'])->name('admin.leaderboard');
+
     });
 
     Route::middleware(['employee'])->group(function () {
@@ -174,6 +176,11 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::post('employee/mark-completed/{itemId}', [EmployeeController::class, 'markCompleted'])->name('employee.mark_completed');
         // Define the route for the module completion page
         Route::get('employee/module-complete/{moduleId}', [EmployeeController::class, 'moduleComplete'])->name('employee.module_complete');
+
+        Route::get('employee/find-colleagues', [EmployeeController::class, 'findColleagues'])->name('employee.find_colleagues');
+        Route::get('employee/colleague-details/{id}', [EmployeeController::class, 'colleagueDetails'])->name('employee.colleague_details');
+
+        Route::get('/employee/leaderboard', [EmployeeController::class, 'leaderboard'])->name('employee.leaderboard');
         
 
     });

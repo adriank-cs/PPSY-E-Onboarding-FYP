@@ -58,7 +58,10 @@
         ],
         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
         image_upload_url: '{{ route('admin.upload_image') }}',
-        images_upload_handler: images_upload_handler_callback
+        images_upload_handler: images_upload_handler_callback,
+        relative_urls: false, // Ensure TinyMCE uses absolute URLs,
+        remove_script_host: false,
+        convert_urls: true
     });    
 
 </script>

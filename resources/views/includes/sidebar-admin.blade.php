@@ -111,6 +111,14 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.leaderboard')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-trophy"></i>
+                        </span>
+                        <span class="hide-menu">Login Streak Leaderboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">
                         <span>
                             <i class="ti ti-info-circle"></i>
