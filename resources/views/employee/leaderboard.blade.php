@@ -26,7 +26,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <p style="font-size:50px;" class="mb-0">🏆</p>
-                                    <h5>Ranked #1s</h5>
+                                    <h5>Ranked #1</h5>
                                 </div>
                             </div>
                         </div>
