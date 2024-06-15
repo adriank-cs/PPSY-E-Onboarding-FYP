@@ -7,6 +7,10 @@
     <h1 class="mb-4">Onboarding Modules Quiz</h1>
     <!-- made the create new quiz as button -->
     <a href="{{ route('quizzes.create') }}" class="btn btn-primary mb-4">Create New Quiz</a>
+    <!-- display the list of quizzes -->
+    <a href="{{ route('admin.view-quiz-list') }}" class="btn btn-primary mb-4">View quiz list</a>
+
+
     <div class="row">
         @foreach ($quizzes as $quiz)
         <div class="col-md-5">

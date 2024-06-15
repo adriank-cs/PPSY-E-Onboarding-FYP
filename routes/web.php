@@ -208,11 +208,13 @@ Route::middleware(['web', 'auth'])->group(function () {
 //Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
 
 
+//Quiz Routes
 Route::resource('quizzes', QuizController::class);
 Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
 
 Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
 Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+
 //add by aifei
 Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
 
@@ -229,3 +231,12 @@ Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizz
 // Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
 Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
 
+//Route::get('/quizzes', [QuizController::class, 'adminViewQuiz'])->name('admin.view-quiz-list');
+Route::get('/view-quiz-list', [QuizController::class, 'viewQuizList'])->name('admin.view-quiz-list');  // Correct route
+
+// Route for viewing answered employees
+Route::get('/quizzes/{quiz}/answered-employees', [QuizController::class, 'viewAnsweredEmployees'])->name('admin.employee-list');
+
+// Route for viewing quiz answers (you may need to implement this if not already done)
+Route::get('/quizzes/{quiz}/employee/{employee}/answers', [QuizController::class, 'viewQuizAnswer'])->name('admin.view-quiz-answer');
+Route::post('/quizzes/{quiz}/answers/{employee}', [QuizController::class, 'updateQuizAnswer'])->name('admin.update-quiz-answer');
