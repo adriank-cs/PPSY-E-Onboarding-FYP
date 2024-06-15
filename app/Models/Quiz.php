@@ -12,9 +12,9 @@ class Quiz extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'attempt_limit', 
-        'company_id'
+        'title', 
+        'item_id',
+        'passing_score',
     ];
 
     public function questions()
@@ -22,16 +22,10 @@ class Quiz extends Model
         return $this->hasMany(QuizQuestion::class); // Define the relationship: module has many questions
     }
 
-    // add by Aifei
-    public function attempts()
-    {
-        return $this->hasMany(UserQuizAttempt::class);
-    }
-
     // add relationship with company for quiz
-    public function company()
+    public function item()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(item::class);
     }
 
 }

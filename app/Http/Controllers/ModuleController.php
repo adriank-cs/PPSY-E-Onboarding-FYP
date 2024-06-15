@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Quiz;
+use App\Models\QuizQuestion;
 use App\Models\ItemProgress;
 use App\Models\Module;
 use App\Models\Chapter;
@@ -268,12 +270,189 @@ class ModuleController extends Controller
                          ->with('success', 'Page added successfully!');
     }
 
+
+    public function add_quizPost(Request $request, $chapterId)
+{
+    // Validate the form data
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'passing_score' => 'required|integer|min:0',
+        'questions' => 'required|array',
+        'questions.*' => 'required|string',
+        'question_types' => 'required|array',
+        'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
+        'answers' => 'array',
+        'answers.*' => 'array',
+        'correct_answers' => 'required|array',
+        'correct_answers.*' => 'required',
+    ]);
+
+    // Fetch the latest order for the given chapter
+    $latestOrder = Item::where('chapter_id', $chapterId)->max('order');
+    $newOrder = $latestOrder ? $latestOrder + 1 : 1;
+
+    // Create and save the item
+    $item = Item::create([
+        'title' => $request->title,
+        'chapter_id' => $chapterId,
+        'description' => $request->description,
+        'content' => $request->content,
+        'pdf_attachments' => null, // Assuming quizzes don't have PDF attachments
+        'order' => $newOrder,
+    ]);
+
+    // Create the quiz and associate it with the item
+    $quiz = Quiz::create([
+        'title' => $request->title,
+        'item_id' => $item->id,
+        'passing_score' => $request->passing_score,
+    ]);
+
+    // Save quiz questions
+    foreach ($request->questions as $index => $question) {
+        $answers = $request->question_types[$index] === 'short_answer' ? [] : $request->answers[$index];
+        $correctAnswers = $request->question_types[$index] === 'short_answer' ? $request->correct_answers[$index][0] : $request->correct_answers[$index];
+
+        QuizQuestion::create([
+            'quiz_id' => $quiz->id,
+            'question' => $question,
+            'type' => $request->question_types[$index],
+            'answer_options' => json_encode($answers),
+            'correct_answers' => json_encode($correctAnswers),
+        ]);
+    }
+
+    // Redirect back to the configure module page
+    return redirect()->route('admin.manage_page', ['id' => $chapterId])
+                    ->with('success', 'Quiz added successfully!');
+}
+
+// public function updateQuiz(Request $request, $id)
+// {
+//     $quiz = Quiz::find($id);
+
+//     $request->validate([
+//         'title' => 'required|string|max:255',
+//         'passing_score' => 'required|integer|min:0',
+//         'questions' => 'required|array',
+//         'questions.*' => 'required|string',
+//         'question_types' => 'required|array',
+//         'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
+//         'answers' => 'array',
+//         'answers.*' => 'array',
+//         'correct_answers' => 'required|array',
+//     ]);
+
+//     $quiz->title = $request->title;
+//     $quiz->passing_score = $request->passing_score;
+//     $quiz->save();
+
+//     QuizQuestion::where('quiz_id', $quiz->id)->delete();
+
+//     foreach ($request->questions as $index => $question) {
+//         $questionData = [
+//             'quiz_id' => $quiz->id,
+//             'question' => $question,
+//             'type' => $request->question_types[$index],
+//             'answer_options' => json_encode($request->answers[$index]),
+//         ];
+
+//         if ($request->question_types[$index] == 'multiple_choice') {
+//             $questionData['correct_answers'] = json_encode($request->correct_answers[$index]);
+//         } elseif ($request->question_types[$index] == 'checkbox') {
+//             $questionData['correct_answers'] = json_encode($request->correct_answers[$index]);
+//         } else {
+//             $questionData['correct_answers'] = json_encode($request->correct_answers[$index][0]);
+//         }
+
+//         QuizQuestion::create($questionData);
+//     }
+
+//     return redirect()->route('admin.edit_page', ['id' => $quiz->item_id])->with('success', 'Quiz updated successfully');
+// }
+
+public function updateQuiz(Request $request, $id)
+{
+    $quiz = Quiz::find($id);
+
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'passing_score' => 'required|integer|min:0',
+        'questions' => 'required|array',
+        'questions.*' => 'required|string',
+        'question_types' => 'required|array',
+        'question_types.*' => 'required|string|in:multiple_choice,short_answer,checkbox',
+        'answers' => 'array',
+        'answers.*' => 'array',
+        'correct_answers' => 'required|array',
+    ]);
+
+    $quiz->title = $request->title;
+    $quiz->passing_score = $request->passing_score;
+    $quiz->save();
+
+    // Fetch existing questions to update or delete
+    $existingQuestions = QuizQuestion::where('quiz_id', $quiz->id)->get();
+    $existingQuestionIds = $existingQuestions->pluck('id')->toArray();
+
+    foreach ($request->questions as $index => $question) {
+        $questionData = [
+            'quiz_id' => $quiz->id,
+            'question' => $question,
+            'type' => $request->question_types[$index],
+            'answer_options' => json_encode($request->answers[$index] ?? []), // Use an empty array if answers are not set
+        ];
+
+        if ($request->question_types[$index] == 'multiple_choice') {
+            $questionData['correct_answers'] = json_encode($request->correct_answers[$index] ?? []);
+        } elseif ($request->question_types[$index] == 'checkbox') {
+            $questionData['correct_answers'] = json_encode($request->correct_answers[$index] ?? []);
+        } else {
+            $questionData['correct_answers'] = json_encode($request->correct_answers[$index][0] ?? '');
+        }
+
+        // Update or create the question
+        if (isset($existingQuestionIds[$index])) {
+            QuizQuestion::where('id', $existingQuestionIds[$index])->update($questionData);
+        } else {
+            QuizQuestion::create($questionData);
+        }
+    }
+
+    // Delete any remaining old questions that were not updated
+    $updatedQuestionIds = array_slice($existingQuestionIds, 0, count($request->questions));
+    QuizQuestion::where('quiz_id', $quiz->id)->whereNotIn('id', $updatedQuestionIds)->delete();
+
+    return redirect()->route('admin.edit_page', ['id' => $quiz->item_id])->with('success', 'Quiz updated successfully');
+}
+
+
+
+    // public function editPage($id)
+    // {
+    //     $page = Item::find($id);
+    //     $pdfAttachments = json_decode($page->pdf_attachments, true) ?? [];
+    //     return view('admin.edit-page', compact('page', 'pdfAttachments'));
+    // }
+
     public function editPage($id)
-    {
-        $page = Item::find($id);
+{
+    $page = Item::find($id);
+
+    // Check if the item is a quiz
+    $quiz = Quiz::where('item_id', $id)->first();
+
+    if ($quiz) {
+        // Fetch the quiz questions
+        $quizQuestions = QuizQuestion::where('quiz_id', $quiz->id)->get();
+        return view('admin.edit-quiz', compact('quiz', 'quizQuestions'));
+    } else {
         $pdfAttachments = json_decode($page->pdf_attachments, true) ?? [];
         return view('admin.edit-page', compact('page', 'pdfAttachments'));
     }
+}
+
+
 
     public function editPagePost(Request $request, $id)
     {
@@ -345,7 +524,14 @@ class ModuleController extends Controller
         $pdfAttachments = json_decode($viewpage->pdf_attachments, true);
         $pages = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
 
-        return view('admin.view-page', compact('viewpage', 'chapter', 'module', 'chapters', 'pages','pdfAttachments'));
+         // Check if the item has an associated quiz
+        $quiz = Quiz::where('item_id', $id)->first();
+        $quizQuestions = null;
+        if ($quiz) {
+            $quizQuestions = QuizQuestion::where('quiz_id', $quiz->id)->get();
+        }
+
+        return view('admin.view-page', compact('viewpage', 'chapter', 'module', 'chapters', 'pages', 'pdfAttachments', 'quiz', 'quizQuestions'));
 
     }
 

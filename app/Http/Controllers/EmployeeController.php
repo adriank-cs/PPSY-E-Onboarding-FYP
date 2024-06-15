@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Quiz;
+use App\Models\QuizQuestion;
 use App\Models\Profile;
 use App\Models\Item;
 use App\Models\ItemProgress;
@@ -15,7 +17,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 
 class EmployeeController extends Controller {
@@ -180,8 +183,20 @@ public function myModules()
         }
     }
 
-    public function viewPage($itemId)
-    {
+    // public function viewPage($itemId)
+    // {
+    //     $item = Item::findOrFail($itemId);
+    //     $module = $item->chapter->module;
+    //     $chapters = Chapter::where('module_id', $module->id)->get();
+    //     //$items = Item::whereIn('chapter_id', $chapters->pluck('id'))->get()->groupBy('chapter_id');
+    //     $items = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
+    //     $pdfAttachments = json_decode($item->pdf_attachments, true);
+
+    //     return view('employee.view-page', compact('module', 'chapters', 'items', 'item','pdfAttachments'));
+    // }
+
+    public function viewPage($itemId){
+
         $item = Item::findOrFail($itemId);
         $module = $item->chapter->module;
         $chapters = Chapter::where('module_id', $module->id)->get();
@@ -189,7 +204,15 @@ public function myModules()
         $items = Item::whereIn('chapter_id', $chapters->pluck('id'))->orderBy('order')->get()->groupBy('chapter_id');
         $pdfAttachments = json_decode($item->pdf_attachments, true);
 
-        return view('employee.view-page', compact('module', 'chapters', 'items', 'item','pdfAttachments'));
+         // Check if the item has an associated quiz
+        $quiz = Quiz::where('item_id', $itemId)->first();
+        $quizQuestions = null;
+        if ($quiz) {
+            $quizQuestions = QuizQuestion::where('quiz_id', $quiz->id)->get();
+        }
+
+        return view('employee.view-page', compact('module', 'chapters', 'items', 'item','pdfAttachments', 'quiz', 'quizQuestions'));
+
     }
 
     protected function ensureAllItemProgressRecordsExist($userId, $companyId, $moduleId)
@@ -245,6 +268,108 @@ public function myModules()
             }
         }
     }
+
+//     public function submitQuiz(Request $request, $quizId)
+// {
+//     $quiz = Quiz::find($quizId);
+//     $questions = $quiz->questions;
+
+//     $score = 0;
+//     $feedback = [];
+
+//     foreach ($questions as $question) {
+//         $correctAnswers = json_decode($question->correct_answers, true);
+//         $userAnswer = $request->input('answers.' . $question->id);
+//         $isCorrect = false;
+
+//         if ($question->type == 'multiple_choice' || $question->type == 'checkbox') {
+//             if ($userAnswer == $correctAnswers || (is_array($userAnswer) && !array_diff($userAnswer, $correctAnswers) && !array_diff($correctAnswers, $userAnswer))) {
+//                 $isCorrect = true;
+//                 $score++;
+//             }
+//         } elseif ($question->type == 'short_answer') {
+//             // Create a regular expression to check for the full correct answer as a whole word
+
+//             $pattern = '/\b' . preg_quote($correctAnswers, '/') . '\b/i';
+        
+//             if (preg_match($pattern, $userAnswer)) {
+//                 $score++;
+//                 $isCorrect = true;
+//             }
+//         }
+
+//         $feedback[] = [
+//             'questionId' => $question->id,
+//             'isCorrect' => $isCorrect
+//         ];
+//     }
+
+//     $passed = $score >= $quiz->passing_score;
+
+//     if ($passed) {
+//         $request->merge(['itemId' => $quiz->item_id]);
+//         return $this->markCompleted($request, $quiz->item_id)->with('feedback', $feedback)->with('passed', $passed);
+//     } else {
+//         return response()->json([
+//             'feedback' => $feedback,
+//             'passed' => $passed
+//         ]);
+//     }
+// }
+
+public function submitQuiz(Request $request, $quizId)
+{
+    $quiz = Quiz::find($quizId);
+    $questions = $quiz->questions;
+
+    $score = 0;
+    $feedback = [];
+
+    foreach ($questions as $question) {
+        $correctAnswers = json_decode($question->correct_answers, true);
+        $userAnswer = $request->input('answers.' . $question->id);
+        $isCorrect = false;
+
+        if ($question->type == 'multiple_choice' || $question->type == 'checkbox') {
+            if ($userAnswer == $correctAnswers || (is_array($userAnswer) && !array_diff($userAnswer, $correctAnswers) && !array_diff($correctAnswers, $userAnswer))) {
+                $isCorrect = true;
+                $score++;
+            }
+        } elseif ($question->type == 'short_answer') {
+            $pattern = '/\b' . preg_quote($correctAnswers, '/') . '\b/i';
+            if (preg_match($pattern, $userAnswer)) {
+                $score++;
+                $isCorrect = true;
+            }
+        }
+
+        $feedback[] = [
+            'questionId' => $question->id,
+            'isCorrect' => $isCorrect
+        ];
+    }
+
+    $passed = $score >= $quiz->passing_score;
+
+    if ($passed) {
+        $request->merge(['itemId' => $quiz->item_id]);
+        $markCompletedResponse = $this->markCompleted($request, $quiz->item_id);
+
+        if ($markCompletedResponse instanceof \Illuminate\Http\JsonResponse) {
+            $markCompletedData = $markCompletedResponse->getData(true);
+            $markCompletedData['feedback'] = $feedback;
+            $markCompletedData['passed'] = $passed;
+            return response()->json($markCompletedData);
+        } else {
+            return $markCompletedResponse->with(['feedback' => $feedback, 'passed' => $passed]);
+        }
+    } else {
+        return response()->json([
+            'feedback' => $feedback,
+            'passed' => $passed
+        ]);
+    }
+}
 
     public function markCompleted(Request $request, $itemId)
 {

@@ -97,7 +97,7 @@ return new class extends Migration
         //ITEM
         Schema::table('item', function (Blueprint $table) {
             // Foreign key relationship with the chapters table
-            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');            
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');        
         });
 
         //ASSIGNED MODULE
@@ -133,6 +133,11 @@ return new class extends Migration
         Schema::table('user_session', function (Blueprint $table) {
             // Foreign key relationship with the company users table
             $table->foreign('UserID')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::table('quizzes', function (Blueprint $table) {
+            // Foreign key relationship with the company users table
+            $table->foreign('item_id')->references('id')->on('item')->onDelete('cascade');
         });
 
     }
