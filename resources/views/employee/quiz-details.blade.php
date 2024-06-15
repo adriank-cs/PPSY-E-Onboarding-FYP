@@ -5,7 +5,6 @@
     <h1><span style="font-size: 2.5rem;">{{ $quiz->title }}</span></h1>
     <h4>Attempt: {{ $attempts }}/{{ $quiz->attempt_limit }}</h4>
 
-    <!-- Add by aifei for quiz attemp -->
     @if(session()->has('error'))
         <div class="alert alert-danger">
             {{ session()->get('error') }}
@@ -24,13 +23,10 @@
         </div>
     @endif
 
-<form action="{{ route('quizzes.submit-answers', $quiz->id) }}" method="POST">
+    <form action="{{ route('quizzes.submit-answers', $quiz->id) }}" method="POST">
         @csrf
 
-        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
-            aria-hidden="true">
-        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -42,68 +38,60 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
-                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
+                        <button type="submit" class="btn btn-primary">Confirm Submit</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <?php
-$questionCount = 1; // Initialize counter for question number
-$questionCount = 1; // Initialize counter for question number
-        ?>
+        <?php $questionCount = 1; ?>
 
         @foreach ($quiz->questions as $question)
             <div class="mb-3">
-                @if ($question->type === 'multiple_choice')
-                    <label class="form-check-label" for="question-{{ $question->id }}" class="form-label"
-                        style="margin-top: 2%; margin-bottom: 2%">
-                        <strong><span
-                                style="font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">{{ $questionCount++ }}
-                                : {{ $question->question }}</span></strong>
+                @if ($question->type == 'multiple_choice')
+                    <label for="question-{{ $question->id }}" class="form-label" style="margin-top: 2%; margin-bottom: 2%">
+                        <strong><span style="font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">
+                            {{ $questionCount++ }} : {{ $question->question }}</span></strong>
                     </label>
                     <div>
                         <p>Your answer:</p>
                         @foreach (json_decode($question->answer_options) as $optionIndex => $optionText)
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input"
-                                    id="question-{{ $question->id }}-option{{ $optionIndex + 1 }}"
-                                    name="answers[{{ $question->id }}]" value="{{ $optionText }}" {{ $attempts >= $quiz->attempt_limit ? 'readonly' : '' }}
-                                    {{ isset($userResponses[$question->id]) && $userResponses[$question->id]->answer === $optionText ? 'checked' : '' }}>
-                                <label class="form-check-label"
-                                    for="question-{{ $question->id }}-option{{ $optionIndex + 1 }}">{{ $optionText }}</label>
+                            <div class="form-check answer-option {{ isset($correctAnswers[$question->id]) && in_array(json_decode($question->answer_option_id)[$optionIndex], $correctAnswers[$question->id]) ? 'correct' : '' }}">
+                                <input type="radio" class="form-check-input" id="question-{{ $question->id }}-option{{ $optionIndex + 1 }}"
+                                       name="answers[{{ $question->id }}]" value="{{ $optionText }}"
+                                       {{ $attempts >= $quiz->attempt_limit ? 'disabled' : '' }}
+                                       {{ isset($userResponses[$question->id]) && $userResponses[$question->id]->answer === $optionText ? 'checked' : '' }}>
+                                <label class="form-check-label" for="question-{{ $question->id }}-option{{ $optionIndex + 1 }}">{{ $optionText }}</label>
                             </div>
                         @endforeach
                     </div>
-                @elseif ($question->type === 'short_answer')
-                    <label class="form-check-label" for="question-{{ $question->id }}" class="form-label"
-                        style="margin-top: 2%; margin-bottom: 1%; font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">
+                @elseif ($question->type == 'short_answer')
+                    <label for="question-{{ $question->id }}" class="form-label" style="margin-top: 2%; margin-bottom: 1%; font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">
                         <strong>{{ $questionCount++ }} : {{ $question->question }} </strong>
                     </label>
                     <div>
                         <p>Your answer:</p>
                         <textarea class="form-control" id="question-{{ $question->id }}" name="answers[{{ $question->id }}]"
-                            rows="3" {{ $attempts >= $quiz->attempt_limit ? 'readonly' : '' }}>{{ $userResponses[$question->id]->answer ?? '' }}</textarea>
+                                  rows="3" {{ $attempts >= $quiz->attempt_limit ? 'readonly' : '' }}>{{ $userResponses[$question->id]->answer ?? '' }}</textarea>
+                        @if($attempts >= $quiz->attempt_limit && isset($correctAnswers[$question->id][0]))
+                            <p>Correct answer:</p>
+                            <textarea class="form-control mt-2 correct-answer" rows="3" readonly>{{ $correctAnswers[$question->id][0] }}</textarea>
+                        @endif
                     </div>
-                @elseif ($question->type === 'checkbox')
-                    <label class="form-check-label" for="question-{{ $question->id }}" class="form-label"
-                        style="margin-top: 2%; margin-bottom: 2%;">
-                        <strong><span
-                                style="font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">{{ $questionCount++ }}
-                                : {{ $question->question }}</span></strong>
+                @elseif ($question->type == 'checkbox')
+                    <label for="question-{{ $question->id }}" class="form-label" style="margin-top: 2%; margin-bottom: 2%;">
+                        <strong><span style="font-size: 1.2rem; background-color: #6A1043; color: white; padding: 5px 20px; border-radius: 5px;">
+                            {{ $questionCount++ }} : {{ $question->question }}</span></strong>
                     </label>
                     <div>
                         <p>Your answer:</p>
                         @foreach (json_decode($question->answer_options) as $optionIndex => $optionText)
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input"
-                                    id="question-{{ $question->id }}-option{{ $optionIndex + 1 }}"
-                                    name="answers[{{ $question->id }}][]" value="{{ $optionText }}" {{ $attempts >= $quiz->attempt_limit ? 'readonly' : '' }} {{ isset($userResponses[$question->id]) && in_array($optionText, $userResponses[$question->id]->answer ?? []) ? 'checked' : '' }}>
-                                <label class="form-check-label"
-                                    for="question-{{ $question->id }}-option{{ $optionIndex + 1 }}">{{ $optionText }}</label>
+                            <div class="form-check answer-option {{ isset($correctAnswers[$question->id]) && in_array(json_decode($question->answer_option_id)[$optionIndex], $correctAnswers[$question->id]) ? 'correct' : '' }}">
+                                <input type="checkbox" class="form-check-input" id="question-{{ $question->id }}-option{{ $optionIndex + 1 }}"
+                                       name="answers[{{ $question->id }}][]" value="{{ $optionText }}"
+                                       {{ $attempts >= $quiz->attempt_limit ? 'disabled' : '' }}
+                                       {{ isset($userResponses[$question->id]) && in_array($optionText, is_array($userResponses[$question->id]->answer) ? $userResponses[$question->id]->answer : json_decode($userResponses[$question->id]->answer, true) ?? []) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="question-{{ $question->id }}-option{{ $optionIndex + 1 }}">{{ $optionText }}</label>
                             </div>
                         @endforeach
                     </div>
@@ -111,52 +99,40 @@ $questionCount = 1; // Initialize counter for question number
             </div>
         @endforeach
 
-
         @if($attempts < $quiz->attempt_limit)
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#confirmationModal">Submit Answers</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Submit Answers</button>
         @endif
     </form>
     <br>
-
 </div>
 
 <style>
     .form-check-input {
         transform: scale(1.1);
-        /* Adjust scale to make checkbox smaller */
         margin-right: 10px;
         position: relative;
         border: 1px solid #b8bdc2;
-        /* Set the checkbox border color */
     }
-
     .form-check {
         display: flex;
         align-items: center;
     }
-</style>
-
-<style>
-    .form-check-input {
-        transform: scale(1.1);
-        /* Adjust scale to make checkbox smaller */
-        margin-right: 10px;
-        position: relative;
-        border: 1px solid #b8bdc2;
-        /* Set the checkbox border color */
+    .answer-option.correct {
+        background-color: #28a745;
+        border-radius: 5px;
+        color: white;
     }
-
-    .form-check {
-        display: flex;
-        align-items: center;
+    .correct-answer {
+        background-color: #28a745;
+        border-radius: 5px;
+        color: white;
     }
 </style>
 
 <script>
     $(document).ready(function () {
         $('#submitAnswers').click(function () {
-            submitAnswers(); // Call the submitAnswers function here
+            submitAnswers();
         });
     });
 
@@ -191,7 +167,6 @@ $questionCount = 1; // Initialize counter for question number
             url: "{{ route('quizzes.get-details', $quiz->id) }}",
             method: "GET",
             success: function (response) {
-                console.log("Quiz details retrieved successfully!");
                 updateQuizDisplay(response, preventResubmission);
             },
             error: function (jqXHR, textStatus, errorThrown) {

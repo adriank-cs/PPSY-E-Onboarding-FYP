@@ -14,7 +14,8 @@ class UserResponse extends Model
     protected $fillable = [
         'user_id',
         'quiz_question_id',
-        'answer', // Add answer field to store user's response
+        'answer', 
+        'user_answer_option_id'// Add answer field to store user's response
     ];
 
 
