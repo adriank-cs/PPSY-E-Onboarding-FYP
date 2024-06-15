@@ -20338,7 +20338,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #6c2147;
+    background-color: var(--bs-secondary);
     /* Background color for the title bar */
     padding: 15px 10px 10px 10px;
     border-radius: 10px 10px 0 0;
@@ -20715,4 +20715,8 @@ i.ti.colleague-details-email{
     .profile-picture-leaderboard {
         margin-bottom: 10px;
     }
+}
+
+button.btn.btn-primary.add-option-btn{
+    margin-top:10px;
 }
