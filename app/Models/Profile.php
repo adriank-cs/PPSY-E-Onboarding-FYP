@@ -32,6 +32,7 @@ class Profile extends Model
         'phone_no',
         'address',
         'profile_picture',
+        'subscription_ends_at', //Added by Alda for Subscription Status
     ];
 
     // Accessor to get the full URL of the profile picture

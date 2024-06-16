@@ -23,23 +23,34 @@
     </div>
     <br>
     @foreach($profiles as $profile)
-    <div class="col-md-12 profile-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h5 class="card-title">{{ $profile->name }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ $profile->employee_id }}</h6>
-                    </div>
-                    <div class="col-md-2">
-                        <a href="{{ route('admin.edit_account', ['id' => $profile->user_id]) }}"
-                            class="card-link">Edit</a>
-                            <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_account', ['id' => $profile->user_id]) }}')">Delete</a>
+        <div class="col-md-12 profile-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5 class="card-title">{{ $profile->name }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ $profile->employee_id }}</h6>
+                            
+                            <!-- Added by Alda for Subscription Status -->
+                            @php
+                                $currentDate = \Carbon\Carbon::now();
+                                $expiryDate = \Carbon\Carbon::parse($profile->subscription_ends_at);
+                                $status = $currentDate->lessThanOrEqualTo($expiryDate) ? 'Valid' : 'Invalid';
+                            @endphp
+                            <p class="text-muted">Subscription Status: <strong>{{ $status }}</strong></p>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <a href="{{ route('admin.edit_account', ['id' => $profile->user_id]) }}"
+                                class="card-link">Edit</a>
+                            <a href="#" class="card-link"
+                                onclick="confirmDelete('{{ route('admin.delete_account', ['id' => $profile->user_id]) }}')">Delete</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endforeach
 
 </div>

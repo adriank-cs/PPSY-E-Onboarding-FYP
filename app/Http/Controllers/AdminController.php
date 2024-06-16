@@ -52,6 +52,7 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'profilePicture' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'subscription_ends_at' => 'nullable|date', //Added by Alda for Subscription Status
         ]);
 
         // Create a new user record
@@ -88,6 +89,7 @@ class AdminController extends Controller
                 'bio' => $request->input('bio'),
                 'phone_no' => $request->input('phoneNo'),
                 'address' => $request->input('address'),
+                'subscription_ends_at' => $request->input('subscription_ends_at'), //Added by Alda for Subscription Status
             ]);
 
             $user->profile()->update(['profile_picture' => $profilePicturePath]);
@@ -176,6 +178,7 @@ class AdminController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'subscription_ends_at' => 'nullable|date', //Added by Alda for Subscription Status
         ]);
 
         $user = User::find($id);
@@ -197,6 +200,7 @@ class AdminController extends Controller
             'position' => $request->input('position'),
             'age' => $request->input('age'),
             'bio' => $request->input('bio'),
+            'subscription_ends_at' => $request->input('subscription_ends_at'), //Added by Alda for Subscription Status
         ]);
 
         if ($request->hasFile('profilePicture')) {
@@ -275,6 +279,4 @@ class AdminController extends Controller
 
         //return response()->json(['location' => asset('storage/' . $path)]);
     }
-}
-
 }

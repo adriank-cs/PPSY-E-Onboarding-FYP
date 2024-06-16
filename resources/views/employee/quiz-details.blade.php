@@ -44,15 +44,12 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
                             data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
-                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#confirmationModal" data-prevent-resubmission>Confirm Submit</button>
                     </div>
                 </div>
             </div>
         </div>
 
         <?php
-$questionCount = 1; // Initialize counter for question number
 $questionCount = 1; // Initialize counter for question number
         ?>
 
