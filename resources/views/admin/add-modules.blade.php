@@ -67,7 +67,7 @@
                 </div>
                 <div class="page-content">
                     <input type="file" class="form-control" id="image" name="image" required>
-                    <button type="button" class="btn btn-secondary" id="clearImageButton">Clear Image</button>
+                    <button type="button" class="btn btn-primary" id="clearImageButton">Clear Image</button>
                     <img id="cropped-image-preview" style="display: none; max-width: 100%; margin-top: 10px;">
                     <input type="hidden" id="croppedImage" name="croppedImage">
                 </div>
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelButton" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cancelButton" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="cropButton">Crop</button>
             </div>
         </div>

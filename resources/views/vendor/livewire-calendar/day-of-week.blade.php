@@ -1,7 +1,7 @@
-<div class="flex-1 h-12 border border-transparent rounded-lg -mt-px -ml-px flex items-center justify-center bg-primary text-light fw-bold"
+<div class="tw-flex-1 tw-h-12 tw-border tw-border-transparent tw-rounded-lg -tw-mt-px -tw-ml-px tw-flex tw-items-center tw-justify-center bg-primary text-light fw-bold"
      style="min-width: 10rem;">
 
-    <p class="text-base">
+    <p class="tw-text-base">
         {{ $day->format('l') }}
     </p>
 

@@ -2,12 +2,12 @@
     @if($eventClickEnabled)
         wire:click.stop="onEventClick('{{ $event['id']  }}')"
     @endif
-    class="bg-white rounded-lg border py-2 px-2 shadow-md cursor-pointer">
+    class="tw-bg-white tw-rounded-lg tw-border tw-py-2 tw-px-2 tw-shadow-md tw-cursor-pointer">
 
-    <p class="text-sm font-medium">
+    <p class="tw-text-sm tw-font-medium">
         {{ $event['title'] }}
     </p>
-    <p class="mt-2 text-xs">
+    <p class="tw-mt-2 tw-text-xs">
         {{ $event['description'] ?? 'No description' }}
     </p>
 </div>

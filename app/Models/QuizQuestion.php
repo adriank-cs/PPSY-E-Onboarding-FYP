@@ -15,6 +15,7 @@ class QuizQuestion extends Model
         'question',
         'type',
         'answer_options',
+        'correct_answers',
     ];
 
     protected $casts = [
@@ -23,11 +24,6 @@ class QuizQuestion extends Model
     public function quiz()
     {
         return $this->belongsTo(Quiz::class); // Define relationship with modules table
-    }
-    public function userResponses()
-    {
-        // Define the relationship with user_responses table:
-        return $this->hasMany(UserResponse::class);
     }
 
 }

@@ -56,10 +56,10 @@ Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('adm
 Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
 
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
     // Common authenticated user routes (both admin and employee)
 
-    Route::middleware(['check.subscription'])->group(function () {
+    //Route::middleware(['check.subscription'])->group(function () {
 
         Route::middleware(['admin'])->group(function () {
             // Routes specific to admin
@@ -87,43 +87,63 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapterPost'])->name('admin.edit_chapter.post');
             Route::get('/admin/delete_chapter/{id}', [ModuleController::class, 'deleteChapter'])->name('admin.delete_chapter');
 
-            Route::get('/admin/manage-page/{id}', [ModuleController::class, 'managePage'])->name('admin.manage_page');
-            Route::get('/admin/add-page/{chapterId}', [ModuleController::class, 'add_page'])->name('admin.add_page');
-            Route::post('/admin/add-page/{chapterId}', [ModuleController::class, 'add_pagePost'])->name('admin.add_page.post');
-            Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
-            Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
-            Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
-            Route::post('admin/update_page_order', [ModuleController::class, 'updatePageOrder'])->name('admin.update_page_order');
+        Route::get('/admin/manage-page/{id}', [ModuleController::class, 'managePage'])->name('admin.manage_page');
+        Route::get('/admin/add-page/{chapterId}', [ModuleController::class, 'add_page'])->name('admin.add_page');
+        Route::post('/admin/add-page/{chapterId}', [ModuleController::class, 'add_pagePost'])->name('admin.add_page.post');
+        Route::get('/admin/edit-page/{id}', [ModuleController::class, 'editPage'])->name('admin.edit_page');
+        Route::post('/admin/edit-page/{id}', [ModuleController::class, 'editPagePost'])->name('admin.edit_page.post');
+        Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
+        Route::post('admin/update_page_order', [ModuleController::class, 'updatePageOrder'])->name('admin.update_page_order');
 
-            Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
+        //Quiz
+        Route::post('/admin/create_quiz/{chapterId}', [ModuleController::class, 'add_quizPost'])->name('admin.create_quiz.post');
+        Route::post('/admin/update-quiz/{id}', [ModuleController::class, 'updateQuiz'])->name('admin.update_quiz');
 
-            Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
-            Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
 
-            Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
+        Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
+        Route::post('admin/next-page/{itemId}', [ModuleController::class, 'nextPage'])->name('admin.next_page');   
 
-            //DISCUSSION
-            Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts on the homepage
-            Route::get('/admin/discussion/create-post', [PostController::class, 'typeOwn'])->name('admin.create-post'); // Display the form for creating a new post
-            Route::post('/admin/discussion/create-post', [PostController::class, 'createPost'])->name('admin.createPost'); // Handle the submission of a new post
-            Route::post('/admin/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('admin.submitAnswer'); // Handle the submission of a new answer to a post
-            Route::get('/admin/check-post', [PostController::class, 'checkPostedQuestions'])->name('admin.check-post'); // Display posts based on a filter (all posts or my questions)
-            Route::get('/admin/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('admin.postDisplay'); // Display a specific post along with its answers
-            Route::get('/admin/discussion/delete-post/{PostID}', [PostController::class, 'deletePost'])->name('admin.deletePost'); // Handle the deletion of a post
-            Route::get('/admin/discussion/view-history/{PostID}', [PostController::class, 'viewHistory'])->name('admin.viewHistory'); // View the history of a specific post
-            Route::get('/admin/discussion/edit-post/{PostID}', [PostController::class, 'editPost'])->name('admin.editPost'); // Display the form for editing a specific post
-            Route::post('/admin/discussion/update-post/{PostID}', [PostController::class, 'updatePost'])->name('admin.updatePost'); // Handle the update of a specific post
-            Route::get('/admin/discussion/edit-answer/{AnswerID}', [PostController::class, 'editAnswer'])->name('admin.editAnswer'); // Display the form for editing a specific answer
-            Route::post('/admin/discussion/update-answer/{AnswerID}', [PostController::class, 'updateAnswer'])->name('admin.updateAnswer'); // Handle the update of a specific answer
-            Route::get('/admin/discussion/delete-answer/{AnswerID}', [PostController::class, 'deleteAnswer'])->name('admin.deleteAnswer'); // Handle the deletion of a specific answer
-            Route::get('/admin/discussion/answer-history/{AnswerID}', [PostController::class, 'viewAnswerHistory'])->name('admin.viewAnswerHistory');
+        Route::get('/admin/assign-module/{id}', [ModuleController::class, 'assignModule'])->name('admin.assign_module');
+        Route::post('/admin/assign-module/', [ModuleController::class, 'assignModulePost'])->name('admin.assign_module.post');
+        Route::get('admin/unassign_module/{id}', [ModuleController::class, 'unassignModule'])->name('admin.unassign_module');
+        Route::post('/admin/unassign-module/', [ModuleController::class, 'unassignModulePost'])->name('admin.unassign_module.post');
+        Route::get('admin/configure-duedate/{id}', [ModuleController::class, 'configureDueDate'])->name('admin.configure_duedate');
+        Route::post('/admin/configure-duedate/', [ModuleController::class, 'configureDueDatePost'])->name('admin.configure_duedate.post');
+        Route::get('/admin/get-due-date/{moduleId}/{userId}', [ModuleController::class, 'getDueDate'])->name('admin.get_due_date');
 
-            //TEST ACTIONS
-            Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
+        Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
+        
+        Route::get('/admin/find-colleagues', [AdminController::class, 'findColleagues'])->name('admin.find_colleagues');
+        Route::get('/admin/colleague-details/{id}', [AdminController::class, 'colleagueDetails'])->name('admin.colleague_details');
 
-            //TODO: REMOVE TEST ACTIONS
-            Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
-        });
+
+        //DISCUSSION
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts on the homepage
+        Route::get('/admin/discussion/create-post', [PostController::class, 'typeOwn'])->name('admin.create-post'); // Display the form for creating a new post
+        Route::post('/admin/discussion/create-post', [PostController::class, 'createPost'])->name('admin.createPost'); // Handle the submission of a new post
+        Route::post('/admin/discussion/submit-answer/{PostID}', [PostController::class, 'submitAnswer'])->name('admin.submitAnswer'); // Handle the submission of a new answer to a post
+        Route::get('/admin/check-post', [PostController::class, 'checkPostedQuestions'])->name('admin.check-post'); // Display posts based on a filter (all posts or my questions)
+        Route::get('/admin/discussion/post/{PostID}', [PostController::class, 'postDisplay'])->name('admin.postDisplay'); // Display a specific post along with its answers
+        Route::get('/admin/discussion/delete-post/{PostID}', [PostController::class, 'deletePost'])->name('admin.deletePost'); // Handle the deletion of a post
+        Route::get('/admin/discussion/view-history/{PostID}', [PostController::class, 'viewHistory'])->name('admin.viewHistory'); // View the history of a specific post
+        Route::get('/admin/discussion/edit-post/{PostID}', [PostController::class, 'editPost'])->name('admin.editPost'); // Display the form for editing a specific post
+        Route::post('/admin/discussion/update-post/{PostID}', [PostController::class, 'updatePost'])->name('admin.updatePost'); // Handle the update of a specific post
+        Route::get('/admin/discussion/edit-answer/{AnswerID}', [PostController::class, 'editAnswer'])->name('admin.editAnswer'); // Display the form for editing a specific answer
+        Route::post('/admin/discussion/update-answer/{AnswerID}', [PostController::class, 'updateAnswer'])->name('admin.updateAnswer'); // Handle the update of a specific answer
+        Route::get('/admin/discussion/delete-answer/{AnswerID}', [PostController::class, 'deleteAnswer'])->name('admin.deleteAnswer'); // Handle the deletion of a specific answer
+        Route::get('/admin/discussion/answer-history/{AnswerID}', [PostController::class, 'viewAnswerHistory'])->name('admin.viewAnswerHistory'); // View the history of a specific answer
+        Route::get('/admin/discussion/search', [PostController::class, 'search'])->name('admin.search');
+
+
+        //TEST ACTIONS
+        Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
+        
+        //TODO: REMOVE TEST ACTIONS
+        Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
+
+        Route::get('/admin/leaderboard', [AdminController::class, 'leaderboard'])->name('admin.leaderboard');
+
+    });
 
         Route::middleware(['employee'])->group(function () {
             // Routes specific to employee
@@ -148,11 +168,31 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
             Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
 
-            Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
+        // Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
+        // Route::get('/employee/view-module/{id}', [EmployeeController::class, 'viewModule'])->name('employee.view_module');
+        Route::get('/employee/my-modules', [EmployeeController::class, 'myModules'])->name('employee.my_modules');
 
-            Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
+        Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
+        
+        
+        
+        Route::middleware(['ensure.quiz.completed'])->group(function () {
             Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
         });
+
+        Route::post('employee/mark-completed/{itemId}', [EmployeeController::class, 'markCompleted'])->name('employee.mark_completed');
+        // Define the route for the module completion page
+        Route::get('employee/module-complete/{moduleId}', [EmployeeController::class, 'moduleComplete'])->name('employee.module_complete');
+
+        Route::post('employee/submit-quiz/{quizId}', [EmployeeController::class, 'submitQuiz'])->name('employee.submit_quiz');
+
+        Route::get('employee/find-colleagues', [EmployeeController::class, 'findColleagues'])->name('employee.find_colleagues');
+        Route::get('employee/colleague-details/{id}', [EmployeeController::class, 'colleagueDetails'])->name('employee.colleague_details');
+
+        Route::get('/employee/leaderboard', [EmployeeController::class, 'leaderboard'])->name('employee.leaderboard');
+        
+
+    });
 
         Route::middleware(['superadmin'])->group(function () {
             // Routes specific to superadmin
@@ -174,21 +214,39 @@ Route::middleware(['web', 'auth'])->group(function () {
     });
 });
 
-    //Quiz Routes
-    Route::resource('quizzes', QuizController::class);
-    Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
-    Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
-    Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
-    Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
-    Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
-    //add by aifei
-    Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
+//Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
+//Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
 
-    // Quiz for Admin
-    Route::get('/admin/onboarding-quiz', [QuizController::class, 'adminViewQuiz'])->name('admin.onboarding-quiz');
-    //Route::get('/quizzes/{quiz}/edit-quiz', [QuizController::class, 'show'])->name('quizzes.show');
-    Route::get('quizzes/{quiz}/edit', [QuizController::class, 'editQuiz'])->name('quizzes.edit');
-    Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizzes.update');
-    // Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
-    Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
 
+// //Quiz Routes
+// Route::resource('quizzes', QuizController::class);
+// Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
+
+// Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+// Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+
+// //add by aifei
+// Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
+
+
+// Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
+
+// Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
+
+// // Quiz for Admin
+// Route::get('/admin/onboarding-quiz', [QuizController::class, 'adminViewQuiz'])->name('admin.onboarding-quiz');
+// //Route::get('/quizzes/{quiz}/edit-quiz', [QuizController::class, 'show'])->name('quizzes.show');
+// Route::get('quizzes/{quiz}/edit', [QuizController::class, 'editQuiz'])->name('quizzes.edit');
+// Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizzes.update');
+// // Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
+// Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
+
+// //Route::get('/quizzes', [QuizController::class, 'adminViewQuiz'])->name('admin.view-quiz-list');
+// Route::get('/view-quiz-list', [QuizController::class, 'viewQuizList'])->name('admin.view-quiz-list');  // Correct route
+
+// // Route for viewing answered employees
+// Route::get('/quizzes/{quiz}/answered-employees', [QuizController::class, 'viewAnsweredEmployees'])->name('admin.employee-list');
+
+// // Route for viewing quiz answers (you may need to implement this if not already done)
+// Route::get('/quizzes/{quiz}/employee/{employee}/answers', [QuizController::class, 'viewQuizAnswer'])->name('admin.view-quiz-answer');
+// Route::post('/quizzes/{quiz}/answers/{employee}', [QuizController::class, 'updateQuizAnswer'])->name('admin.update-quiz-answer');

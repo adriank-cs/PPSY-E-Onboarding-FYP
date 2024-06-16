@@ -1,121 +1,157 @@
-@extends('employee-layout')
+@extends('admin-layout')
 
 @section('content')
+
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <div class="text-left">
-                <div class="row">
-                    <div class="col-md-3">
-                        <h1> Discussion </h1>
-                    </div>
-                </div>
-            </div>
-
-            <!-- entry box and search button -->
-            <br>
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-body">
-                        <form class="row align-items-center">
-                            <div class="col-md-9 mb-3">
-                                <label for="search" class="form-label"></label>
-                                <input type="text" id="search" name="search" placeholder="Type your questions here!" class="form-control">
-                            </div>
-                            <div class="col-md-3 mb-3 text-md-end">
-                                <!-- submit button for search -->
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    <i class="bi bi-search"></i> Search
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Answered questions header -->
-            <div class="row mt-3">
-                <div class="col-md-12 mb-3">
-                    <h1>Answered Questions</h1>
-                </div>
-            </div>
-
-            <!-- 2x2 cards for answered questions -->
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="card twoxtwo-gray-card">
-                        <div class="card-body">
-                            <!-- Card content goes here -->
-                            <h5 class="card-title">Question 1</h5>
-                            <p class="card-text">Answer 1</p>
-
-                            <!-- Additional Card content goes here -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nested Question 1</h5>
-                                    <p class="card-text">Nested Answer 1 with longer content.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="card twoxtwo-gray-card">
-                        <div class="card-body">
-                            <!-- Card content goes here -->
-                            <h5 class="card-title">Question 2</h5>
-                            <p class="card-text">Answer 2</p>
-
-                            <!-- Additional Card content goes here -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nested Question 2</h5>
-                                    <p class="card-text">Nested Answer 2</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="card twoxtwo-gray-card">
-                        <div class="card-body">
-                            <!-- Card content goes here -->
-                            <h5 class="card-title">Question 3</h5>
-                            <p class="card-text">Answer 3</p>
-
-                            <!-- Additional Card content goes here -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nested Question 3</h5>
-                                    <p class="card-text">Nested Answer 3</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="card twoxtwo-gray-card">
-                        <div class="card-body">
-                            <!-- Card content goes here -->
-                            <h5 class="card-title">Question 4</h5>
-                            <p class="card-text">Answer 4</p>
-
-                            <!-- Additional Card content goes here -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nested Question 4</h5>
-                                    <p class="card-text">Nested Answer 4</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="text-left">
+        <div class="row">
+            <div class="col-md-3">
+                <h1>Search Results</h1>
             </div>
         </div>
+    </div>
+
+    <!-- Entry box and search button -->
+    <br>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body text-center">
+                <div class="mb-2">Type to find already asked questions!</div>
+                <!-- Search form -->
+                <form method="GET" action="{{ route('admin.search') }}">
+                    <div class="input-group no-border justify-content-center">
+                        <input type="text" id="searchField" name="search" placeholder="Type your questions here!" class="form-control typeahead" style="max-width: 500px;">
+                        <button type="submit" class="btn btn-primary" id="search-button">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matching Questions header -->
+    <div class="row mt-3">
+        <div class="col-md-12 mb-3">
+            <h1>Matching Questions</h1>
+            <p>Here are the questions that match your search query.</p>
+        </div>
+    </div>
+    
+    <!-- Check if $searchResults exists and contains valid data -->
+    <div id="searchResultsContainer">
+        @if($searchResults->count() > 0)
+            <div class="row">
+                @foreach($searchResults as $post)
+                    <div class="col-md-6 mb-3 profile-card">
+                        <a href="{{ route('admin.postDisplay', ['PostID' => $post->PostID]) }}">
+                            <div class="card twoxtwo-gray-card border-gray">
+                                <div class="card-body">
+                                    @php $userId = $post->UserID; @endphp
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title truncate-text" style="width: 70%;">
+                                            <strong>Asked By:</strong> 
+                                            @if ($post->is_anonymous)
+                                                Your friendly colleague
+                                            @else
+                                                {{ isset($users[$userId]) ? $users[$userId] : 'Unknown User' }}
+                                            @endif
+                                        </h5>
+                                        <p class="text-muted" style="margin-left: auto;">{{ $post->created_at->format('F d, Y') }}</p>
+                                    </div>
+                                    <h5 class="card-title">
+                                        <strong>Question:</strong>
+                                        <span class="card-content">{{ $post->title }}</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="row">
+                <div class="col-md-12">
+                    <p>No posts found.</p>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 
 @endsection
+
+@push('styles')
+<style>
+    .truncate-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .twoxtwo-gray-card {
+        height: 100%;
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+
+    .card-content {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 3em;
+    }
+
+    .border-gray {
+        border-color: #ccc !important;
+    }
+
+    .autocomplete-results {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+        width: calc(100% - 38px);
+        margin-top: 10px;
+        display: none;
+    }
+
+    .autocomplete-item {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .autocomplete-item:hover {
+        background-color: #f4f4f4;
+    }
+
+    .no-border .input-group {
+        border: none;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+    }
+
+    .text-muted {
+        font-size: 0.9rem;
+        color: #6c757d !important;
+    }
+</style>
+@endpush
+
+@push('scripts')
+{{-- Remove JavaScript code related to live search --}}
+@endpush

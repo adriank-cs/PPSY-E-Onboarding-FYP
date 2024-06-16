@@ -13,7 +13,7 @@ use Spatie\Activitylog\LogOptions;
 
 class AssignedModule extends Model
 {
-    use HasFactory, SoftDeletes, HasCompositeKey, LogsActivity;
+    use HasFactory, HasCompositeKey;
 
     protected $table = 'assigned_module';
 
@@ -52,10 +52,5 @@ class AssignedModule extends Model
         return $this->hasOne(ItemProgress::class, ['UserID', 'CompanyID', 'ModuleID'], ['UserID', 'CompanyID', 'ModuleID']);
     }
 
-    //Logging model changes
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logOnly(['UserID', 'CompanyID', 'ModuleID', 'DateAssigned']);
-    }
+
 }

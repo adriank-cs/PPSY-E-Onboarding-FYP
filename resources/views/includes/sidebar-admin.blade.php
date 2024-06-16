@@ -58,16 +58,6 @@
                     </a>
                 </li>
 
-                <!-- Add by aifei -->
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.onboarding-quiz')}}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-book-2"></i>
-                        </span>
-                        <span class="hide-menu">Quiz</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
@@ -76,22 +66,47 @@
                         <span class="hide-menu">Discussions</span>
                     </a>
                     <ul aria-expanded="false" class="collapse first-level">
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('randomPost') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-home"></i>
+                                </span>
                                 <span class="hide-menu">Homepage</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('admin.create-post') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-question-mark"></i>
+                                </span>
                                 <span class="hide-menu">Ask Questions</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item bg-light">
                             <a href="{{ route('admin.check-post') }}" class="sidebar-link">
+                                <span>
+                                    <i class="ti ti-zoom-question"></i>
+                                </span>
                                 <span class="hide-menu">Check Posted Questions</span>
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.find_colleagues')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-friends"></i>
+                        </span>
+                        <span class="hide-menu">Colleagues</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{route('admin.leaderboard')}}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-trophy"></i>
+                        </span>
+                        <span class="hide-menu">Login Streak Leaderboard</span>
+                    </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="#" aria-expanded="false">

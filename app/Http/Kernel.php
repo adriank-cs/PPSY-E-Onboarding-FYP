@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'employee' => \App\Http\Middleware\EmployeeMiddleware::class,
         'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'check.subscription' => \App\Http\Middleware\CheckSubscription::class, //Added by Alda for Subscription Status
+        'ensure.quiz.completed' => \App\Http\Middleware\EnsureQuizCompleted::class,
     ];
 
     

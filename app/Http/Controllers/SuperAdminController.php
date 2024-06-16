@@ -105,16 +105,23 @@ class SuperAdminController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required',
             'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $user = User::find($id);
 
-        $user->update([
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
+        if ($request->filled('password')) {
+            $user->update([
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+            ]);
+        }else{
+            $user->update([
+                'email' => $request->input('email'),
+            ]);
+        }
+
+        
 
         // Update the user's profile details
         $user->profile->update([

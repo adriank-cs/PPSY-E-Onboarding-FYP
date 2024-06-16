@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->nullable()->after('id'); // Define the foreign key column
-            $table->foreign('company_id')->references('CompanyID')->on('companies')->onDelete('cascade'); // Add the foreign key constraint
-        });
+        // Schema::table('quizzes', function (Blueprint $table) {
+        //     $table->unsignedBigInteger('company_id')->nullable()->after('id'); // Define the foreign key column
+        //     $table->foreign('company_id')->references('CompanyID')->on('companies')->onDelete('cascade'); // Add the foreign key constraint
+        // });
     }
 
     public function down()
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            $table->dropForeign(['company_id']);
-            $table->dropColumn('company_id');
-        });
+        // Schema::table('quizzes', function (Blueprint $table) {
+        //     $table->dropForeign(['company_id']);
+        //     $table->dropColumn('company_id');
+        // });
     }
 };
 

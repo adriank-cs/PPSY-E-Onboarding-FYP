@@ -19,10 +19,8 @@ return new class extends Migration {
             $table->text('question');
             $table->string('type', 20); // Add a column to store question type (e.g., multiple_choice, structured)
             $table->json('answer_options')->nullable();
-            $timestamps = [];
-            if (!empty (config('broadcasting.connections.pusher'))) {
-                $table->timestamps();
-            }
+            $table->json('correct_answers')->nullable();
+            $table->timestamps();
             $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
         });
     }

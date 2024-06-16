@@ -4162,10 +4162,11 @@ fieldset:disabled .btn {
 
 .btn-success {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #13DEB9;
-    --bs-btn-border-color: #13DEB9;
+    /* --bs-btn-bg: #13DEB9; */
+    --bs-btn-bg:var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #10bd9d;
+    --bs-btn-hover-bg: var(--bs-primary);
     --bs-btn-hover-border-color: #0fb294;
     --bs-btn-focus-shadow-rgb: 54, 227, 196;
     --bs-btn-active-color: #fff;
@@ -20228,9 +20229,9 @@ ul {
 }
 
 .progress {
-    height: 10px;
+    height: 16px;
     margin-bottom: 5px;
-    width: 600px;
+    width: 100%;
 }
 
 .progress::-webkit-progress-value {
@@ -20304,6 +20305,7 @@ ul {
       display: flex;
       align-items: center;
       justify-content: center;
+     
   }
 
   .btn-danger {
@@ -20336,7 +20338,7 @@ ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #6c2147;
+    background-color: var(--bs-secondary);
     /* Background color for the title bar */
     padding: 15px 10px 10px 10px;
     border-radius: 10px 10px 0 0;
@@ -20401,6 +20403,14 @@ ul {
     margin-bottom:20px;
 }
 
+#sortable .profile-card {
+    cursor: move; /* Change cursor to bidirectional cursor (move) */
+}
+
+.progress-container {
+    padding: 10px; /* Add padding around the progress bar */
+}
+
 /*view page css*/
 .module-title-page {
     display: flex;
@@ -20417,6 +20427,10 @@ ul {
     cursor:pointer;
 }
 
+.justify-description{
+    text-align: justify;
+}
+
     /* Sidebar styling */
     .sidebar-page-custom {
         height: 100%;
@@ -20429,6 +20443,7 @@ ul {
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        padding-bottom: 100px;
     }
 
     .sidebar-page-custom a {
@@ -20525,4 +20540,183 @@ ul {
     height: auto;
 }
 
+.fixed-bottom-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
 /*end viewpage css*/
+
+.nav.nav-tabs{
+    margin-bottom:30px;
+}
+.nav-tabs .nav-link {
+    cursor: pointer;
+    
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.tab-content > .tab-pane {
+    display: none;
+}
+
+.tab-content > .active {
+    display: block;
+    transition: opacity 0.5s;
+}
+
+.fade {
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+}
+
+.dropdown-toggle:after{
+    display:none;
+}
+
+i.ti.ti-checklist{
+    color: var(--bs-primary);
+}
+
+i.ti.ti-checklist:hover{
+    color: blue;
+}
+
+.profile-picture-colleagues {
+    padding: 10px;
+    width: 150px; /* Reduced size for better fit */
+    height: 150px; /* Reduced size for better fit */
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+    border-radius: 50%; /* Make the image circular */
+}
+
+.colleagues-card {
+    width: 100%; /* Use full width of the col-md-4 */
+    height: 400px; /* Fixed height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0; /* Margin top and bottom for spacing */
+    border: 1px solid #ddd; /* Add a border for better visibility */
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: shadow for depth */
+}
+
+.colleagues-card-body {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.colleagues-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.colleagues-title {
+    margin-top: 10px;
+}
+
+.profile-picture-large {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+.gradient-bg {
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Replace with random gradient if necessary */
+    color: white;
+}
+
+i.ti.colleague-details-email{
+    margin-right:4px;
+}
+
+.colleague-details-mailink{
+    color: white;
+}
+
+.colleague-details-mailink:hover{
+    color: cyan;
+}
+
+.card-profile-details{
+
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+
+}
+
+.leaderboard-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+
+.profile-picture-leaderboard {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+
+.leaderboard-card .card-body {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    height:120px;
+}
+
+.leaderboard-card .card-body > div {
+    flex: 1;
+    text-align: center;
+}
+
+@media (max-width: 610px) {
+    .leaderboard-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        
+    }
+
+    .leaderboard-card .card-body {
+        flex-direction: column;
+        height:auto;
+    }
+
+    .leaderboard-card .card-body > div {
+        margin-bottom: 10px; /* Add space below each item */
+    }
+
+    .profile-picture-leaderboard {
+        margin-bottom: 10px;
+    }
+}
+
+button.btn.btn-primary.add-option-btn{
+    margin-top:10px;
+}

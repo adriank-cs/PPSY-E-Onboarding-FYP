@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('item_id');
             $table->string('title', 255);
+            $table->integer('passing_score')->default(0);
+            
             $table->timestamps();
         });
     }
