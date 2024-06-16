@@ -115,6 +115,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('admin/configure-duedate/{id}', [ModuleController::class, 'configureDueDate'])->name('admin.configure_duedate');
         Route::post('/admin/configure-duedate/', [ModuleController::class, 'configureDueDatePost'])->name('admin.configure_duedate.post');
         Route::get('/admin/get-due-date/{moduleId}/{userId}', [ModuleController::class, 'getDueDate'])->name('admin.get_due_date');
+        Route::get('/admin/module-complete/{moduleId}', [ModuleController::class, 'moduleComplete'])->name('admin.module_complete');
 
         Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
         

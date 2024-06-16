@@ -704,24 +704,52 @@ public function configureDueDatePost(Request $request){
     }
 
     public function nextPage($itemId)
-    {
-        // Get the current item
-        $currentItem = Item::findOrFail($itemId);
-        $chapterId = $currentItem->chapter_id;
-        
-        // Find the next item within the same chapter based on the order
-        $nextItem = Item::where('chapter_id', $chapterId)
-                        ->where('order', '>', $currentItem->order)
-                        ->orderBy('order')
-                        ->first();
+{
+    // Get the current item
+    $currentItem = Item::findOrFail($itemId);
+    $chapterId = $currentItem->chapter_id;
+    $moduleId = $currentItem->chapter->module_id;
 
-        if ($nextItem) {
-            // Redirect to the next item
-            return response()->json(['redirect' => route('admin.view_page', ['id' => $nextItem->id])]);
+    // Find the next item within the same chapter based on the order
+    $nextItem = Item::where('chapter_id', $chapterId)
+                    ->where('order', '>', $currentItem->order)
+                    ->orderBy('order')
+                    ->first();
+
+    if ($nextItem) {
+        // Redirect to the next item
+        return response()->json(['redirect' => route('admin.view_page', ['id' => $nextItem->id])]);
+    } else {
+        // No next item in the current chapter, find the next chapter
+        $nextChapter = Chapter::where('module_id', $moduleId)
+                              ->where('id', '>', $chapterId)
+                              ->orderBy('id')
+                              ->first();
+
+        if ($nextChapter) {
+            // Get the first item of the next chapter
+            $firstItemOfNextChapter = Item::where('chapter_id', $nextChapter->id)
+                                          ->orderBy('order')
+                                          ->first();
+
+            if ($firstItemOfNextChapter) {
+                // Redirect to the first item of the next chapter
+                return response()->json(['redirect' => route('admin.view_page', ['id' => $firstItemOfNextChapter->id])]);
+            } else {
+                // Handle case where the next chapter has no items
+                return response()->json(['message' => 'Next chapter has no items']);
+            }
         } else {
-            // No next item, handle accordingly (e.g., stay on the current page or show a message)
-            return response()->json(['message' => 'No more pages in this chapter']);
+            // No next chapter, handle accordingly (e.g., stay on the current page or show a message)
+            return response()->json(['redirect' => route('admin.module_complete', ['moduleId' => $moduleId])]);
         }
+    }
+}
+
+public function moduleComplete($moduleId)
+    {
+        $module = Module::findOrFail($moduleId);
+        return view('admin.completion-module', compact('module'));
     }
 
 
