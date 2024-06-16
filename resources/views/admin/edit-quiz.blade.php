@@ -52,7 +52,9 @@
             <div class="page-title-container">
                 <h5><label for="content" class="form-label page-title">Quiz Questions:</label></h5>
             </div>
-            <div class="page-content" id="question-fields">
+            <div class="page-content">
+
+            <div id="question-fields">
                 @foreach($quizQuestions as $index => $question)
                     <div class="mb-4 question-block" id="question-block-{{ $index }}">
                         <div class="input-group mb-2">
@@ -91,8 +93,10 @@
                         </div>
                     </div>
                 @endforeach
+                </div>
+                <button type="button" class="btn btn-primary" onclick="addQuestionField()">Add Question</button>
             </div>
-            <button type="button" class="btn btn-primary" onclick="addQuestionField()">Add Question</button>
+            
         </div>
 
         <button type="submit" class="confirm-quiz-button float-end marg-btm-cus">Update Quiz</button>

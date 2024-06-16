@@ -69,7 +69,10 @@
                                 <p><strong>{{ $question->question }}</strong></p>
                                 <div class="answer-options">
                                     <ul>
-                                        @foreach(json_decode($question->answer_options, true) as $optionIndex => $option)
+                                            @php
+                                                $answerOptions = is_string($question->answer_options) ? json_decode($question->answer_options, true) : $question->answer_options;
+                                            @endphp
+                                            @foreach($answerOptions as $optionIndex => $option)
                                             <li>
                                                 @if($question->type == 'multiple_choice')
                                                     <div class="form-check">
@@ -156,7 +159,7 @@
                         @if($pages->has($chapter->id))
                             @foreach($pages[$chapter->id] as $item)
                                 <div class="sidebar-custom-page-list">
-                                    <span><input type="checkbox" {{ $item->itemProgress && $item->itemProgress->IsCompleted ? 'checked' : '' }} disabled></span>
+                                    <span><input type="checkbox" disabled></span>
                                     <span><a href="{{ route('admin.view_page', ['id' => $item->id]) }}">{{ $item->title }}</a></span>
                                 </div>
                             @endforeach
