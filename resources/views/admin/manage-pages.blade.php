@@ -32,10 +32,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <h5 class="card-title">{{ $page->title }}</h5>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 links-cards">
                         <a href="{{route('admin.view_page', ['id' => $page->id])}}" class="card-link">View</a>
                         <a href="{{ route('admin.edit_page', ['id' => $page->id]) }}" class="card-link">Edit</a>
                         <a href="#" class="card-link" onclick="confirmDelete('{{ route('admin.delete_page', ['id' => $page->id]) }}')">Delete</a>

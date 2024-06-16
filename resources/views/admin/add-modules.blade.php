@@ -125,7 +125,7 @@
 
             cropper = new Cropper(imagePreview, {
                 dragMode: 'none',
-                aspectRatio: 470 / 250,
+                aspectRatio: 470/ 250,
                 autoCropArea: 1,
                 restore: false,
                 guides: false,

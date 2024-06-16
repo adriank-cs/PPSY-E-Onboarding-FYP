@@ -25,8 +25,8 @@
         <!-- In Progress Modules -->
         <div class="tab-pane fade show active" id="in-progress" role="tabpanel" aria-labelledby="in-progress-tab">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4">
+                <div class="col-12">
+                    <div class="col-6">
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <i class="ti ti-search"></i>
@@ -39,50 +39,51 @@
                 </div>
             </div>
             <br>
-            <div class="row modules-container" id="inProgressModulesContainer">
-                @foreach($inProgressModules as $module)
-                    <div class="col-md-4">
-                        <div class="card module-card">
-                            <div class="card-body module-card-body">
-                                <a
-                                    href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
-                                    <div class="row module-image">
-                                        <img src="{{ $module->image_url }}" alt="Module Photo">
+            <div class="col-12">
+                <div class="row modules-container" id="inProgressModulesContainer">
+                    @foreach($inProgressModules as $module)
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card module-card h-100">
+                                <div class="card-body module-card-body d-flex flex-column">
+                                    <a
+                                        href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
+                                        <div class="row module-image">
+                                            <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
+                                        </div>
+                                    </a>
+                                    <div class="row module-title mt-auto">
+                                        <div class="col-12">
+                                            <a
+                                                href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
+                                                <h5 class="card-title">{{ $module->title }}</h5>
+                                            </a>
+                                        </div>
                                     </div>
-                                </a>
-                                <div class="row module-title">
-                                    <div class="col-md-12">
-                                        <a
-                                            href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
-                                            <h5 class="card-title">{{ $module->title }}</h5>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="progress-container">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                                    role="progressbar" style="width: {{ $module->progress }}%;"
-                                                    aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
-                                                    aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                    <div class="row mt-auto">
+                                        <div class="col-12">
+                                            <div class="progress-container">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                        role="progressbar" style="width: {{ $module->progress }}%;"
+                                                        aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
+                                                        aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
 
         <!-- Completed Modules -->
         <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4">
+                <div class="col-12">
+                    <div class="col-6">
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <i class="ti ti-search"></i>
@@ -95,50 +96,51 @@
                 </div>
             </div>
             <br>
-            <div class="row modules-container" id="completedModulesContainer">
-                @foreach($completedModules as $module)
-                    <div class="col-md-4">
-                        <div class="card module-card">
-                            <div class="card-body module-card-body">
-                                <a
-                                    href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
-                                    <div class="row module-image">
-                                        <img src="{{ $module->image_url }}" alt="Module Photo">
+            <div class="col-12">
+                <div class="row modules-container" id="completedModulesContainer">
+                    @foreach($completedModules as $module)
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card module-card h-100">
+                                <div class="card-body module-card-body d-flex flex-column">
+                                    <a
+                                        href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
+                                        <div class="row module-image">
+                                            <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
+                                        </div>
+                                    </a>
+                                    <div class="row module-title mt-auto">
+                                        <div class="col-12">
+                                            <a
+                                                href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
+                                                <h5 class="card-title">{{ $module->title }}</h5>
+                                            </a>
+                                        </div>
                                     </div>
-                                </a>
-                                <div class="row module-title">
-                                    <div class="col-md-12">
-                                        <a
-                                            href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
-                                            <h5 class="card-title">{{ $module->title }}</h5>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="progress-container">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success"
-                                                    role="progressbar" style="width: {{ $module->progress }}%;"
-                                                    aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
-                                                    aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                    <div class="row mt-auto">
+                                        <div class="col-12">
+                                            <div class="progress-container">
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: {{ $module->progress }}%;"
+                                                        aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
+                                                        aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
 
         <!-- Overdue Modules -->
         <div class="tab-pane fade" id="overdue" role="tabpanel" aria-labelledby="overdue-tab">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4">
+                <div class="col-12">
+                    <div class="col-6">
                         <div class="input-group mb-3">
                             <span class="input-group-text">
                                 <i class="ti ti-search"></i>
@@ -151,47 +153,47 @@
                 </div>
             </div>
             <br>
-            <div class="row modules-container" id="overdueModulesContainer">
-                @foreach($overdueModules as $module)
-                    <div class="col-md-4">
-                        <div class="card module-card">
-                            <div class="card-body module-card-body">
-                            <a
-                            href="#" class="overdue-module-card">
-                                    <div class="row module-image">
-                                        <img src="{{ $module->image_url }}" alt="Module Photo">
-                                    </div>
+            <div class="col-12">
+                <div class="row modules-container" id="overdueModulesContainer">
+                    @foreach($overdueModules as $module)
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card module-card h-100">
+                                <div class="card-body module-card-body d-flex flex-column">
+                                    <a href="#" class="overdue-module-card">
+                                        <div class="row module-image">
+                                            <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
+                                        </div>
                                     </a>
-                                <div class="row module-title">
-                                    <div class="col-md-12">
-                                    <a
-                                    href="#" class="overdue-module-card"><h5 class="card-title">{{ $module->title }}</h5></a>
+                                    <div class="row module-title mt-auto">
+                                        <div class="col-12">
+                                            <a href="#" class="overdue-module-card">
+                                                <h5 class="card-title">{{ $module->title }}</h5>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="progress-container">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-danger"
-                                                    role="progressbar" style="width: {{ $module->progress }}%;"
-                                                    aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
-                                                    aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                    <div class="row mt-auto">
+                                        <div class="col-12">
+                                            <div class="progress-container">
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-danger" role="progressbar"
+                                                        style="width: {{ $module->progress }}%;"
+                                                        aria-valuenow="{{ $module->progress }}" aria-valuemin="0"
+                                                        aria-valuemax="100">{{ round($module->progress) }}%</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-
     function showOverdueModal(message) {
         // Update the modal content
         document.getElementById('overdueModalMessage').textContent = message;
@@ -200,36 +202,35 @@
         overdueModal.show();
     }
 
-
     $(document).ready(function () {
 
         $('.overdue-module-card').on('click', function () {
-            showOverdueModal('The module has been overdued and is locked. Please contact your manager for an extension!');
+            showOverdueModal(
+                'The module has been overdued and is locked. Please contact your manager for an extension!'
+                );
         });
 
-        var $inProgressModulesContainer = $('.modules-container').masonry({
-            itemSelector: '.module-card',
+        var $inProgressModulesContainer = $('#inProgressModulesContainer').masonry({
+            itemSelector: '.col-md-4',
             columnWidth: '.col-md-4',
             percentPosition: true
         });
-
 
         $('#searchFieldInProgress').on('input', function () {
             var searchValue = $(this).val().toLowerCase();
             $('#inProgressModulesContainer .module-card').each(function () {
                 var nameText = $(this).find('.card-title').text().toLowerCase();
                 if (nameText.includes(searchValue)) {
-                    $(this).show();
+                    $(this).closest('.col-md-4').show();
                 } else {
-                    $(this).hide();
+                    $(this).closest('.col-md-4').hide();
                 }
             });
-
             $inProgressModulesContainer.masonry('layout');
         });
 
-        var $completedModulesContainer = $('.modules-container').masonry({
-            itemSelector: '.module-card',
+        var $completedModulesContainer = $('#completedModulesContainer').masonry({
+            itemSelector: '.col-md-4',
             columnWidth: '.col-md-4',
             percentPosition: true
         });
@@ -239,64 +240,39 @@
             $('#completedModulesContainer .module-card').each(function () {
                 var nameText = $(this).find('.card-title').text().toLowerCase();
                 if (nameText.includes(searchValue)) {
-                    $(this).show();
+                    $(this).closest('.col-md-4').show();
                 } else {
-                    $(this).hide();
+                    $(this).closest('.col-md-4').hide();
                 }
             });
-
             $completedModulesContainer.masonry('layout');
         });
 
-        var $overdueModulesContainer = $('.modules-container').masonry({
-            itemSelector: '.module-card',
+        var $overdueModulesContainer = $('#overdueModulesContainer').masonry({
+            itemSelector: '.col-md-4',
             columnWidth: '.col-md-4',
             percentPosition: true
         });
 
-        $('#searchFieldCompleted').on('input', function () {
+        $('#searchFieldOverdue').on('input', function () {
             var searchValue = $(this).val().toLowerCase();
             $('#overdueModulesContainer .module-card').each(function () {
                 var nameText = $(this).find('.card-title').text().toLowerCase();
                 if (nameText.includes(searchValue)) {
-                    $(this).show();
+                    $(this).closest('.col-md-4').show();
                 } else {
-                    $(this).hide();
+                    $(this).closest('.col-md-4').hide();
                 }
             });
-
             $overdueModulesContainer.masonry('layout');
         });
 
         // Reinitialize Masonry layout when a tab is shown
         $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-            if (e.target.id == 'completed-tab') {
-                var $searchField = $('#searchFieldCompleted');
-                $searchField.val('.');
-                $searchField.trigger('input');
-                setTimeout(function() {
-                    $searchField.val('');
-                    $searchField.trigger('input');
-                }, 0);
-            } else if (e.target.id == 'in-progress-tab') {
-                var $searchField = $('#searchFieldInProgress');
-                $searchField.val('.');
-                $searchField.trigger('input');
-                setTimeout(function() {
-                    $searchField.val('');
-                    $searchField.trigger('input');
-                }, 0);
-            } else if (e.target.id == 'overdue-tab') {
-                var $searchField = $('#searchFieldInProgress');
-                $searchField.val('.');
-                $searchField.trigger('input');
-                setTimeout(function() {
-                    $searchField.val('');
-                    $searchField.trigger('input');
-                }, 0);
-            }
+            var target = $(e.target).attr("href"); // activated tab
+            var $targetContainer = $(target + 'ModulesContainer');
+            $targetContainer.masonry('layout');
         });
-
     });
 
 </script>
