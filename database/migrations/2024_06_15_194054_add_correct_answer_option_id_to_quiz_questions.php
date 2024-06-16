@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->json('correct_answer_id')->nullable()->after('answer_options');
-        });
+        // Schema::table('quiz_questions', function (Blueprint $table) {
+        //     $table->json('correct_answer_id')->nullable()->after('answer_options');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->dropColumn('correct_answer_id');
-        });
+        // Schema::table('quiz_questions', function (Blueprint $table) {
+        //     $table->dropColumn('correct_answer_id');
+        // });
     }
 };

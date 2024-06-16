@@ -42,14 +42,6 @@
                         <span class="hide-menu">Modules</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('employee.onboarding-quiz')}}" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-book-2"></i>
-                        </span>
-                        <span class="hide-menu">Quiz</span>
-                    </a>
-                </li>
                 
                 <!-- Discussions Section -->
                 <li class="sidebar-item">

@@ -13,9 +13,9 @@ class AddAnswerOptionIdToQuizQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->json('answer_option_id')->nullable()->after('answer_options');
-        });
+        // Schema::table('quiz_questions', function (Blueprint $table) {
+        //     $table->json('answer_option_id')->nullable()->after('answer_options');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddAnswerOptionIdToQuizQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('quiz_questions', function (Blueprint $table) {
-            $table->dropColumn('answer_option_id');
-        });
+        // Schema::table('quiz_questions', function (Blueprint $table) {
+        //     $table->dropColumn('answer_option_id');
+        // });
     }
 }

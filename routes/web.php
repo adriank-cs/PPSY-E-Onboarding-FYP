@@ -100,6 +100,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/delete_page/{id}', [ModuleController::class, 'deletePage'])->name('admin.delete_page');
         Route::post('admin/update_page_order', [ModuleController::class, 'updatePageOrder'])->name('admin.update_page_order');
 
+        //Quiz
+        Route::post('/admin/create_quiz/{chapterId}', [ModuleController::class, 'add_quizPost'])->name('admin.create_quiz.post');
+        Route::post('/admin/update-quiz/{id}', [ModuleController::class, 'updateQuiz'])->name('admin.update_quiz');
+
 
         Route::get('/admin/view-page/{id}', [ModuleController::class, 'viewPage'])->name('admin.view_page');
         Route::post('admin/next-page/{itemId}', [ModuleController::class, 'nextPage'])->name('admin.next_page');   
@@ -171,10 +175,18 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/employee/my-modules', [EmployeeController::class, 'myModules'])->name('employee.my_modules');
 
         Route::get('employee/modules/{moduleId}/check-progress', [EmployeeController::class, 'checkItemProgress'])->name('employee.check_item_progress');
-        Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
+        
+        
+        
+        Route::middleware(['ensure.quiz.completed'])->group(function () {
+            Route::get('employee/pages/{itemId}', [EmployeeController::class, 'viewPage'])->name('employee.view_page');
+        });
+
         Route::post('employee/mark-completed/{itemId}', [EmployeeController::class, 'markCompleted'])->name('employee.mark_completed');
         // Define the route for the module completion page
         Route::get('employee/module-complete/{moduleId}', [EmployeeController::class, 'moduleComplete'])->name('employee.module_complete');
+
+        Route::post('employee/submit-quiz/{quizId}', [EmployeeController::class, 'submitQuiz'])->name('employee.submit_quiz');
 
         Route::get('employee/find-colleagues', [EmployeeController::class, 'findColleagues'])->name('employee.find_colleagues');
         Route::get('employee/colleague-details/{id}', [EmployeeController::class, 'colleagueDetails'])->name('employee.colleague_details');
@@ -207,35 +219,35 @@ Route::middleware(['web', 'auth'])->group(function () {
 //Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
 
 
-//Quiz Routes
-Route::resource('quizzes', QuizController::class);
-Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
+// //Quiz Routes
+// Route::resource('quizzes', QuizController::class);
+// Route::get('/employee/onboarding-quiz', [QuizController::class, 'index'])->name('employee.onboarding-quiz');
 
-Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
-Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
+// Route::get('/onboarding-quiz/create', [QuizController::class, 'create']);
+// Route::get('/quizzes/{quiz}/show', [QuizController::class, 'show'])->name('quizzes.show');
 
-//add by aifei
-Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
+// //add by aifei
+// Route::post('quizzes/{quiz}/new-attempt', [QuizController::class, 'newAttempt'])->name('quizzes.new-attempt');
 
 
-Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
+// Route::post('/quizzes/{quiz}/submit-answers', [QuizController::class, 'submitAnswers'])->name('quizzes.submit-answers');
 
-Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
+// Route::get('/quizzes/{quiz}/details', [QuizController::class, 'getDetails'])->name('quizzes.get-details');
 
-// Quiz for Admin
-Route::get('/admin/onboarding-quiz', [QuizController::class, 'adminViewQuiz'])->name('admin.onboarding-quiz');
-//Route::get('/quizzes/{quiz}/edit-quiz', [QuizController::class, 'show'])->name('quizzes.show');
-Route::get('quizzes/{quiz}/edit', [QuizController::class, 'editQuiz'])->name('quizzes.edit');
-Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizzes.update');
-// Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
-Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
+// // Quiz for Admin
+// Route::get('/admin/onboarding-quiz', [QuizController::class, 'adminViewQuiz'])->name('admin.onboarding-quiz');
+// //Route::get('/quizzes/{quiz}/edit-quiz', [QuizController::class, 'show'])->name('quizzes.show');
+// Route::get('quizzes/{quiz}/edit', [QuizController::class, 'editQuiz'])->name('quizzes.edit');
+// Route::put('quizzes/{quiz}', [QuizController::class, 'updateQuiz'])->name('quizzes.update');
+// // Route::delete('/quizzes/{quiz}', 'QuizController@delete')->name('quizzes.delete');
+// Route::delete('/quizzes/{quiz}', [QuizController::class, 'delete'])->name('quizzes.delete');
 
-//Route::get('/quizzes', [QuizController::class, 'adminViewQuiz'])->name('admin.view-quiz-list');
-Route::get('/view-quiz-list', [QuizController::class, 'viewQuizList'])->name('admin.view-quiz-list');  // Correct route
+// //Route::get('/quizzes', [QuizController::class, 'adminViewQuiz'])->name('admin.view-quiz-list');
+// Route::get('/view-quiz-list', [QuizController::class, 'viewQuizList'])->name('admin.view-quiz-list');  // Correct route
 
-// Route for viewing answered employees
-Route::get('/quizzes/{quiz}/answered-employees', [QuizController::class, 'viewAnsweredEmployees'])->name('admin.employee-list');
+// // Route for viewing answered employees
+// Route::get('/quizzes/{quiz}/answered-employees', [QuizController::class, 'viewAnsweredEmployees'])->name('admin.employee-list');
 
-// Route for viewing quiz answers (you may need to implement this if not already done)
-Route::get('/quizzes/{quiz}/employee/{employee}/answers', [QuizController::class, 'viewQuizAnswer'])->name('admin.view-quiz-answer');
-Route::post('/quizzes/{quiz}/answers/{employee}', [QuizController::class, 'updateQuizAnswer'])->name('admin.update-quiz-answer');
+// // Route for viewing quiz answers (you may need to implement this if not already done)
+// Route::get('/quizzes/{quiz}/employee/{employee}/answers', [QuizController::class, 'viewQuizAnswer'])->name('admin.view-quiz-answer');
+// Route::post('/quizzes/{quiz}/answers/{employee}', [QuizController::class, 'updateQuizAnswer'])->name('admin.update-quiz-answer');

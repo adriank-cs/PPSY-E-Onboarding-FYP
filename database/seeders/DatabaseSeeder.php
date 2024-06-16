@@ -93,7 +93,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
                 'button_color' => '#A6708E',
-                'sidebar_color' => '#fff',
+                'sidebar_color' => '#6c2147',
+                'company_logo' => 'CompanyLogos/pp-logo-white.jpg',
                 'subscription_starts_at' => '2024-01-20 08:00:00',
                 'subscription_ends_at' => '2024-06-28 08:00:00',
             ],
@@ -105,7 +106,7 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.facebook.com',
                 'created_at' => '2024-01-26 08:42:00',
                 'updated_at' => '2024-01-26 08:42:00',
-                'button_color' => '#A6708E',
+                'button_color' => '#000',
                 'sidebar_color' => '#fff',
                 'subscription_starts_at' => '2024-01-20 08:00:00',
                 'subscription_ends_at' => '2025-01-20 08:00:00',
@@ -118,7 +119,7 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.apple.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
-                'button_color' => '#A6708E',
+                'button_color' => '##c6c6c6',
                 'sidebar_color' => '#fff',
                 'subscription_starts_at' => '2024-02-10 08:00:00',
                 'subscription_ends_at' => '2026-01-11 08:00:00',
@@ -131,8 +132,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.microsoft.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
-                'button_color' => '#A6708E',
-                'sidebar_color' => '#fff',
+                'button_color' => '#00a1f1',
+                'sidebar_color' => '#ffbb00',
                 'subscription_starts_at' => '2024-03-16 08:00:00',
                 'subscription_ends_at' => '2025-03-16 08:00:00',
             ],
@@ -144,8 +145,8 @@ class DatabaseSeeder extends Seeder
                 'Website' => 'https://www.amazon.com',
                 'created_at' => '2024-01-26 08:16:00',
                 'updated_at' => '2024-01-26 08:16:00',
-                'button_color' => '#A6708E',
-                'sidebar_color' => '#fff',
+                'button_color' => '#ff9900',
+                'sidebar_color' => '#000',
                 'subscription_starts_at' => '2024-01-25 08:00:00',
                 'subscription_ends_at' => '2026-01-25 08:00:00',
             ]
@@ -500,6 +501,18 @@ class DatabaseSeeder extends Seeder
                 'pdf_attachments' => '[{"url":"\/storage\/pdf_attachments\/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf","name":"People Psyence Policies.pdf"}]',
                 'order' => 2,
             ],
+            [
+                'id' => 3,
+                'chapter_id' => 1,
+                'title' => 'Quiz',
+                'description' => null,
+                'content' => null,
+                'created_at' => '2024-06-16 05:05:45',
+                'updated_at' => '2024-06-16 05:05:45',
+                'deleted_at' => null,
+                'pdf_attachments' => null,
+                'order' => 3,
+            ],
         ];
 
         DB::table('item')->insert($items);
@@ -519,6 +532,56 @@ class DatabaseSeeder extends Seeder
         ];
 
         DB::table('assigned_module')->insert($assignmodule);
+
+        //quizzes table seeding
+        $quizzes = [
+            [
+                'id' => 1,
+                'item_id' => 3,
+                'title' => 'Quiz',
+                'passing_score' => 3,
+                'created_at' => '2024-06-16 05:42:20',
+                'updated_at' => '2024-06-16 05:42:20',
+            ]
+        ];
+
+        DB::table('quizzes')->insert($quizzes);
+
+        //quizzes table seeding
+        $quiz_questions = [
+            [
+                'id' => 1,
+                'quiz_id' => 1,
+                'question' => 'Hiring Manager',
+                'type' => 'multiple_choice',
+                'answer_options' => '"[\"Kamala\",\"Ben\"]"',
+                'correct_answers' => '"1"',
+                'created_at' => '2024-06-16 05:42:20',
+                'updated_at' => '2024-06-16 05:42:20',
+            ],
+            [
+                'id' => 2,
+                'quiz_id' => 1,
+                'question' => 'Company Name',
+                'type' => 'short_answer',
+                'answer_options' => '"[]"',
+                'correct_answers' => '"People Psyence"',
+                'created_at' => '2024-06-16 05:42:20',
+                'updated_at' => '2024-06-16 05:42:20',
+            ],
+            [
+                'id' => 3,
+                'quiz_id' => 1,
+                'question' => 'Ethics',
+                'type' => 'checkbox',
+                'answer_options' => '"[\"Turn off PC when leaving\",\"Leave used cup on desk\",\"Tap employee card when entering or leaving\"]"',
+                'correct_answers' => '["0","2"]',
+                'created_at' => '2024-06-16 05:42:20',
+                'updated_at' => '2024-06-16 05:42:20',
+            ],
+        ];
+
+        DB::table('quiz_questions')->insert($quiz_questions);
 
         //Call other seeder classes
         $this->call([
