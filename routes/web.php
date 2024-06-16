@@ -61,17 +61,19 @@ Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
 
     //Route::middleware(['check.subscription'])->group(function () {
 
-        Route::middleware(['admin'])->group(function () {
-            // Routes specific to admin
-            Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-            Route::get('/admin/profile-page', [AdminController::class, 'profile_page'])->name('admin.profile_page');
-            Route::get('/admin/manage-account', [AdminController::class, 'manage_account'])->name('manage_account');
-            Route::get('/admin/add-account', [AdminController::class, 'add_account'])->name('add_account');
-            Route::post('/admin/add-account', [AdminController::class, 'add_accountPost'])->name('add_account.post');
-            Route::get('/admin/edit-account/{id}', [AdminController::class, 'editAccount'])->name('admin.edit_account');
-            Route::post('/admin/edit-account/{id}', [AdminController::class, 'editAccountPost'])->name('admin.edit_account.post');
-            Route::get('/admin/delete_account/{id}', [AdminController::class, 'deleteAccount'])->name('admin.delete_account');
-            Route::post('/admin/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
+    Route::middleware(['admin'])->group(function () {
+        // Routes specific to admin
+        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/admin/progress-tracking', [AdminController::class, 'progressTracking'])->name('admin.progress-tracking');
+
+        Route::get('/admin/profile-page', [AdminController::class, 'profile_page'])->name('admin.profile_page');
+        Route::get('/admin/manage-account', [AdminController::class, 'manage_account'])->name('manage_account');
+        Route::get('/admin/add-account', [AdminController::class, 'add_account'])->name('add_account');
+        Route::post('/admin/add-account', [AdminController::class, 'add_accountPost'])->name('add_account.post');
+        Route::get('/admin/edit-account/{id}', [AdminController::class, 'editAccount'])->name('admin.edit_account');
+        Route::post('/admin/edit-account/{id}', [AdminController::class, 'editAccountPost'])->name('admin.edit_account.post');
+        Route::get('/admin/delete_account/{id}', [AdminController::class, 'deleteAccount'])->name('admin.delete_account');
+        Route::post('/admin/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
 
             Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
             Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
@@ -110,6 +112,7 @@ Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
         Route::get('admin/configure-duedate/{id}', [ModuleController::class, 'configureDueDate'])->name('admin.configure_duedate');
         Route::post('/admin/configure-duedate/', [ModuleController::class, 'configureDueDatePost'])->name('admin.configure_duedate.post');
         Route::get('/admin/get-due-date/{moduleId}/{userId}', [ModuleController::class, 'getDueDate'])->name('admin.get_due_date');
+        Route::get('/admin/module-complete/{moduleId}', [ModuleController::class, 'moduleComplete'])->name('admin.module_complete');
 
         Route::post('admin/upload-pdf', [ModuleController::class, 'uploadPdf'])->name('admin.upload_pdf');
         
@@ -137,9 +140,6 @@ Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
 
         //TEST ACTIONS
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
-        
-        //TODO: REMOVE TEST ACTIONS
-        Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
         Route::get('/admin/leaderboard', [AdminController::class, 'leaderboard'])->name('admin.leaderboard');
 

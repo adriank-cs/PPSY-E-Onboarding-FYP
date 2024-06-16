@@ -152,7 +152,7 @@
                             <h5><label for="title" class="form-label page-title">Quiz Title:</label></h5>
                         </div>
                         <div class="page-content">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                         </div>
                         <div class="page-content">
                             <input type="number" class="form-control" id="passing_score" name="passing_score"
-                                placeholder="Enter Passing Score">
+                                placeholder="Enter Passing Score" required>
                         </div>
                     </div>
                 </div>
@@ -231,6 +231,14 @@
 </style>
 
 <script>
+function showErrorModal(message) {
+        // Update the modal content
+        document.getElementById('errorModalMessage').textContent = message;
+        // Show the modal
+        var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    }
+
     document.getElementById('uploadPdfButton').addEventListener('click', function () {
         var formData = new FormData();
         var fileInput = document.getElementById('pdf');
@@ -307,7 +315,7 @@
                     <option value="short_answer">Text Field</option>
                     <option value="checkbox">Checkbox</option>
                 </select>
-                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>
             <div id="answer-container-${currentQuestionCount}"></div>
         </div>`;
@@ -367,7 +375,7 @@
             addAnswerOption(questionId);
         } else if (selectElement.value === 'short_answer') {
             answerContainer.innerHTML = `<div class="input-group mt-2">
-                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}" name="correct_answers[${questionId}][]" placeholder="Enter correct answer">
+                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}" name="correct_answers[${questionId}][]" placeholder="Enter correct answer" required>
             </div>`;
         }
     }
@@ -381,14 +389,14 @@
         if (questionType === 'checkbox') {
             newAnswer = `<div class="input-group mt-2">
                 <input type="checkbox" class="form-check-input" name="correct_answers[${questionId}][]" value="${existingAnswerCount}">
-                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option">
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px;"><i class="fas fa-trash"></i></button>
+                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         } else {
             newAnswer = `<div class="input-group mt-2">
-                <input type="radio" class="form-check-input" name="correct_answers[${questionId}]" value="${existingAnswerCount}">
-                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option">
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-right: 10px;"><i class="fas fa-trash"></i></button>
+                <input type="radio" class="form-check-input" name="correct_answers[${questionId}]" value="${existingAnswerCount}" required>
+                <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         }
 
@@ -419,7 +427,7 @@
         const remainingOptions = answerContainer.querySelectorAll('.input-group').length;
 
         if (remainingOptions <= 2) {
-            alert('Please add at least two answer options for multiple choice or checkbox questions.');
+            showErrorModal('Please add at least two answer options for multiple choice or checkbox questions.');
         } else {
             const answerGroup = buttonElement.closest('.input-group');
             const addOptionButton = answerGroup.querySelector('.btn-success.add-option-btn');

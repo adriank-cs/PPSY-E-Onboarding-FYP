@@ -97,6 +97,11 @@ class User extends Authenticatable
         return $this->hasMany(UserResponse::class);
     }
 
+    public function assignedmodules(): HasMany
+    {
+        return $this->hasMany(AssignedModule::class, 'UserID');
+    }
+
     // Logging model changes
     public function getActivitylogOptions(): LogOptions
     {

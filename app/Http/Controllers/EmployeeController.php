@@ -269,54 +269,6 @@ public function myModules()
         }
     }
 
-//     public function submitQuiz(Request $request, $quizId)
-// {
-//     $quiz = Quiz::find($quizId);
-//     $questions = $quiz->questions;
-
-//     $score = 0;
-//     $feedback = [];
-
-//     foreach ($questions as $question) {
-//         $correctAnswers = json_decode($question->correct_answers, true);
-//         $userAnswer = $request->input('answers.' . $question->id);
-//         $isCorrect = false;
-
-//         if ($question->type == 'multiple_choice' || $question->type == 'checkbox') {
-//             if ($userAnswer == $correctAnswers || (is_array($userAnswer) && !array_diff($userAnswer, $correctAnswers) && !array_diff($correctAnswers, $userAnswer))) {
-//                 $isCorrect = true;
-//                 $score++;
-//             }
-//         } elseif ($question->type == 'short_answer') {
-//             // Create a regular expression to check for the full correct answer as a whole word
-
-//             $pattern = '/\b' . preg_quote($correctAnswers, '/') . '\b/i';
-        
-//             if (preg_match($pattern, $userAnswer)) {
-//                 $score++;
-//                 $isCorrect = true;
-//             }
-//         }
-
-//         $feedback[] = [
-//             'questionId' => $question->id,
-//             'isCorrect' => $isCorrect
-//         ];
-//     }
-
-//     $passed = $score >= $quiz->passing_score;
-
-//     if ($passed) {
-//         $request->merge(['itemId' => $quiz->item_id]);
-//         return $this->markCompleted($request, $quiz->item_id)->with('feedback', $feedback)->with('passed', $passed);
-//     } else {
-//         return response()->json([
-//             'feedback' => $feedback,
-//             'passed' => $passed
-//         ]);
-//     }
-// }
-
 public function submitQuiz(Request $request, $quizId)
 {
     $quiz = Quiz::find($quizId);
