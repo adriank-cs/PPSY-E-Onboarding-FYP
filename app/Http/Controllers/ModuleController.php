@@ -56,7 +56,7 @@ class ModuleController extends Controller
         $adminUser = auth()->user();
         // Validate the form data
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:40',
             'croppedImage' => 'required|string',
         ]);
     
@@ -90,32 +90,29 @@ class ModuleController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'title' => 'required|string|max:255',
-            'due_date' => 'required|date',
+            'title' => 'required|string|max:40',
         ]);
 
         $module = Module::find($id);
+        $moduleCurrentImage = $module->image_path;
 
-        if ($request->hasFile('croppedImage')) {
-            // $image = $request->file('image');
-            // $imagePath = $image->storeAs('modules', $image->getClientOriginalName(), 'public');
+        $module->update([
+            'title' => $request->title,
+            'image_path' => $moduleCurrentImage,
+        ]);
 
-            // $module->update(['image_path' => $imagePath]);
+        if ($request->input('croppedImage')) {
 
             $croppedImage = $request->input('croppedImage');
             $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $croppedImage));
             $fileName = time() . '.jpg';
             $path = 'modules/' . $fileName;
             Storage::disk('public')->put($path, $imageData);
-
             $module->update(['image_path' => $path]);
 
         }
 
-        $module->update([
-            'title' => $request->title,
-            'due_date' => $request->due_date,
-        ]);
+        
 
         return redirect()->route('admin.manage_modules')->with('success', 'Module updated successfully.');
     }

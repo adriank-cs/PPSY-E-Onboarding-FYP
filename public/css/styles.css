@@ -20330,10 +20330,16 @@ ul {
 }
 
 /*module css*/
-
+/*new change*/
 .card.module-card{
-    margin:20px 20px;
+    margin:20px 0px;
 }
+
+.module-image img {
+    width: 100%;
+    height: auto;
+}
+
 .page-title-container {
     display: flex;
     align-items: center;
@@ -20355,6 +20361,7 @@ ul {
 
 .card-body.module-card-body{
     padding:inherit;
+    
 }
 
 .row.module-title{
@@ -20719,4 +20726,8 @@ i.ti.colleague-details-email{
 
 button.btn.btn-primary.add-option-btn{
     margin-top:10px;
+}
+
+.links-cards{
+    text-align: center;
 }

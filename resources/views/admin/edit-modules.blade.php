@@ -58,19 +58,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="page-title-container">
-                    <h5><label for="due_date" class="form-label page-title">Due Date:</label></h5>
-                </div>
-                <div class="page-content">
-                <label for="due_date" class="form-label">Due Date:</label>
-                            <input type="date" class="form-control" name="due_date" id="due_date"
-                                value="{{ $module->due_date ? \Carbon\Carbon::parse($module->due_date)->format('Y-m-d') : '' }}">
-                </div>
-            </div>
-        </div>
-
         <button type="submit" class="btn btn-primary float-end marg-btm-cus">Update</button>
     </form>
 

@@ -6,9 +6,13 @@
 <x-head.tinymce-config/>
 
 <div class="container-fluid">
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5>
+    <!-- <div class="card mb-3"> -->
+        <!-- <div class="card-body"> -->
+            
+            <div class="card mt-2" style="padding: 20px;">
+                <div class="card-body position-relative">
+
+                <h5>
                 Asked by: 
                 @if($post->is_anonymous)
                     Your Friendly Colleague
@@ -18,8 +22,6 @@
                     {{ $user->name }}
                 @endif
             </h5>
-            <div class="card mt-2" style="padding: 20px;">
-                <div class="card-body position-relative">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5 class="card-title">{{ $post->title }}</h5>
@@ -44,8 +46,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 
     <!-- Display answers related to the post -->
     @if($answers->isNotEmpty())
