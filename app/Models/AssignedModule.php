@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Thiagoprz\CompositeKey\HasCompositeKey;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
+
 
 class AssignedModule extends Model
 {
@@ -32,6 +30,11 @@ class AssignedModule extends Model
     public function companyUser() : BelongsTo
     {
         return $this->belongsTo(CompanyUser::class, ['UserID', 'CompanyID'], ['UserID', 'CompanyID']); //Correct due to composite keys library
+    }
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'UserID');
     }
 
     // Relationship with the Module model

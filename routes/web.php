@@ -64,7 +64,9 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         // Routes specific to admin
-        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard'); 
+        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/admin/progress-tracking', [AdminController::class, 'progressTracking'])->name('admin.progress-tracking');
+
         Route::get('/admin/profile-page', [AdminController::class, 'profile_page'])->name('admin.profile_page');
         Route::get('/admin/manage-account', [AdminController::class, 'manage_account'])->name('manage_account');
         Route::get('/admin/add-account', [AdminController::class, 'add_account'])->name('add_account');
@@ -136,9 +138,6 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         //TEST ACTIONS
         Route::get('/admin/discussion', [PostController::class, 'homepageName'])->name('randomPost'); // Display random posts
-        
-        //TODO: REMOVE TEST ACTIONS
-        Route::post('/admin/create-activity', [AdminController::class, 'createActivity'])->name('admin.create-activity');
 
         Route::get('/admin/leaderboard', [AdminController::class, 'leaderboard'])->name('admin.leaderboard');
 
