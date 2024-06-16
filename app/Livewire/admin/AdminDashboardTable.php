@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ComponentColumn;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+use App\Models\ItemProgress;
 
 class AdminDashboardTable extends DataTableComponent
 {
@@ -25,7 +26,9 @@ class AdminDashboardTable extends DataTableComponent
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->join('companyusers', 'users.id', '=', 'companyusers.UserID')
             ->where('companyusers.CompanyID', '=', $user->companyUser()->first()->CompanyID)
-            ->whereColumn('users.last_active_session', '=', 'user_session.id');
+            ->whereColumn('users.last_active_session', '=', 'user_session.id')
+            ->orderBy('users.last_active_session', 'desc')
+            ->limit(10);
 
         return $query;
     }
@@ -58,7 +61,13 @@ class AdminDashboardTable extends DataTableComponent
             ComponentColumn::make('Progress', 'UserID')
                 ->component('table.progress-bar')
                 ->attributes(fn ($value, $row, Column $column) => [
-                    'progress' => '50%' //TODO: Implement logic to calculate progress
+                    'progress' => round(ItemProgress::where('UserID', $value)->get()->reduce(function ($numberCompleted, $data) {
+                        if ($data->IsCompleted) {
+                            $numberCompleted++;
+                        }
+
+                        return $numberCompleted;
+                    }) / (ItemProgress::where('UserID', $value)->get()->count() > 0 ? ItemProgress::where('UserID', $value)->get()->count() : 1) * 100, 0) . '%'
                 ]),
             Column::make("Last Activity At", "last_activity_at")
                 ->format (fn ($value, $row, Column $column) => $value->setTimezone('Asia/Kuala_Lumpur')->toDayDateTimeString())
