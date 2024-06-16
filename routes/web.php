@@ -212,7 +212,7 @@ Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
             Route::get('/superadmin/delete-company/{id}', [SuperAdminController::class, 'deleteCompany'])->name('superadmin.delete_company');
         });
     });
-});
+
 
 //Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
 //Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);
