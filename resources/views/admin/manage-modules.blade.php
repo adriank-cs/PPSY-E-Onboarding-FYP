@@ -25,15 +25,15 @@
     <div class="col-12">
         <div class="row modules-container">
             @foreach($modules as $module)
-                <div class="col-md-4 d-flex align-items-stretch">
-                    <div class="card module-card h-100">
-                        <div class="card-body module-card-body d-flex flex-column">
+                <div class="col-md-4">
+                    <div class="card module-card">
+                        <div class="card-body module-card-body">
                             <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
                                 <div class="row module-image">
                                     <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
                                 </div>
                             </a>
-                            <div class="row module-title mt-auto">
+                            <div class="row module-title">
                                 <div class="col-9">
                                     <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
                                         <h5 class="card-title">{{ $module->title }}</h5>
