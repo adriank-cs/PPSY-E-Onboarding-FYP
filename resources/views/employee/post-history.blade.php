@@ -11,12 +11,11 @@
     @if($postHistories->isNotEmpty())
         <div id="history-container">
             @foreach($postHistories as $history)
-                <div class="card mb-3">
+                <div class="card card-post-details mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ $history->title }}</h5>
                         <p class="card-text">{!! $history->content !!}</p>
                         <p class="card-text">Asked by: {{ Auth::id() == $history->UserID ? 'You' : $history->user->name }}</p>
-                        <p class="card-text">Edited By: {{ $history->updated_by ? (Auth::id() == $history->updated_by ? 'You' : $history->user->name) : '-' }}</p>
                         <p class="card-text">Edited At: {{ $history->updated_at ? $history->updated_at->format('M d, Y') : '-' }}</p>
                     </div>
                 </div>
