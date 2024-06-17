@@ -7,24 +7,23 @@
     
     <div class="row">
         @foreach ($quizzes as $quiz)
-        <div class="col-md-5">
-            <div class="card mb-3">
-          
-                <div class="card-body " >
-                    
-                    <h5 class="card-title">{{ $quiz->title }}</h5>
+            <div class="col-md-5">
+                <div class="card mb-3">
+
+                    <div class="card-body " >
+
+                        <h5 class="card-title">{{ $quiz->title }}</h5>
+
+                    </div>
+
+                     <div class="card-footer">
+                        <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary btn-sm " >View Quiz</a>
+                    </div>
 
                 </div>
-
-                 <div class="card-footer">
-                    <a href="{{ route('quizzes.show', $quiz->id) }}" class="btn btn-primary btn-sm " >View Quiz</a>
-                </div>
-
             </div>
-        </div>
         @endforeach
     </div>
 </div>
 </div>
 @endsection
-

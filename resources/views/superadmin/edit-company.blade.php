@@ -12,6 +12,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Company Name:</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name" value="{{ $company->Name }}" required>
+
                 </div>
 
                 <div class="mb-3">
@@ -28,7 +29,7 @@
 
                 <div class="mb-3">
                     <label for="address" class="form-label">Address:</label>
-                    <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter company address" required>{{ $company->Address }}</textarea>
+                       <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter company address" required>{{ $company->Address }}</textarea>
                 </div>
 
                 <div class="mb-3">
@@ -56,6 +57,30 @@
                     </div>
                 </div>
                 <br>
+
+                <!-- Added by Alda for Subscription -->
+                <div class="mb-3">
+                    <label for="subscription_status" class="form-label">Subscription Status:</label>
+                    <p>
+                        @if($company->subscription_ends_at && \Carbon\Carbon::now()->lessThanOrEqualTo(\Carbon\Carbon::parse($company->subscription_ends_at)->addDays(3)))
+                            <span class="text-success">Valid</span>
+                        @else
+                            <span class="text-danger">Invalid</span>
+                        @endif
+                    </p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="subscription_starts_at" class="form-label">Subscription Starts At:</label>
+                    <input type="date" class="form-control" id="subscription_starts_at" name="subscription_starts_at"
+                        value="{{ $company->subscription_starts_at ? \Carbon\Carbon::parse($company->subscription_starts_at)->format('Y-m-d') : '' }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="subscription_ends_at" class="form-label">Subscription Ends At:</label>
+                    <input type="date" class="form-control" id="subscription_ends_at" name="subscription_ends_at"
+                        value="{{ $company->subscription_ends_at ? \Carbon\Carbon::parse($company->subscription_ends_at)->format('Y-m-d') : '' }}">
+                </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

@@ -121,14 +121,13 @@
                                 placeholder="Enter biography"></textarea>
                         </div>
 
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                             <label class="form-check-label custom-label" for="isAdmin">
                                 Admin Status
                             </label>
                             <input class="form-check-input" type="checkbox" value="" id="isAdmin">
 
                         </div>
-
 
                     </div>
                 </div>

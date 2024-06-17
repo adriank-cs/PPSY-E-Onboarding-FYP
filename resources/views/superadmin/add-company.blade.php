@@ -95,17 +95,29 @@
                             placeholder="Enter color hex code">
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="button_color" class="form-label">Secondary Color:</label>
-                        <input type="text" class="form-control" id="button_color" name="button_color"
-                            placeholder="Enter color hex code">
-                    </div>
-                </div>
-                <br>
-
-                <button type="submit" class="btn btn-primary">Add</button>
-            </form>
+            <div class="col-md-6">
+                <label for="button_color" class="form-label">Secondary Color:</label>
+                <input type="text" class="form-control" id="button_color" name="button_color"
+                    placeholder="Enter color hex code">
+            </div>
         </div>
+        <br>
+        
+        <!-- Added by Alda for Subscription -->
+        <div class="mb-3">
+            <label for="subscription_starts_at" class="form-label">Subscription Starts At:</label>
+            <input type="date" class="form-control" id="subscription_starts_at" name="subscription_starts_at">
+        </div>
+
+        <div class="mb-3">
+            <label for="subscription_ends_at" class="form-label">Subscription Ends At:</label>
+            <input type="date" class="form-control" id="subscription_ends_at" name="subscription_ends_at">
+        </div>
+
+        
+        <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
     </div>
 </div>
 
