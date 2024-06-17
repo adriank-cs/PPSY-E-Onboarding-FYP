@@ -56,7 +56,7 @@ class ModuleController extends Controller
         $adminUser = auth()->user();
         // Validate the form data
         $request->validate([
-            'title' => 'required|string|max:40',
+            'title' => 'required|string|max:255',
             'croppedImage' => 'required|string',
         ]);
     
@@ -90,7 +90,7 @@ class ModuleController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'title' => 'required|string|max:40',
+            'title' => 'required|string|max:255',
         ]);
 
         $module = Module::find($id);
@@ -128,11 +128,14 @@ class ModuleController extends Controller
 
         $moduleId = $id;
 
+        //get module
+        $module = Module::find($moduleId);
+
         // Fetch modules belonging to the company ID of the currently logged-in admin
         $chapters = Chapter::where('module_id', $moduleId)->get();
 
         // Pass the profiles to the view
-        return view('admin.manage-chapters', ['chapters' => $chapters, 'moduleId' => $moduleId]);
+        return view('admin.manage-chapters', ['chapters' => $chapters, 'moduleId' => $moduleId, 'module' => $module]);
 
     }
 
@@ -204,7 +207,7 @@ class ModuleController extends Controller
         $pages = Item::where('chapter_id', $chapterId)->orderBy('order')->get();
 
         // Pass the profiles to the view
-        return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId, 'moduleId' => $moduleId]);
+        return view('admin.manage-pages', ['pages' => $pages, 'chapterId' => $chapterId, 'moduleId' => $moduleId, 'chapter' => $chapter]);
 
     }
 

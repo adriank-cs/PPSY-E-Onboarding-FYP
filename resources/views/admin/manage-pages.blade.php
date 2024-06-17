@@ -3,28 +3,31 @@
 @section('content')
 
 <div class="container-fluid">
-    <h1 class="fw-semibold mb-4">Manage Pages</h1>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="col-md-4">
-                <div class="input-group mb-3">
+    <h2 class="fw-semibold mb-4">{{$chapter->title}}</h2>
+    <hr>
+    <h2 class="fw-semibold mb-4">Manage Pages</h2>
+    <div class="row align-items-center">
+    <div class="col-12 col-md-10">
+            
+                <div class="input-group mt-2">
                     <span class="input-group-text">
                         <i class="ti ti-search"></i>
                     </span>
                     <input type="text" class="form-control" id="searchField" placeholder="Enter Page Name"
                         aria-label="Enter Page Name" aria-describedby="searchButton">
                 </div>
-            </div>
+            
         </div>
-        <div class="col-md-1">
+        <div class="col-4 col-md-1 mt-2">
             <button type="button" class="btn btn-primary m-1"
                 onclick="window.location.href='{{ route('admin.manage_chapter', ['id' => $moduleId]) }}'">Back</button>
         </div>
-        <div class="col-md-1">
+        <div class="col-4 col-md-1 mt-2">
             <button type="button" class="btn btn-primary m-1"
                 onclick="window.location.href='{{ route('admin.add_page', ['chapterId' => $chapterId]) }}'">Add</button>
         </div>
     </div>
+
     <br>
     <div id="sortable" class="col-md-12">
     @foreach($pages as $page)
