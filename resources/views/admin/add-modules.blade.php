@@ -66,7 +66,7 @@
                     <h5><label for="image" class="form-label page-title">Module Image:</label></h5>
                 </div>
                 <div class="page-content">
-                    <input type="file" class="form-control" id="image" name="image" required>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                     <button type="button" class="btn btn-primary" id="clearImageButton">Clear Image</button>
                     <img id="cropped-image-preview" style="display: none; max-width: 100%; margin-top: 10px;">
                     <input type="hidden" id="croppedImage" name="croppedImage">
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="cancelButton" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cancelButton" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="cropButton">Crop</button>
             </div>
         </div>
@@ -175,6 +175,7 @@
             imagePreview.src = '';
             croppedImagePreview.src = '';
             croppedImagePreview.style.display = 'none';
+
         });
 
         document.getElementById('clearImageButton').addEventListener('click', function () {
@@ -191,7 +192,10 @@
                 cropper.destroy();
                 cropper = null;
             }
+
         });
+
+        
     });
 
 </script>

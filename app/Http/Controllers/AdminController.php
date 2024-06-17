@@ -75,7 +75,6 @@ class AdminController extends Controller
         CompanyUser::create([
             'UserID' => $user->id,
             'CompanyID' => $adminUser->companyUser->CompanyID,
-            'isAdmin' => $request->has('isAdmin'), // Check if the checkbox is ticked
         ]);
 
         if ($request->hasFile('profilePicture')) {
@@ -98,6 +97,18 @@ class AdminController extends Controller
 
             $user->profile()->update(['profile_picture' => $profilePicturePath]);
 
+        }
+
+        // Update the isAdmin status in the companyusers table
+        if ($request->has('isAdmin')) {
+            $user->companyUser()->update([
+                'isAdmin' => $request->input('isAdmin') ? true : false,
+            ]);
+        } else {
+            // If 'isAdmin' is not present in the request, ensure to set it to false
+            $user->companyUser()->update([
+                'isAdmin' => false,
+            ]);
         }
 
         return redirect()->route('manage_account')->with('success', 'Account added successfully.');
@@ -180,7 +191,6 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required',
             'profilePicture' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -188,8 +198,14 @@ class AdminController extends Controller
 
         $user->update([
             'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
         ]);
+
+        //check if have password
+        if ($request->filled('password')) {
+            $user->update([
+                'password' => Hash::make($request->input('password')),
+            ]);
+        }
 
         // Update the user's profile details
         $user->profile->update([

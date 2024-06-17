@@ -2,6 +2,24 @@
 
 @section('content')
 
+<style>
+    .modal-dialog {
+        max-width: 100%;
+        margin: 1rem;
+    }
+
+    .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 500px;
+        background-color: #f7f7f7;
+        overflow: hidden;
+    }
+
+</style>
+
 <div class="container-fluid">
 
     <div style="padding-bottom: 2rem;">
@@ -50,7 +68,7 @@
                     <h5><label for="image" class="form-label page-title">Module Image:</label></h5>
                 </div>
                 <div class="page-content">
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
                     <button type="button" class="btn btn-secondary" id="clearImageButton">Clear Image</button>
                     <img id="cropped-image-preview" style="display: none; max-width: 100%; margin-top: 10px;">
                     <input type="hidden" id="croppedImage" name="croppedImage">
@@ -76,7 +94,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelButton" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cancelButton" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="cropButton">Crop</button>
             </div>
         </div>
@@ -110,7 +128,7 @@
 
             cropper = new Cropper(imagePreview, {
                 dragMode: 'none',
-                aspectRatio: 470 / 250,
+                aspectRatio: 470/ 250,
                 autoCropArea: 1,
                 restore: false,
                 guides: false,

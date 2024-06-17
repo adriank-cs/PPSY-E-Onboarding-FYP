@@ -36,7 +36,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="profilePicture" class="form-label">Profile Picture:</label>
-                            <input type="file" class="form-control" id="profilePicture" name="profilePicture">
+                            <input type="file" class="form-control" id="profilePicture" name="profilePicture" accept="image/*">
                         </div>
                     </div>
                 </div>
@@ -73,8 +73,8 @@
                             <label for="gender" class="form-label">Gender:</label>
                             <select class="form-select" id="gender" name="gender">
                                 <option value="" disabled selected>Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                         </div>
 
@@ -125,7 +125,7 @@
                             <label class="form-check-label custom-label" for="isAdmin">
                                 Admin Status
                             </label>
-                            <input class="form-check-input" type="checkbox" value="" id="isAdmin">
+                            <input class="form-check-input" type="checkbox" name="isAdmin" value="1" id="isAdmin">
 
                         </div>
 
