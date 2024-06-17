@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Discussion</h3>
                 <div>
-                    <a href="{{ route('admin.check-post', ['filter' => 'all_posts']) }}" class="btn {{ request('filter') == 'my_questions' ? 'btn-secondary' : 'btn-primary' }}">All Posts</a>
+                    <a href="{{ route('admin.check-post', ['filter' => 'all_posts']) }}" class="btn {{ request('filter') == 'my_questions' ? 'btn-primary' : 'btn-secondary' }}">All Posts</a>
                     <a href="{{ route('admin.check-post', ['filter' => 'my_questions']) }}" class="btn {{ request('filter') == 'my_questions' ? 'btn-primary' : 'btn-secondary' }}">My Questions</a>
                 </div>
             </div>
@@ -16,7 +16,7 @@
 
     <div id="posts-container">
         @foreach($postedQuestions as $post)
-            <div class="card mb-3 position-relative">
+            <div class="card mb-3 position-relative discussion-card-shadow">
                 <div class="card-body d-flex justify-content-between align-items-center">
                     <div>
                         <a href="{{ route('admin.postDisplay', ['PostID' => $post->PostID]) }}" class="text-decoration-none text-dark">
@@ -54,7 +54,7 @@
                         </div>
                         <table class="table table-borderless mb-0 text-start small-text" style="margin: 0;">
                             <tr>
-                                <td class="text-muted text-end pe-2" style="padding: 0;">Created At:</td>
+                                <td class="text-muted text-end pe-2" style="padding: 0;">Posted At:</td>
                                 <td style="padding: 0;">{{ $post->created_at->format('M d, Y') }}</td>
                             </tr>
                             <tr>

@@ -63,7 +63,7 @@
                         <div class="col-md-6 mb-3">
                             <!-- Wrap each card in an anchor tag -->
                             <a href="{{ route('admin.postDisplay', ['PostID' => $randomPosts[$index]->PostID]) }}">
-                                <div class="card twoxtwo-gray-card border-gray">
+                                <div class="card twoxtwo-gray-card border-gray discussion-card-shadow">
                                     <div class="card-body">
                                         <!-- Card content goes here -->
                                         @php $userId = $randomPosts[$index]->UserID; @endphp
