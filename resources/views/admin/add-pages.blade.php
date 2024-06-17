@@ -315,7 +315,7 @@ function showErrorModal(message) {
                     <option value="short_answer">Text Field</option>
                     <option value="checkbox">Checkbox</option>
                 </select>
-                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>
             <div id="answer-container-${currentQuestionCount}"></div>
         </div>`;
@@ -390,13 +390,13 @@ function showErrorModal(message) {
             newAnswer = `<div class="input-group mt-2">
                 <input type="checkbox" class="form-check-input" name="correct_answers[${questionId}][]" value="${existingAnswerCount}">
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})"><i class="fas fa-trash"></i></button>
             </div>`;
         } else {
             newAnswer = `<div class="input-group mt-2">
                 <input type="radio" class="form-check-input" name="correct_answers[${questionId}]" value="${existingAnswerCount}" required>
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         }
 
