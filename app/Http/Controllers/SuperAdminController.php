@@ -64,6 +64,9 @@ class SuperAdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'company' => 'required|exists:companies,CompanyID',
+            'subscription_starts_at' => 'nullable|date', // Added by Alda for subscription
+            'subscription_ends_at' => 'nullable|date', // Added by Alda for subscription
+
         ]);
 
         // Create the user account
@@ -201,6 +204,8 @@ class SuperAdminController extends Controller
             'sidebar_color' => 'required|string',
             'button_color' => 'required|string',
             'logo' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'subscription_starts_at' => 'nullable|date', // Added by Alda for subscription
+            'subscription_ends_at' => 'nullable|date', // Added by Alda for subscription
         ]);
 
         //$company = Company::findOrFail($id);
@@ -213,6 +218,9 @@ class SuperAdminController extends Controller
             'Website' => $request->input('website'),
             'sidebar_color' => $request->input('sidebar_color'),
             'button_color' => $request->input('button_color'),
+            'subscription_starts_at' => $request->input('subscription_starts_at'), // Added by Alda for subscription
+            'subscription_ends_at' => $request->input('subscription_ends_at'), // Added by Alda for subscription
+
         ]);
 
         if ($request->hasFile('logo')) {
@@ -238,6 +246,9 @@ class SuperAdminController extends Controller
             'website' => 'required|string',
             'sidebar_color' => 'required|string',
             'button_color' => 'required|string',
+            'subscription_starts_at' => 'nullable|date', // Added by Alda for subscription
+            'subscription_ends_at' => 'nullable|date', // Added by Alda for subscription
+
         ]);
 
         $companyLogo = $request->file('logo');
@@ -251,6 +262,9 @@ class SuperAdminController extends Controller
             'Website' => $request->input('website'),
             'sidebar_color' => $request->input('sidebar_color'),
             'button_color' => $request->input('button_color'),
+            'subscription_starts_at' => $request->input('subscription_starts_at'), // Added by Alda for subscription
+            'subscription_ends_at' => $request->input('subscription_ends_at'), // Added by Alda for subscription
+
         ]);
 
           //update company_logo field to be companyLogoPath

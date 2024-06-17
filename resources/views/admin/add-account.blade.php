@@ -129,12 +129,6 @@
 
                         </div>
 
-                        <!-- Added by Alda for Subscription Status -->
-                        <div class="mb-3">
-                            <label for="subscription_ends_at" class="form-label">Subscription Ends At:</label>
-                            <input type="date" class="form-control" id="subscription_ends_at" name="subscription_ends_at">
-                        </div>
-
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-end">Add</button>

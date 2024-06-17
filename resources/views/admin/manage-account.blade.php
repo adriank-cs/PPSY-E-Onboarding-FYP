@@ -30,14 +30,6 @@
                         <div class="col-md-10">
                             <h5 class="card-title">{{ $profile->name }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ $profile->employee_id }}</h6>
-                            
-                            <!-- Added by Alda for Subscription Status -->
-                            @php
-                                $currentDate = \Carbon\Carbon::now();
-                                $expiryDate = \Carbon\Carbon::parse($profile->subscription_ends_at);
-                                $status = $currentDate->lessThanOrEqualTo($expiryDate) ? 'Valid' : 'Invalid';
-                            @endphp
-                            <p class="text-muted">Subscription Status: <strong>{{ $status }}</strong></p>
 
                         </div>
 

@@ -126,25 +126,7 @@
                             </label>
                             <input class="form-check-input" type="checkbox" value="1" id="isAdmin" name="isAdmin" {{ $user->companyUser->isAdmin ? 'checked' : '' }}>
                         </div>
-
-                        <!-- Added by Alda for Subscription Status -->
-                        @php
-                            $currentDate = \Carbon\Carbon::now();
-                            $expiryDate = \Carbon\Carbon::parse($profile->subscription_ends_at);
-                            $status = $currentDate->lessThanOrEqualTo($expiryDate) ? 'Valid' : 'Invalid';
-                        @endphp
-                        <div class="mb-3">
-                            <label for="subscription_status" class="form-label">Subscription Status:</label>
-                            <input type="text" class="form-control" id="subscription_status" name="subscription_status"
-                                value="{{ $status }}" readonly>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="subscription_ends_at" class="form-label">Subscription Ends At:</label>
-                            <input type="date" class="form-control" id="subscription_ends_at"
-                                name="subscription_ends_at" value="{{ $profile->subscription_ends_at }}">
-                        </div>
-
+                        
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-end">Update</button>

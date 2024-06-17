@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             //To log activity
             \App\Http\Middleware\LogUserActivity::class,
+            \App\Http\Middleware\CheckSubscription::class, //Added by Alda for Subscription Status
         ],
 
         'api' => [

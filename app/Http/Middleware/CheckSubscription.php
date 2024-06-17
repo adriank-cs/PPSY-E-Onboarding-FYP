@@ -12,16 +12,21 @@ class CheckSubscription
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-        $profile = $user->profile;
 
-        if ($profile && $profile->subscription_ends_at) {
-            $expiryDate = Carbon::parse($profile->subscription_ends_at);
-            $gracePeriod = $expiryDate->copy()->addDays(3);
-            $currentDate = Carbon::now();
+        // Check if the user is authenticated and has a companyUser relationship
+        if ($user && $user->companyUser) {
+            $companyUser = $user->companyUser;
+            $company = \App\Models\Company::find($companyUser->CompanyID);
 
-            if ($currentDate->greaterThan($gracePeriod)) {
-                Auth::logout();
-                return redirect()->route('login')->with('error', 'Your subscription has expired. Please renew your subscription to continue.');
+            if ($company && $company->subscription_ends_at) {
+                $expiryDate = Carbon::parse($company->subscription_ends_at);
+                $gracePeriod = $expiryDate->copy()->addDays(3);
+                $currentDate = Carbon::now();
+
+                if ($currentDate->greaterThan($gracePeriod)) {
+                    Auth::logout();
+                    return redirect()->route('login')->with('error', 'Your company subscription has expired. Please contact your administrator.');
+                }
             }
         }
 

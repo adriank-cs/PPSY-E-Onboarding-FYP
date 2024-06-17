@@ -70,7 +70,7 @@ class User extends Authenticatable
     // Relationship with CompanyUser model
     public function companyUser() : HasOne
     {
-        return $this->hasOne(CompanyUser::class, 'UserID');
+        return $this->hasOne(CompanyUser::class, 'UserID','id');
     }
 
     // Relationship with Profile model

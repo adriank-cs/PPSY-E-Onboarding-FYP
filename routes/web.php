@@ -56,12 +56,12 @@ Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('adm
 Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
 
-Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {   
     // Common authenticated user routes (both admin and employee)
 
     //Route::middleware(['check.subscription'])->group(function () {
 
-    Route::middleware(['admin'])->group(function () {
+    Route::middleware(['admin', 'check.subscription'])->group(function () {
         // Routes specific to admin
         Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/progress-tracking', [AdminController::class, 'progressTracking'])->name('admin.progress-tracking');
@@ -145,7 +145,7 @@ Route::middleware(['web', 'auth', 'check.subscription'])->group(function () {
 
     });
 
-        Route::middleware(['employee'])->group(function () {
+        Route::middleware(['employee', 'check.subscription'])->group(function () {
             // Routes specific to employee
             Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
             Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
