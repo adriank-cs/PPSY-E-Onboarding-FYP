@@ -49,12 +49,23 @@ $(document).on('DOMNodeInserted', "#messageArea", function() {
 function replacelink() {
   $('#messageArea .msg p').each(function(){
       text = $(this).html();
-      link = text.match(/(Link:)\s(\/[^<]*)/g);
-      if(link)
+
+      if(text.includes('Link:'))
       {
         $(this).html(' ');
+        link = text.match(/(Link:)\s(\/[^<]*)/g);
         url = link.toString().substring(5);
         text = text.match(/(.*)(Link:)/g).toString().substring(0,4);
+        $(this).empty();
+        $(this).html('<a href="' + url + '" target="_blank">' + text + '</a>');
+        $(this).addClass('linked');
+      }
+      else if(text.includes('File:'))
+      {
+        $(this).html(' ');
+        file = text.match(/(File:)\s(\/[^<]*)/g);
+        url = file.toString().substring(5);
+        text = text.match(/(.*)(File:)/g).toString().substring(0,4);
         $(this).empty();
         $(this).html('<a href="' + url + '" download>' + text + '</a>');
         $(this).addClass('linked');

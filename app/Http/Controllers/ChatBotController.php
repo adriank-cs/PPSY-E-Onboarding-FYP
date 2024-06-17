@@ -54,22 +54,33 @@ class ChatBotController extends Controller
             $bot->reply('Hey brotha!');
         });
 
-        $botman->hears('Document', function (BotMan $bot) {
+        $botman->hears('Retrieve Document', function (BotMan $bot) {
 
             //Create attachment
             $url = Storage::url('pdf_attachments/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf');
-            $attachment = new File($url, [
-                'custom_payload' => true,
-            ]);
 
             //Build message object
-            $message = OutgoingMessage::create("Link: " . $url)
-                ->withAttachment($attachment);
+            $message = OutgoingMessage::create("File: " . $url);
 
             Log::info(print_r($message, true));
 
             //Reply message
-            $bot->reply("Here's the document you requested!");
+            $bot->reply("Here's the file you requested!");
+            $bot->reply($message);
+        });
+
+        $botman->hears('Navigate to Page', function (BotMan $bot) {
+
+            //Create attachmentURL
+            $url = route('employee.profile_page', [], false);
+
+            //Build message object
+            $message = OutgoingMessage::create("Link: " . $url);
+
+            Log::info(print_r($message, true));
+
+            //Reply message
+            $bot->reply("Here's the page you requested!");
             $bot->reply($message);
         });
 
