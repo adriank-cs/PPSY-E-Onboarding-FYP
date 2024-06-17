@@ -3,13 +3,10 @@
 @section('content')
 
 <div class="container-fluid">
-
     <div class="card">
-
         <div class="card-body">
-
-        <form action="{{ route('superadmin.edit_company.post', ['id' => $company->CompanyID]) }}" method="POST" enctype="multipart/form-data">
-
+            <h2>Edit Company</h2>
+            <form action="{{ route('superadmin.edit_company.post', ['id' => $company->CompanyID]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
@@ -22,7 +19,6 @@
                     <label for="industry" class="form-label">Industry:</label>
                     <select class="form-select" id="industry" name="industry" required>
                         <option value="" disabled>Select Industry</option>
-
                         @foreach($industries as $industry)
                             <option value="{{ $industry }}" {{ $company->Industry == $industry ? 'selected' : '' }}>
                                 {{ $industry }}
@@ -43,25 +39,21 @@
 
                 <div class="mb-3">
                     <label for="logo" class="form-label">Company Logo:</label>
-                    <input type="file" class="form-control" id="logo" name="logo" >
+                    <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
                     @if($company->company_logo)
-                        <img src="{{ Storage::url($company->company_logo) }}" alt="CompanyLogo" style="max-width: 200px; margin-top: 10px;">
+                        <img src="{{ Storage::url($company->company_logo) }}" alt="CompanyLogo" id="current-logo" style="max-width: 500px; max-height: 200px; margin-top: 10px;">
                     @endif
                 </div>
-
-
 
                 <div class="row">
                     <div class="col-md-6">
                         <label for="sidebar_color" class="form-label">Primary Color:</label>
-                        <input type="text" class="form-control" id="sidebar_color" name="sidebar_color" placeholder="Enter color hex code"
-                            value="{{ $company->button_color }}">
+                        <input type="text" class="form-control" id="sidebar_color" name="sidebar_color" placeholder="Enter color hex code" value="{{ $company->button_color }}">
                     </div>
 
                     <div class="col-md-6">
                         <label for="button_color" class="form-label">Secondary Color:</label>
-                        <input type="text" class="form-control" id="button_color" name="button_color"
-                            placeholder="Enter color hex code" value="{{ $company->button_color }}">
+                        <input type="text" class="form-control" id="button_color" name="button_color" placeholder="Enter color hex code" value="{{ $company->sidebar_color }}">
                     </div>
                 </div>
                 <br>
@@ -92,9 +84,53 @@
 
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
-
         </div>
     </div>
 </div>
+
+<!-- Modal for image preview -->
+<div class="modal fade" id="logoPreviewModal" tabindex="-1" aria-labelledby="logoPreviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoPreviewModalLabel">Logo Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="logo-preview" src="" alt="Logo Preview" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="confirm-logo">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('logo').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('logo-preview').src = e.target.result;
+                var logoPreviewModal = new bootstrap.Modal(document.getElementById('logoPreviewModal'), {
+                    keyboard: false
+                });
+                logoPreviewModal.show();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('confirm-logo').addEventListener('click', function() {
+        const newLogoSrc = document.getElementById('logo-preview').src;
+        document.getElementById('current-logo').src = newLogoSrc;
+        document.getElementById('current-logo').style.maxWidth = '500px';
+        document.getElementById('current-logo').style.maxHeight = '200px';
+        var logoPreviewModal = bootstrap.Modal.getInstance(document.getElementById('logoPreviewModal'));
+        logoPreviewModal.hide();
+    });
+</script>
 
 @endsection
