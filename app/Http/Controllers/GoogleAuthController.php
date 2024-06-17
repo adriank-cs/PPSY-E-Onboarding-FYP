@@ -38,11 +38,11 @@ class GoogleAuthController extends Controller
             if (Auth::check()) {
                 $user = Auth::user();
                 if ($user->isSuperadmin()) {
-                    return redirect()->route('superadmin.profile_page');
+                    return redirect()->route('superadmin.dashboard');
                 } elseif ($user->companyUser && $user->companyUser->isAdmin){
-                    return redirect()->route('admin.profile_page');
+                    return redirect()->route('admin.dashboard');
                 } else {
-                    return redirect()->route('employee.profile_page');
+                    return redirect()->route('employee.dashboard');
                 }
             }
           

@@ -65,7 +65,7 @@
                                 <option value="short_answer" {{ $question->type == 'short_answer' ? 'selected' : '' }}>Text Field</option>
                                 <option value="checkbox" {{ $question->type == 'checkbox' ? 'selected' : '' }}>Checkbox</option>
                             </select>
-                            <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
                         </div>
                         <div id="answer-container-{{ $index }}">
                             @php
@@ -81,7 +81,7 @@
                                             <input type="radio" class="form-check-input" name="correct_answers[{{ $index }}]" value="{{ $optIndex }}" {{ $correctAnswers == $optIndex ? 'checked' : '' }}>
                                         @endif
                                         <input type="text" class="form-control consistent-width-input" id="answer_text-{{ $index }}-{{ $optIndex }}" name="answers[{{ $index }}][]" value="{{ $option }}" placeholder="Enter answer option">
-                                        <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, {{ $index }})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                                        <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, {{ $index }})" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
                                     </div>
                                 @endforeach
                                 <button type="button" class="btn btn-primary add-option-btn" onclick="addAnswerOption({{ $index }})">Add Option</button>
@@ -146,7 +146,8 @@
                         <option value="short_answer">Text Field</option>
                         <option value="checkbox">Checkbox</option>
                     </select>
-                    <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+
+                    <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
                 </div>
                 <div id="answer-container-${currentQuestionCount}"></div>
             </div>`;
@@ -214,13 +215,13 @@
             newAnswer = `<div class="input-group mt-2">
                 <input type="checkbox" class="form-check-input" name="correct_answers[${questionId}][]" value="${existingAnswerCount}">
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option">
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         } else {
             newAnswer = `<div class="input-group mt-2">
                 <input type="radio" class="form-check-input" name="correct_answers[${questionId}]" value="${existingAnswerCount}">
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option">
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style= "border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         }
 
