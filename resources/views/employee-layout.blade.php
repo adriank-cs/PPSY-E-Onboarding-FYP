@@ -68,6 +68,7 @@ $company_logo = $company->company_logo;
 
     </div>
 
+    <!-- AI Chatbot Script -->
     <script>
         let primaryColor = "{{ $buttonColor }}";
         let company = "{{ $company->Name }}"
@@ -88,9 +89,7 @@ $company_logo = $company->company_logo;
             userId: userId
         };
     </script>
-
-    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
-
+    <!-- AI Chatbot Script End -->
 
     <script type="text/javascript" src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
