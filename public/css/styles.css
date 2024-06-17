@@ -20335,6 +20335,12 @@ ul {
     margin:20px 0px;
 }
 
+.module-title .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .module-image img {
     width: 100%;
     height: auto;
@@ -20395,6 +20401,10 @@ ul {
 
 .chapter-box-toggle .ti{
     font-size:30px;
+}
+
+.profile-card{
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
 .page-content {
@@ -20732,3 +20742,36 @@ button.btn.btn-primary.add-option-btn{
     text-align: center;
 }
 
+/*post css discussion*/
+
+.profile-picture-small {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+    margin-right: 10px;
+}
+
+.deleted-badge {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    background-color: #d3d3d3; /* Grey background */
+    margin-bottom: 10px; /* Add a small gap */
+}
+
+.deleted-badge i {
+    margin-right: 5px;
+}
+
+.card-post-details{
+
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+
+}
