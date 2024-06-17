@@ -4218,19 +4218,19 @@ fieldset:disabled .btn {
 
 .btn-danger {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #FA896B;
-    --bs-btn-border-color: #FA896B;
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #d5745b;
-    --bs-btn-hover-border-color: #c86e56;
+    --bs-btn-hover-bg: var(--bs-secondary);
+    --bs-btn-hover-border-color: var(--bs-secondary);
     --bs-btn-focus-shadow-rgb: 251, 155, 129;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #c86e56;
-    --bs-btn-active-border-color: #bc6750;
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #FA896B;
-    --bs-btn-disabled-border-color: #FA896B
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
 }
 
 .btn-light {
@@ -20301,7 +20301,7 @@ ul {
     }
 
   .btn-success,
-  .btn-danger {
+  .btn-danger{
       border-radius: 10px;
       /* Rounded corners */
       height: 38px;
@@ -20339,6 +20339,12 @@ ul {
     margin:20px 0px;
 }
 
+.module-title .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .module-image img {
     width: 100%;
     height: auto;
@@ -20354,8 +20360,7 @@ ul {
     border-radius: 10px 10px 0 0;
     /* Rounded corners on the top */
     color: white;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Shadow effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
 .row.module-image{
@@ -20399,6 +20404,10 @@ ul {
 
 .chapter-box-toggle .ti{
     font-size:30px;
+}
+
+.profile-card{
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
 
 .page-content {
@@ -20620,7 +20629,7 @@ i.ti.ti-checklist:hover{
     margin: 10px 0; /* Margin top and bottom for spacing */
     border: 1px solid #ddd; /* Add a border for better visibility */
     border-radius: 8px; /* Optional: rounded corners */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: shadow for depth */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: shadow for depth */
 }
 
 .colleagues-card-body {
@@ -20668,7 +20677,7 @@ i.ti.colleague-details-email{
 
     border: 1px solid #ddd;
     border-radius: 10px; /* Optional: Add rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
 
 }
 
@@ -20680,7 +20689,7 @@ i.ti.colleague-details-email{
     margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     padding: 10px;
 }
 
@@ -20734,4 +20743,42 @@ button.btn.btn-primary.add-option-btn{
 
 .links-cards{
     text-align: center;
+}
+
+/*post css discussion*/
+
+.profile-picture-small {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin: 0 auto; /* Center the image horizontally */
+    margin-right: 10px;
+}
+
+.deleted-badge {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    background-color: #d3d3d3; /* Grey background */
+    margin-bottom: 10px; /* Add a small gap */
+}
+
+.deleted-badge i {
+    margin-right: 5px;
+}
+
+.card-post-details{
+
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+
+}
+
+.discussion-card-shadow{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
 }

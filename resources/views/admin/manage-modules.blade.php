@@ -4,10 +4,9 @@
 
 <div class="container-fluid">
     <h1 class="fw-semibold mb-4">Manage Modules</h1>
-    <div class="row">
-        <div class="col-11">
-            <div class="col-4">
-                <div class="input-group mb-3">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-11">
+                <div class="input-group mt-2">
                     <span class="input-group-text">
                         <i class="ti ti-search"></i>
                     </span>
@@ -15,27 +14,29 @@
                         aria-label="Enter Module Name" aria-describedby="searchButton">
                 </div>
             </div>
+            <div class="col-4 col-md-1 mt-2">
+                <button type="button" class="btn btn-primary w-100"
+                    onclick="window.location.href='{{ route('admin.add_module') }}'">Add</button>
+            </div>
         </div>
-        <div class="col-1">
-            <button type="button" class="btn btn-primary m-1"
-                onclick="window.location.href='{{ route('admin.add_module') }}'">Add</button>
-        </div>
-    </div>
     <br>
     <div class="col-12">
         <div class="row modules-container">
+            <div class="col-md-4" style="visibility:hidden;"></div>
             @foreach($modules as $module)
-                <div class="col-md-4 d-flex align-items-stretch">
-                    <div class="card module-card h-100">
-                        <div class="card-body module-card-body d-flex flex-column">
-                            <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
+                <div class="col-md-4">
+                    <div class="card module-card">
+                        <div class="card-body module-card-body">
+                            <a
+                                href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
                                 <div class="row module-image">
                                     <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
                                 </div>
                             </a>
-                            <div class="row module-title mt-auto">
+                            <div class="row module-title">
                                 <div class="col-9">
-                                    <a href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
+                                    <a
+                                        href="{{ route('admin.manage_chapter', ['id' => $module->id]) }}">
                                         <h5 class="card-title">{{ $module->title }}</h5>
                                     </a>
                                 </div>
@@ -58,12 +59,14 @@
                                     </div>
                                 </div>
                                 <div class="col-1 text-center module-buttons">
-                                    <a href="{{ route('admin.edit_module', ['id' => $module->id]) }}">
+                                    <a
+                                        href="{{ route('admin.edit_module', ['id' => $module->id]) }}">
                                         <span class="module-box-icons"><i class="ti ti-pencil"></i></span>
                                     </a>
                                 </div>
                                 <div class="col-1 text-center module-buttons">
-                                    <a href="#" onclick="confirmDelete('{{ route('admin.delete_module', ['id' => $module->id]) }}')">
+                                    <a href="#"
+                                        onclick="confirmDelete('{{ route('admin.delete_module', ['id' => $module->id]) }}')">
                                         <span class="module-box-icons"><i class="ti ti-trash"></i></span>
                                     </a>
                                 </div>
@@ -106,6 +109,7 @@
             window.location.href = url;
         }
     }
+
 </script>
 
 @endsection

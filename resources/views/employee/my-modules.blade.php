@@ -25,33 +25,33 @@
         <!-- In Progress Modules -->
         <div class="tab-pane fade show active" id="in-progress" role="tabpanel" aria-labelledby="in-progress-tab">
             <div class="row">
-                <div class="col-12">
-                    <div class="col-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="ti ti-search"></i>
-                            </span>
-                            <input type="text" class="form-control" id="searchFieldInProgress"
-                                placeholder="Enter Module Name" aria-label="Enter Module Name"
-                                aria-describedby="searchButton">
-                        </div>
+                <div class="col-12 col-md-12">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="ti ti-search"></i>
+                        </span>
+                        <input type="text" class="form-control" id="searchFieldInProgress"
+                            placeholder="Enter Module Name" aria-label="Enter Module Name"
+                            aria-describedby="searchButton">
                     </div>
                 </div>
             </div>
+
             <br>
             <div class="col-12">
                 <div class="row modules-container" id="inProgressModulesContainer">
+                    <div class="col-md-4" style="visibility:hidden;"></div>
                     @foreach($inProgressModules as $module)
-                        <div class="col-md-4 d-flex align-items-stretch">
-                            <div class="card module-card h-100">
-                                <div class="card-body module-card-body d-flex flex-column">
+                        <div class="col-md-4">
+                            <div class="card module-card">
+                                <div class="card-body module-card-body">
                                     <a
                                         href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
                                         <div class="row module-image">
                                             <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
                                         </div>
                                     </a>
-                                    <div class="row module-title mt-auto">
+                                    <div class="row module-title">
                                         <div class="col-12">
                                             <a
                                                 href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
@@ -59,7 +59,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row mt-auto">
+                                    <div class="row">
                                         <div class="col-12">
                                             <div class="progress-container">
                                                 <div class="progress">
@@ -82,33 +82,34 @@
         <!-- Completed Modules -->
         <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
             <div class="row">
-                <div class="col-12">
-                    <div class="col-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="ti ti-search"></i>
-                            </span>
-                            <input type="text" class="form-control" id="searchFieldCompleted"
-                                placeholder="Enter Module Name" aria-label="Enter Module Name"
-                                aria-describedby="searchButton">
-                        </div>
+                <div class="col-12 col-md-12">
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="ti ti-search"></i>
+                        </span>
+                        <input type="text" class="form-control" id="searchFieldCompleted"
+                            placeholder="Enter Module Name" aria-label="Enter Module Name"
+                            aria-describedby="searchButton">
                     </div>
+
                 </div>
             </div>
             <br>
             <div class="col-12">
                 <div class="row modules-container" id="completedModulesContainer">
+                    <div class="col-md-4" style="visibility:hidden;"></div>
                     @foreach($completedModules as $module)
-                        <div class="col-md-4 d-flex align-items-stretch">
-                            <div class="card module-card h-100">
-                                <div class="card-body module-card-body d-flex flex-column">
+                        <div class="col-md-4">
+                            <div class="card module-card">
+                                <div class="card-body module-card-body">
                                     <a
                                         href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
                                         <div class="row module-image">
                                             <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
                                         </div>
                                     </a>
-                                    <div class="row module-title mt-auto">
+                                    <div class="row module-title">
                                         <div class="col-12">
                                             <a
                                                 href="{{ route('employee.check_item_progress', ['moduleId' => $module->id]) }}">
@@ -116,7 +117,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row mt-auto">
+                                    <div class="row">
                                         <div class="col-12">
                                             <div class="progress-container">
                                                 <div class="progress">
@@ -139,39 +140,39 @@
         <!-- Overdue Modules -->
         <div class="tab-pane fade" id="overdue" role="tabpanel" aria-labelledby="overdue-tab">
             <div class="row">
-                <div class="col-12">
-                    <div class="col-6">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                <i class="ti ti-search"></i>
-                            </span>
-                            <input type="text" class="form-control" id="searchFieldOverdue"
-                                placeholder="Enter Module Name" aria-label="Enter Module Name"
-                                aria-describedby="searchButton">
-                        </div>
+                <div class="col-12 col-md-12">
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="ti ti-search"></i>
+                        </span>
+                        <input type="text" class="form-control" id="searchFieldOverdue" placeholder="Enter Module Name"
+                            aria-label="Enter Module Name" aria-describedby="searchButton">
                     </div>
+
                 </div>
             </div>
             <br>
             <div class="col-12">
                 <div class="row modules-container" id="overdueModulesContainer">
+                    <div class="col-md-4" style="visibility:hidden;"></div>
                     @foreach($overdueModules as $module)
-                        <div class="col-md-4 d-flex align-items-stretch">
-                            <div class="card module-card h-100">
-                                <div class="card-body module-card-body d-flex flex-column">
+                        <div class="col-md-4">
+                            <div class="card module-card">
+                                <div class="card-body module-card-body">
                                     <a href="#" class="overdue-module-card">
                                         <div class="row module-image">
                                             <img src="{{ $module->image_url }}" alt="Module Photo" class="img-fluid">
                                         </div>
                                     </a>
-                                    <div class="row module-title mt-auto">
+                                    <div class="row module-title">
                                         <div class="col-12">
                                             <a href="#" class="overdue-module-card">
                                                 <h5 class="card-title">{{ $module->title }}</h5>
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row mt-auto">
+                                    <div class="row">
                                         <div class="col-12">
                                             <div class="progress-container">
                                                 <div class="progress">
@@ -207,7 +208,7 @@
         $('.overdue-module-card').on('click', function () {
             showOverdueModal(
                 'The module has been overdued and is locked. Please contact your manager for an extension!'
-                );
+            );
         });
 
         var $inProgressModulesContainer = $('#inProgressModulesContainer').masonry({
@@ -228,6 +229,21 @@
             });
             $inProgressModulesContainer.masonry('layout');
         });
+
+        // Automatically enter and remove '.' from search fields on page load
+        function triggerSearchOnLoad() {
+            var searchFields = ['#searchFieldInProgress'];
+            searchFields.forEach(function (field) {
+                var $searchField = $(field);
+                $searchField.val('.');
+                $searchField.trigger('input');
+                $searchField.val('');
+                $searchField.trigger('input');
+            });
+        }
+
+        // Call the function on page load
+        triggerSearchOnLoad();
 
         var $completedModulesContainer = $('#completedModulesContainer').masonry({
             itemSelector: '.col-md-4',

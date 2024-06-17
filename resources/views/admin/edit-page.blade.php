@@ -66,23 +66,22 @@
 
         <div class="row">
             <div class="col-md-8">
-                <div class="page-title-container">
-                    <h5><label for="pdf" class="form-label page-title">Upload PDF:</label></h5>
-                </div>
-                <div class="page-content">
-                    <input type="file" class="form-control" id="pdf" name="pdf" accept="application/pdf">
-                    <button type="button" class="btn btn-secondary" id="uploadPdfButton">Upload PDF</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-8">
 
                 <div class="page-title-container">
                     <h5><label for="content" class="form-label page-title">Page Content:</label></h5>
                 </div>
                 <div class="page-content">
+                <h5><label for="pdf" class="form-label">Extract Content from PDF: (Optional)</label></h5>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="pdf" name="pdf"
+                                            accept="application/pdf">
+                                        <button type="button" class="btn btn-secondary" id="uploadPdfButton">Upload
+                                            PDF</button>
+                                    </div>
+                                </div>
+                            </div>
                     <textarea class="form-control tinymce" id="content" name="content" rows="10"
                         placeholder="Enter content">{{ $page->content }}</textarea>
                 </div>
@@ -187,7 +186,7 @@
                         console.log('PDF uploaded');
                         tinymce.get('content').setContent(data.text);
                     } else {
-                        alert('Failed to upload and parse PDF');
+                        showErrorModal('Failed to upload and parse PDF');
                     }
 
                     // Hide the confirmation modal

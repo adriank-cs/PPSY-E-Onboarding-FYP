@@ -13,7 +13,6 @@ use App\Http\Controllers\EmployeePostController;
 use App\Http\Controllers\ForgetPassController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\ModuleController;
-use App\Http\Requests\StoreModuleRequest;
 use App\Http\Controllers\ColorPreferenceController;
 
 /*
@@ -38,14 +37,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 //aifei web.php//
 Route::get('/forgetpassword', [ForgetPassController::class, 'forgotpassword_page'])->name('forgetpass');
 //For continue login with google
-Route::get('auth/google', [GoogleAuthController::class, 'redirect']) -> name('google-auth'); 
-Route::get('auth/google/call-back', [GoogleAuthController::class, 'callback_google']) -> name('callback_google'); 
+Route::get('auth/google', [GoogleAuthController::class, 'redirect'])->name('google-auth');
+Route::get('auth/google/call-back', [GoogleAuthController::class, 'callback_google'])->name('callback_google');
 //--Forget Password--//
-Route::get('/forgot-password-page', [ForgetPassController::class, 'forgotpassword_page']) -> name('forgotpassword_page'); //display the forgot password page
-Route::post('/email-notify-page', [ForgetPassController::class, 'email_notify_page']) -> name('email_notify_page'); //display the forgot password page
+Route::get('/forgot-password-page', [ForgetPassController::class, 'forgotpassword_page'])->name('forgotpassword_page'); //display the forgot password page
+Route::post('/email-notify-page', [ForgetPassController::class, 'email_notify_page'])->name('email_notify_page'); //display the forgot password page
 //for direct to reset password page 
-Route::get('/reset-password/{token}', [ForgetPassController::class, 'reset_password_page']) -> name('reset_password_page'); 
-Route::post('/reset-password', [ForgetPassController::class,'reset_password'])->name('reset_password');
+Route::get('/reset-password/{token}', [ForgetPassController::class, 'reset_password_page'])->name('reset_password_page');
+Route::post('/reset-password', [ForgetPassController::class, 'reset_password'])->name('reset_password');
 
 //For reset passsword
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -55,7 +54,6 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('admin.upload_image');
 
-
 Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
 
@@ -63,10 +61,12 @@ Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColo
 Route::match(['get', 'post'], '/botman', [ChatBotController::class, 'handle']);
 Route::match(['get', 'post'], '/botman/chat', [ChatBotController::class, 'frame']);
 
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {   
     // Common authenticated user routes (both admin and employee)
 
-    Route::middleware(['admin'])->group(function () {
+    //Route::middleware(['check.subscription'])->group(function () {
+
+    Route::middleware(['admin', 'check.subscription'])->group(function () {
         // Routes specific to admin
         Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::get('/admin/progress-tracking', [AdminController::class, 'progressTracking'])->name('admin.progress-tracking');
@@ -80,21 +80,19 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/admin/delete_account/{id}', [AdminController::class, 'deleteAccount'])->name('admin.delete_account');
         Route::post('/admin/update-profile', [AdminController::class, 'updateProfile'])->name('admin.update-profile');
 
-        Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
-        Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
-        Route::post('/admin/add-modules', [ModuleController::class, 'add_modulePost'])->name('admin.add_module.post');
-        Route::get('/admin/edit-module/{id}', [ModuleController::class, 'editModule'])->name('admin.edit_module');
-        Route::post('/admin/edit-module/{id}', [ModuleController::class, 'editModulePost'])->name('admin.edit_module.post');
-        Route::get('/admin/delete_module/{id}', [ModuleController::class, 'deleteModule'])->name('admin.delete_module');
-        // Route::post('/admin/upload_image', [ModuleController::class, 'uploadImage'])->name('admin.upload_image');
+            Route::get('/admin/manage-modules', [ModuleController::class, 'manage_modules'])->name('admin.manage_modules');
+            Route::get('/admin/add-modules', [ModuleController::class, 'add_module'])->name('admin.add_module');
+            Route::post('/admin/add-modules', [ModuleController::class, 'add_modulePost'])->name('admin.add_module.post');
+            Route::get('/admin/edit-module/{id}', [ModuleController::class, 'editModule'])->name('admin.edit_module');
+            Route::post('/admin/edit-module/{id}', [ModuleController::class, 'editModulePost'])->name('admin.edit_module.post');
+            Route::get('/admin/delete_module/{id}', [ModuleController::class, 'deleteModule'])->name('admin.delete_module');
 
-
-        Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
-        Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
-        Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
-        Route::get('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapter'])->name('admin.edit_chapter');
-        Route::post('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapterPost'])->name('admin.edit_chapter.post');
-        Route::get('/admin/delete_chapter/{id}', [ModuleController::class, 'deleteChapter'])->name('admin.delete_chapter');
+            Route::get('/admin/manage-chapter/{id}', [ModuleController::class, 'manageChapter'])->name('admin.manage_chapter');
+            Route::get('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapter'])->name('admin.add_chapter');
+            Route::post('/admin/add-chapter/{moduleId}', [ModuleController::class, 'add_chapterPost'])->name('admin.add_chapter.post');
+            Route::get('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapter'])->name('admin.edit_chapter');
+            Route::post('/admin/edit-chapter/{id}', [ModuleController::class, 'editChapterPost'])->name('admin.edit_chapter.post');
+            Route::get('/admin/delete_chapter/{id}', [ModuleController::class, 'deleteChapter'])->name('admin.delete_chapter');
 
         Route::get('/admin/manage-page/{id}', [ModuleController::class, 'managePage'])->name('admin.manage_page');
         Route::get('/admin/add-page/{chapterId}', [ModuleController::class, 'add_page'])->name('admin.add_page');
@@ -152,27 +150,27 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     });
 
-    Route::middleware(['employee'])->group(function () {
-        // Routes specific to employee
-        Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard'); 
-        Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
-        Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
-        Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout'); 
+        Route::middleware(['employee', 'check.subscription'])->group(function () {
+            // Routes specific to employee
+            Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
+            Route::get('/employee/profile-page', [EmployeeController::class, 'profile_page'])->name('employee.profile_page');
+            Route::get('/employee/onboarding-home-page', [ModuleController::class, 'modules'])->name('employee.onboarding-home-page');
+            Route::get('/employee/layout', [EmployeeController::class, 'layout'])->name('employee.layout');
 
-        Route::get('/employee/discussion', [EmployeePostController::class, 'homepageName'])->name('employee.discussion'); 
-        Route::get('/employee/discussion/create-post', [EmployeePostController::class, 'typeOwn'])->name('employee.create-post'); 
-        Route::post('/employee/discussion/create-post', [EmployeePostController::class, 'createPost'])->name('employee.createPost'); 
-        Route::post('/employee/discussion/submit-answer/{PostID}', [EmployeePostController::class, 'submitAnswer'])->name('employee.submitAnswer');
-        Route::get('/employee/check-post', [EmployeePostController::class, 'checkPostedQuestions'])->name('employee.check-post');
-        Route::get('/employee/discussion/post/{PostID}', [EmployeePostController::class, 'postDisplay'])->name('employee.postDisplay');
-        Route::get('/employee/discussion/delete-post/{PostID}', [EmployeePostController::class, 'deletePost'])->name('employee.deletePost');
-        Route::get('/employee/discussion/view-history/{PostID}', [EmployeePostController::class, 'viewHistory'])->name('employee.viewHistory');
-        Route::get('/employee/discussion/edit-post/{PostID}', [EmployeePostController::class, 'editPost'])->name('employee.editPost');
-        Route::post('/employee/discussion/update-post/{PostID}', [EmployeePostController::class, 'updatePost'])->name('employee.updatePost');
-        Route::get('/employee/discussion/edit-answer/{AnswerID}', [EmployeePostController::class, 'editAnswer'])->name('employee.editAnswer');
-        Route::post('/employee/discussion/update-answer/{AnswerID}', [EmployeePostController::class, 'updateAnswer'])->name('employee.updateAnswer');
-        Route::get('/employee/discussion/delete-answer/{AnswerID}', [EmployeePostController::class, 'deleteAnswer'])->name('employee.deleteAnswer');
-        Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
+            Route::get('/employee/discussion', [EmployeePostController::class, 'homepageName'])->name('employee.discussion');
+            Route::get('/employee/discussion/create-post', [EmployeePostController::class, 'typeOwn'])->name('employee.create-post');
+            Route::post('/employee/discussion/create-post', [EmployeePostController::class, 'createPost'])->name('employee.createPost');
+            Route::post('/employee/discussion/submit-answer/{PostID}', [EmployeePostController::class, 'submitAnswer'])->name('employee.submitAnswer');
+            Route::get('/employee/check-post', [EmployeePostController::class, 'checkPostedQuestions'])->name('employee.check-post');
+            Route::get('/employee/discussion/post/{PostID}', [EmployeePostController::class, 'postDisplay'])->name('employee.postDisplay');
+            Route::get('/employee/discussion/delete-post/{PostID}', [EmployeePostController::class, 'deletePost'])->name('employee.deletePost');
+            Route::get('/employee/discussion/view-history/{PostID}', [EmployeePostController::class, 'viewHistory'])->name('employee.viewHistory');
+            Route::get('/employee/discussion/edit-post/{PostID}', [EmployeePostController::class, 'editPost'])->name('employee.editPost');
+            Route::post('/employee/discussion/update-post/{PostID}', [EmployeePostController::class, 'updatePost'])->name('employee.updatePost');
+            Route::get('/employee/discussion/edit-answer/{AnswerID}', [EmployeePostController::class, 'editAnswer'])->name('employee.editAnswer');
+            Route::post('/employee/discussion/update-answer/{AnswerID}', [EmployeePostController::class, 'updateAnswer'])->name('employee.updateAnswer');
+            Route::get('/employee/discussion/delete-answer/{AnswerID}', [EmployeePostController::class, 'deleteAnswer'])->name('employee.deleteAnswer');
+            Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
             Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
 
         // Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
@@ -201,24 +199,25 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     });
 
-    Route::middleware(['superadmin'])->group(function () {
-        // Routes specific to superadmin
-        Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard'); 
-        Route::get('/superadmin/profile', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
-        Route::get('/superadmin/manage-account', [SuperAdminController::class,'manageAccount'])->name('superadmin.manage_account');
-        Route::get('/superadmin/add-account', [SuperAdminController::class, 'add_account'])->name('superadmin.add_account');
-        Route::post('/superadmin/add-account', [SuperAdminController::class, 'add_accountPost'])->name('superadmin.add_account.post');
-        Route::get('/superadmin/edit-account/{id}', [SuperAdminController::class, 'editAccount'])->name('superadmin.edit_account');
-        Route::post('/superadmin/edit-account/{id}', [SuperAdminController::class, 'editAccountPost'])->name('superadmin.edit_account.post');
-        Route::get('/superadmin/delete_account/{id}', [SuperAdminController::class, 'deleteAccount'])->name('superadmin.delete_account');
-        Route::get('/superadmin/add-company', [SuperAdminController::class, 'add_company'])->name('superadmin.add_company');
-        Route::post('/superadmin/add-company', [SuperAdminController::class, 'add_companyPost'])->name('superadmin.add_company.post');
-        Route::get('/superadmin/manage-company', [SuperAdminController::class,'manageCompany'])->name('superadmin.manage_company');
-        Route::get('/superadmin/edit-company/{id}', [SuperAdminController::class, 'editCompany'])->name('superadmin.edit_company');
-        Route::post('/superadmin/edit-company/{id}', [SuperAdminController::class, 'editCompanyPost'])->name('superadmin.edit_company.post');
-        Route::get('/superadmin/delete-company/{id}', [SuperAdminController::class, 'deleteCompany'])->name('superadmin.delete_company');
+        Route::middleware(['superadmin'])->group(function () {
+            // Routes specific to superadmin
+            Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
+            Route::get('/superadmin/profile', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
+            Route::get('/superadmin/manage-account', [SuperAdminController::class, 'manageAccount'])->name('superadmin.manage_account');
+            Route::get('/superadmin/add-account', [SuperAdminController::class, 'add_account'])->name('superadmin.add_account');
+            Route::post('/superadmin/add-account', [SuperAdminController::class, 'add_accountPost'])->name('superadmin.add_account.post');
+            Route::get('/superadmin/edit-account/{id}', [SuperAdminController::class, 'editAccount'])->name('superadmin.edit_account');
+            Route::post('/superadmin/edit-account/{id}', [SuperAdminController::class, 'editAccountPost'])->name('superadmin.edit_account.post');
+            Route::get('/superadmin/delete_account/{id}', [SuperAdminController::class, 'deleteAccount'])->name('superadmin.delete_account');
+            Route::get('/superadmin/add-company', [SuperAdminController::class, 'add_company'])->name('superadmin.add_company');
+            Route::post('/superadmin/add-company', [SuperAdminController::class, 'add_companyPost'])->name('superadmin.add_company.post');
+            Route::get('/superadmin/manage-company', [SuperAdminController::class, 'manageCompany'])->name('superadmin.manage_company');
+            Route::get('/superadmin/edit-company/{id}', [SuperAdminController::class, 'editCompany'])->name('superadmin.edit_company');
+            Route::post('/superadmin/edit-company/{id}', [SuperAdminController::class, 'editCompanyPost'])->name('superadmin.edit_company.post');
+            Route::get('/superadmin/delete-company/{id}', [SuperAdminController::class, 'deleteCompany'])->name('superadmin.delete_company');
+        });
     });
-});
+
 
 //Route::get('/employee/onboarding-home-page', [EmployeeController::class, 'onboarding_home_page'])->name('onboarding_home_page');;//display the homepage 
 //Route::get('/onboarding-modules/create', [ModuleController::class, 'create']);

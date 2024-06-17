@@ -96,6 +96,7 @@ $company_logo = $company->company_logo;
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/simplebar/dist/simplebar.js') }}"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    
 </body>
 
 </html>

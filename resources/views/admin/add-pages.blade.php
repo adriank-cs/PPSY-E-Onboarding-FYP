@@ -74,21 +74,20 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="page-title-container">
-                            <h5><label for="pdf" class="form-label page-title">Upload PDF:</label></h5>
+                            <h6><label for="content" class="form-label page-title">Page Content:</label></h6>
                         </div>
                         <div class="page-content">
-                            <input type="file" class="form-control" id="pdf" name="pdf" accept="application/pdf">
-                            <button type="button" class="btn btn-secondary" id="uploadPdfButton">Upload PDF</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="page-title-container">
-                            <h5><label for="content" class="form-label page-title">Page Content:</label></h5>
-                        </div>
-                        <div class="page-content">
+                            <h5><label for="pdf" class="form-label">Extract Content from PDF: (Optional)</label></h5>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="pdf" name="pdf"
+                                            accept="application/pdf">
+                                        <button type="button" class="btn btn-secondary" id="uploadPdfButton">Upload
+                                            PDF</button>
+                                    </div>
+                                </div>
+                            </div>
                             <textarea class="form-control tinymce" id="content" name="content" rows="10"
                                 placeholder="Enter content"></textarea>
                         </div>
@@ -152,7 +151,8 @@
                             <h5><label for="title" class="form-label page-title">Quiz Title:</label></h5>
                         </div>
                         <div class="page-content">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title"
+                                required>
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@
 </style>
 
 <script>
-function showErrorModal(message) {
+    function showErrorModal(message) {
         // Update the modal content
         document.getElementById('errorModalMessage').textContent = message;
         // Show the modal
@@ -260,15 +260,15 @@ function showErrorModal(message) {
                         console.log('pdf uploaded');
                         tinymce.get('content').setContent(data.text);
                     } else {
-                        alert('Failed to upload and parse PDF');
+                        showErrorModal('Failed to upload and parse PDF');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('An error occurred while uploading the PDF');
+                    showErrorModal('An error occurred while uploading the PDF');
                 });
         } else {
-            alert('Please select a PDF file to upload');
+            showErrorModal('Please select a PDF file to upload');
         }
     });
 
@@ -315,7 +315,7 @@ function showErrorModal(message) {
                     <option value="short_answer">Text Field</option>
                     <option value="checkbox">Checkbox</option>
                 </select>
-                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>
             <div id="answer-container-${currentQuestionCount}"></div>
         </div>`;
@@ -390,13 +390,13 @@ function showErrorModal(message) {
             newAnswer = `<div class="input-group mt-2">
                 <input type="checkbox" class="form-check-input" name="correct_answers[${questionId}][]" value="${existingAnswerCount}">
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})"><i class="fas fa-trash"></i></button>
             </div>`;
         } else {
             newAnswer = `<div class="input-group mt-2">
                 <input type="radio" class="form-check-input" name="correct_answers[${questionId}]" value="${existingAnswerCount}" required>
                 <input type="text" class="form-control consistent-width-input" id="answer_text-${questionId}-${existingAnswerCount}" name="answers[${questionId}][]" placeholder="Enter answer option" required>
-                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="background-color: #6A1043; color: white; border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, ${questionId})" style="border-radius: 10px; height: 38px; margin-left:10px;"><i class="fas fa-trash"></i></button>
             </div>`;
         }
 
@@ -495,7 +495,8 @@ function showErrorModal(message) {
                         if (answerIndex >= 2) { // If more than 2 answers, add additional options
                             addAnswerOption(index);
                         }
-                        const answerInput = answerContainer.querySelectorAll('input[id^="answer_text-"]')[answerIndex];
+                        const answerInput = answerContainer.querySelectorAll(
+                            'input[id^="answer_text-"]')[answerIndex];
                         if (answerInput) {
                             answerInput.value = answer;
                         }
@@ -515,7 +516,8 @@ function showErrorModal(message) {
                         if (answerIndex >= 2) { // If more than 2 answers, add additional options
                             addAnswerOption(index);
                         }
-                        const answerInput = answerContainer.querySelectorAll('input[id^="answer_text-"]')[answerIndex];
+                        const answerInput = answerContainer.querySelectorAll(
+                            'input[id^="answer_text-"]')[answerIndex];
                         if (answerInput) {
                             answerInput.value = answer;
                         }
@@ -532,8 +534,6 @@ function showErrorModal(message) {
     document.addEventListener('DOMContentLoaded', function () {
         restoreFormState();
     });
-
-    
 
 </script>
 @endsection

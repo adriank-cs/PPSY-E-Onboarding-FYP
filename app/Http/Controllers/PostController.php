@@ -153,13 +153,15 @@ class PostController extends Controller
         
         // Get user name from db with name field
         $user = User::where('id', $post->UserID)->first(['name']);
+        //get profile from user id
+        $profile = Profile::where('user_id', $post->UserID)->first();
         
         // Get user names for answers
         $userIds = $answers->pluck('UserID')->unique()->toArray();
         $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
         
         // Pass the post details to the blade view
-        return view('admin.postdisplay', compact('post', 'answers', 'user', 'users'));
+        return view('admin.postdisplay', compact('post', 'answers', 'user', 'users', 'profile'));
     }
     
     public function submitAnswer(Request $request, $PostID)
