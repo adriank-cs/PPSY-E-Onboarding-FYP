@@ -11,25 +11,25 @@
             <form action="{{route('admin.edit_account.post', $user->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if($errors->any())
-                <div class="col-12">
-                    @foreach($errors->all() as $error)
-                    <div class="alert alert-danger" role="alert">
-                        {{$error}}
+                    <div class="col-12">
+                        @foreach($errors->all() as $error)
+                            <div class="alert alert-danger" role="alert">
+                                {{$error}}
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                </div>
                 @endif
 
                 @if(session()->has('error'))
-                <div class="alert alert-danger" role="alert">
-                    {{session('error')}}
-                </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{session('error')}}
+                    </div>
                 @endif
 
                 @if(session()->has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{session('success')}}
-                </div>
+                    <div class="alert alert-success" role="alert">
+                        {{session('success')}}
+                    </div>
                 @endif
 
                 <div class="row">
@@ -43,7 +43,6 @@
                 <div class="row">
                     <div class="col-md-6">
 
-
                         <div class="mb-3">
                             <label for="employeeid" class="form-label">Employee ID:</label>
                             <input type="text" class="form-control" id="employeeid" name="employeeID"
@@ -56,13 +55,11 @@
                                 placeholder="Enter department" value="{{ $profile->dept }}">
                         </div>
 
-
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone No:</label>
                             <input type="tel" class="form-control" id="phone" name="phoneNo"
                                 placeholder="Enter phone number" value="{{ $profile->phone_no }}">
                         </div>
-
 
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth:</label>
@@ -101,7 +98,8 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name: </label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $profile->name }}">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                value="{{ $profile->name }}">
                         </div>
 
                         <div class="mb-3">
@@ -112,7 +110,8 @@
 
                         <div class="mb-3">
                             <label for="age" class="form-label">Age:</label>
-                            <input type="number" class="form-control" id="age" name="age" placeholder="Age" value="{{ $profile->age }}">
+                            <input type="number" class="form-control" id="age" name="age" placeholder="Age"
+                                value="{{ $profile->age }}">
                         </div>
 
                         <div class="mb-3">
@@ -121,15 +120,13 @@
                                 placeholder="Enter biography">{{ $profile->bio }}</textarea>
                         </div>
 
-                        <div class="form-check">
+                        <div class="form-check mb-4">
                             <label class="form-check-label custom-label" for="isAdmin">
                                 Admin Status
                             </label>
                             <input class="form-check-input" type="checkbox" value="1" id="isAdmin" name="isAdmin" {{ $user->companyUser->isAdmin ? 'checked' : '' }}>
-
                         </div>
-
-
+                        
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-end">Update</button>

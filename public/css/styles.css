@@ -4214,19 +4214,19 @@ fieldset:disabled .btn {
 
 .btn-danger {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #FA896B;
-    --bs-btn-border-color: #FA896B;
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #d5745b;
-    --bs-btn-hover-border-color: #c86e56;
+    --bs-btn-hover-bg: var(--bs-secondary);
+    --bs-btn-hover-border-color: var(--bs-secondary);
     --bs-btn-focus-shadow-rgb: 251, 155, 129;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #c86e56;
-    --bs-btn-active-border-color: #bc6750;
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #FA896B;
-    --bs-btn-disabled-border-color: #FA896B
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
 }
 
 .btn-light {
@@ -20297,7 +20297,7 @@ ul {
     }
 
   .btn-success,
-  .btn-danger {
+  .btn-danger{
       border-radius: 10px;
       /* Rounded corners */
       height: 38px;

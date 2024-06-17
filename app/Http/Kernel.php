@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             //To log activity
             \App\Http\Middleware\LogUserActivity::class,
+            \App\Http\Middleware\CheckSubscription::class, //Added by Alda for Subscription Status
         ],
 
         'api' => [
@@ -68,6 +69,9 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'employee' => \App\Http\Middleware\EmployeeMiddleware::class,
         'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
+        'check.subscription' => \App\Http\Middleware\CheckSubscription::class, //Added by Alda for Subscription Status
         'ensure.quiz.completed' => \App\Http\Middleware\EnsureQuizCompleted::class,
     ];
+
+    
 }
