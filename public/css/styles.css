@@ -2373,6 +2373,10 @@ progress {
     .gy-xl-9 {
         --bs-gutter-y: 20px
     }
+
+    .border-xl-start {
+        border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important
+    }
 }
 
 @media (min-width:1400px) {
