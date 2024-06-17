@@ -46,7 +46,11 @@
 
                         <div class="mb-3">
                             <label for="gender" class="form-label">Gender:</label>
-                            <input type="text" class="form-control" id="gender" value="{{ $profile->gender }}">
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="{{ $profile->gender }}" selected>{{ $profile->gender }}</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">

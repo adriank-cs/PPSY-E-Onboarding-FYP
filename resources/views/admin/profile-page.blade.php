@@ -41,13 +41,6 @@
                                 value="{{ $admin->phone_no }}">
                         </div>
 
-                        <!-- <fieldset disabled>
-                            <div class="mb-3">
-                                <label for="idNumber" class="form-label">IC Number:</label>
-                                <input type="text" class="form-control" id="icNumber" placeholder="Enter IC number" value="{{ $admin->ic_number }}">
-                            </div>
-                        </fieldset> -->
-
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth:</label>
                             <input type="date" class="form-control" id="dob" name="dob" value="{{ $admin->dob }}">
@@ -55,7 +48,11 @@
 
                         <div class="mb-3">
                             <label for="gender" class="form-label">Gender:</label>
-                            <input type="text" class="form-control" id="gender" name="gender" value="{{ $admin->gender }}">
+                            <select class="form-select" id="gender" name="gender">
+                                <option value="{{ $admin->gender }}" selected>{{ $admin->gender }}</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">
