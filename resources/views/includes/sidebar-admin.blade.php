@@ -57,7 +57,6 @@
                         <span class="hide-menu">Modules</span>
                     </a>
                 </li>
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
@@ -109,7 +108,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#tutorialsModal">
                         <span>
                             <i class="ti ti-info-circle"></i>
                         </span>
