@@ -2,10 +2,15 @@
 
 @section('title', 'Superadmin | Dashboard')
 @section('content')
+
+<!-- AI Chatbot Script -->
+<script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+<!-- AI Chatbot Script End -->
+
 <div class="container-fluid">
     <div class="row vh-100">
         <!-- Dashboard Column -->
-        <div class="col-8 vh-100 overflow-auto">
+        <div class="col-xl-8 vh-100 overflow-auto">
             <!-- Column Heading -->
             <h1 class="display-6 py-2">Dashboard</h1>
             <h3>Overview</h1>
@@ -26,7 +31,7 @@
 
 
         <!-- Timeline Column -->
-        <div class="col-4 border-start border-muted vh-100 overflow-auto">
+        <div class="col-xl-4 border-xl-start border-muted vh-100 overflow-auto">
             <!-- Column Heading -->
             <h3>Timeline</h3>
 
