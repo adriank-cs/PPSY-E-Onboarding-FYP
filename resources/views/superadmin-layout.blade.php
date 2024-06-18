@@ -43,6 +43,30 @@ $user = auth()->user();
         @endauth
 
     </div>
+
+    <!-- AI Chatbot Script -->
+    <script>
+        let primaryColor = "#6A1043";
+        let company = "People Psyence"
+        let companyWebsite = "https://www.peoplepsyence.com/"
+        let userId = "{{ $user->id }}"
+        let bubbleAvatar = "{{ Storage::url("res/message-chatbot.png") }}"
+
+        var botmanWidget = {
+            frameEndpoint: '/botman/chat',
+            title: 'Onboarding Assistant 💬',
+            introMessage: 'Hey! I am your Onboarding Assistant. How can I help you today?',
+            aboutText: company,
+            placeholderText: 'Send a message...',
+            mainColor: primaryColor,
+            bubbleBackground: primaryColor,
+            bubbleAvatarUrl: bubbleAvatar,
+            aboutLink: companyWebsite,
+            userId: userId
+        };
+    </script>
+    <!-- AI Chatbot Script End -->
+
     <script type="text/javascript" src="{{ asset('js/sidebarmenu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/simplebar/dist/simplebar.js') }}"></script>

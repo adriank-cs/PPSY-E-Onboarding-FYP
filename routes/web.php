@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatBotController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
@@ -55,6 +56,10 @@ Route::post('/admin/upload', [AdminController::class, 'uploadImage'])->name('adm
 
 Route::get('/color-preferences', [ColorPreferenceController::class, 'editColors'])->name('color.preferences');
 Route::post('/color-preferences', [ColorPreferenceController::class, 'updateColors'])->name('color.save');
+
+//Chatbot Controller Routes
+Route::match(['get', 'post'], '/botman', [ChatBotController::class, 'handle']);
+Route::match(['get', 'post'], '/botman/chat', [ChatBotController::class, 'frame']);
 
 Route::middleware(['web', 'auth'])->group(function () {   
     // Common authenticated user routes (both admin and employee)
