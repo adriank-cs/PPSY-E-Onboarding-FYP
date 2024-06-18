@@ -3,7 +3,7 @@
     <!-- Sidebar Scroll -->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
+                <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img">
                     <img src="{{ Storage::url($company_logo) }}" width="180" alt="Company Logo" />
                 </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
