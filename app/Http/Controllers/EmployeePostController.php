@@ -365,4 +365,25 @@ class EmployeePostController extends Controller
         
         return view('employee.answer-history', compact('answerHistories'));
     }        
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+
+        // Search for posts with titles matching the query
+        $searchResults = Post::where('title', 'LIKE', "%{$query}%")->get();
+
+        // Fetch user names from the database
+        $userIds = $searchResults->pluck('UserID')->unique()->toArray();
+        $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
+
+        if ($request->ajax()) {
+            $view = view('partials.search-results', compact('searchResults', 'users'))->render();
+            return response()->json(['html' => $view]);
+        }
+
+        // Pass the search results and user names to the view
+        return view('employee.searched', compact('searchResults', 'users'));
+    }
+
 }
