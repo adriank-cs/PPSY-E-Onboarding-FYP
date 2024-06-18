@@ -7,7 +7,7 @@
         <div class="card-body">
 
             <div class="row">
-                
+
                 <div class="col-md-6">
                     <div class="d-flex justify-content-end">
                         <img src="{{ $user->profile->profilePictureUrl }}" alt="Employee Photo"
@@ -20,28 +20,30 @@
 
             </div>
 
-            <form>
+            <form method="post" action="{{ route('superadmin.update-profile') }}"
+                enctype="multipart/form-data">
+                @csrf
 
-            <div class="row">
+                <div class="row">
                     <div class="col-md-6">
 
                         <fieldset disabled>
                             <div class="mb-3">
                                 <label for="employeeid" class="form-label">Employee ID:</label>
                                 <input type="text" class="form-control" id="employeeid" placeholder="Employee ID"
-                                    value="{{ $profile->employee_id}}">
+                                    value="{{ $profile->employee_id }}">
                             </div>
                         </fieldset>
 
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone No:</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Enter phone number"
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number"
                                 value="{{ $profile->phone_no }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth:</label>
-                            <input type="date" class="form-control" id="dob" value="{{ $profile->dob }}">
+                            <input type="date" class="form-control" id="dob" name="dob" value="{{ $profile->dob }}">
                         </div>
 
                         <div class="mb-3">
@@ -55,14 +57,14 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address:</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email address"
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address"
                                 value="{{ $profile->user->email }}">
                         </div>
 
                         <div class="mb-3">
                             <label for="mailingAddress" class="form-label">Mailing Address:</label>
                             <textarea class="form-control" id="mailingAddress" rows="3"
-                                placeholder="Enter mailing address">{{ $profile->address }}</textarea>
+                                placeholder="Enter mailing address" name="address">{{ $profile->address }}</textarea>
                         </div>
                     </div>
 
@@ -71,7 +73,7 @@
                         <fieldset disabled>
                             <div class="mb-3">
                                 <label for="department" class="form-label">Department:</label>
-                                <input type="text" class="form-control" id="department" placeholder="Enter department"
+                                <input type="text" class="form-control" id="department" placeholder="Enter department" name="department"
                                     value="{{ $profile->dept }}">
                             </div>
                         </fieldset>
@@ -87,14 +89,14 @@
                         <fieldset disabled>
                             <div class="mb-3">
                                 <label for="age" class="form-label">Age:</label>
-                                <input type="number" class="form-control" id="age" value="{{ $profile->age }}">
+                                <input type="number" class="form-control" id="age" name="age" value="{{ $profile->age }}">
                             </div>
                         </fieldset>
 
                         <div class="mb-3">
                             <label for="biography" class="form-label">Biography:</label>
                             <textarea class="form-control" id="biography" rows="10"
-                                placeholder="Enter biography">{{ $profile->bio }}</textarea>
+                                placeholder="Enter biography" name="bio">{{ $profile->bio }}</textarea>
                         </div>
 
 

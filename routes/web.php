@@ -203,6 +203,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             // Routes specific to superadmin
             Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
             Route::get('/superadmin/profile', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
+            Route::post('/superadmin/update-profile', [SuperAdminController::class, 'updateProfile'])->name('superadmin.update-profile');
             Route::get('/superadmin/manage-account', [SuperAdminController::class, 'manageAccount'])->name('superadmin.manage_account');
             Route::get('/superadmin/add-account', [SuperAdminController::class, 'add_account'])->name('superadmin.add_account');
             Route::post('/superadmin/add-account', [SuperAdminController::class, 'add_accountPost'])->name('superadmin.add_account.post');
