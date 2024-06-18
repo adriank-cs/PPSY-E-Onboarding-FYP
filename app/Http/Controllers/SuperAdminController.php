@@ -49,6 +49,42 @@ class SuperAdminController extends Controller
 
     }
 
+    public function updateProfile(Request $request)
+    {
+        // Validate the form data
+        $request->validate([
+            'phone' => 'required|string',
+            'dob' => 'required|date',
+            'gender' => 'required|string',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'bio' => 'required|string'
+        ]);
+
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Fetch the profile data for the logged-in user
+        $profile = $user->profile;
+        // Update the profile fields
+        $profile->update([
+            'phone_no' => $request->input('phone'),
+            'dob' => $request->input('dob'),
+            'gender' => $request->input('gender'),
+            'address' => $request->input('address'),
+            'bio' => $request->input('bio'),
+        ]);
+
+        // Update the user's email
+        $user->update([
+            'email' => $request->input('email'),
+        ]);
+
+        // Redirect back to the profile page with a success message
+        return redirect()->route('superadmin.profile_page')->with('success', 'Profile updated successfully.');
+    }
+
+
     function add_account()
     {
         // Fetch all companies to populate the dropdown
@@ -125,7 +161,6 @@ class SuperAdminController extends Controller
         }
 
         
-
         // Update the user's profile details
         $user->profile->update([
             'employee_id' => $request->input('employeeID'),
