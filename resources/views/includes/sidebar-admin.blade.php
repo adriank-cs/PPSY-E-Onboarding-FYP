@@ -3,7 +3,7 @@
     <!-- Sidebar Scroll -->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-                <a href="{{ route('employee.dashboard') }}" class="text-nowrap logo-img">
+                <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img">
                     <img src="{{ Storage::url($company_logo) }}" width="180" alt="Company Logo" />
                 </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -57,7 +57,6 @@
                         <span class="hide-menu">Modules</span>
                     </a>
                 </li>
-
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <span>
@@ -109,7 +108,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#" aria-expanded="false">
+                    <a class="sidebar-link" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#tutorialsModal">
                         <span>
                             <i class="ti ti-info-circle"></i>
                         </span>

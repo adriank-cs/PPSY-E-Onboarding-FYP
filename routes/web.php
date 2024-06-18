@@ -171,6 +171,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/employee/discussion/update-answer/{AnswerID}', [EmployeePostController::class, 'updateAnswer'])->name('employee.updateAnswer');
             Route::get('/employee/discussion/delete-answer/{AnswerID}', [EmployeePostController::class, 'deleteAnswer'])->name('employee.deleteAnswer');
             Route::get('/employee/discussion/answer-history/{AnswerID}', [EmployeePostController::class, 'viewAnswerHistory'])->name('employee.viewAnswerHistory');
+            Route::get('/employee/discussion/search', [EmployeePostController::class, 'search'])->name('employee.search'); // Search for posts
+            
             Route::post('/employee/update-profile', [EmployeeController::class, 'updateProfile'])->name('employee.update_profile');
 
         // Route::get('/employee/my-modules', [EmployeeController::class, 'showMyModules'])->name('employee.my_modules');
@@ -203,6 +205,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             // Routes specific to superadmin
             Route::get('/superadmin/dashboard', [SuperAdminController::class, 'dashboard'])->name('superadmin.dashboard');
             Route::get('/superadmin/profile', [SuperAdminController::class, 'profile_page'])->name('superadmin.profile_page');
+            Route::post('/superadmin/update-profile', [SuperAdminController::class, 'updateProfile'])->name('superadmin.update-profile');
             Route::get('/superadmin/manage-account', [SuperAdminController::class, 'manageAccount'])->name('superadmin.manage_account');
             Route::get('/superadmin/add-account', [SuperAdminController::class, 'add_account'])->name('superadmin.add_account');
             Route::post('/superadmin/add-account', [SuperAdminController::class, 'add_accountPost'])->name('superadmin.add_account.post');
