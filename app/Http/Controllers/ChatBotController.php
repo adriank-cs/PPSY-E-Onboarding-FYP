@@ -53,7 +53,11 @@ class ChatBotController extends Controller
         $botman = BotManFactory::create($this->config, new LaravelCache());
 
         $botman->hears('Hi', function (BotMan $bot) {
-            $bot->reply('Hey brotha!');
+            $bot->reply('Hey, I hope you are doing well! How can I assist you today?');
+        });
+
+        $botman->hears('Hello', function (BotMan $bot) {
+            $bot->reply('Hello, I hope you are doing well! How can I assist you today?');
         });
 
         $botman->hears('Retrieve Document', function (BotMan $bot) {
@@ -70,17 +74,22 @@ class ChatBotController extends Controller
             $bot->reply($message);
         });
 
-        $botman->hears('Navigate to XXX', function (BotMan $bot) {
+        // $botman->hears('Navigate to XXX', function (BotMan $bot) {
 
-            //Create attachmentURL
-            $url = route('employee.profile_page', [], false);
+        //     //Create attachmentURL
+        //     $url = route('employee.profile_page', [], false);
 
-            //Build message object
-            $message = OutgoingMessage::create("Link: " . $url);
+        //     //Build message object
+        //     $message = OutgoingMessage::create("Link: " . $url);
 
-            //Reply message
-            $bot->reply("Here's the page you requested!");
-            $bot->reply($message);
+        //     //Reply message
+        //     $bot->reply("Here's the page you requested!");
+        //     $bot->reply($message);
+        // });
+
+        //HELP COMMAND FOR USER
+        $botman->hears('Help', function (BotMan $bot) {
+            $bot->reply('Here is a list of commands I understand: <br>1. Navigate to Page<br>2. Retrieve Document');
         });
 
         //DIRECT PROMPTS
