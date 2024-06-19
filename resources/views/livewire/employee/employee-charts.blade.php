@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row gy-2">
     <!-- Main Chart -->
-    <div class="col-6">
+    <div class="col-lg-6">
         <div class="card shadow border-light rounded h-100">
             <div class="card-body">
                 <h6 class="card-title">Time Spent on System</h6>
@@ -13,9 +13,9 @@
     </div>
 
     <!-- Secondary Charts -->
-    <div class="col-6">
+    <div class="col-lg-6">
         <div class="row">
-            <div class="col-6 col-sm-12">
+            <div class="col-sm-6 col-sm-12">
                 <!-- Engagement -->
                 <div class="card shadow border-light rounded"> 
                     <div class="card-body">
@@ -33,7 +33,7 @@
                 </div>
                 <!-- Average Session -->
             </div>
-            <div class="col-6 col-sm-12">
+            <div class="col-sm-6 col-sm-12">
 
                 <div class="card shadow border-light rounded"> 
                     <div class="card-body">
