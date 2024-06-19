@@ -65,9 +65,11 @@ function replacelink() {
         $(this).html(' ');
         file = text.match(/(File:)\s(\/[^<]*)/g);
         url = file.toString().substring(5);
-        text = text.match(/(.*)(File:)/g).toString().substring(0,4);
+        filename = text.match(/\[(.*?)\]/g);
+        formattedFilename = filename.toString().substring(1, filename.toString().length - 1);
+
         $(this).empty();
-        $(this).html('<a href="' + url + '" download>' + text + '</a>');
+        $(this).html('<a href="' + url + '" download="' + formattedFilename + '">' + "File: " + formattedFilename + '</a>');
         $(this).addClass('linked');
       }
       else

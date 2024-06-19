@@ -55,7 +55,7 @@ $user = auth()->user();
         var botmanWidget = {
             frameEndpoint: '/botman/chat',
             title: 'Onboarding Assistant 💬',
-            introMessage: 'Hey! I am your Onboarding Assistant. How can I help you today?',
+            introMessage: 'Hey! I am your Onboarding Assistant. How can I help you today?<br><br>Type "help" to see the list of commands.',
             aboutText: company,
             placeholderText: 'Send a message...',
             mainColor: primaryColor,
