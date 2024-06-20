@@ -55,7 +55,6 @@ class LogUserActivity
             //Check user's inactivity
             if (Carbon::parse($session->last_activity_at)->addHour()->lessThan(now())) {
                 //If user is inactive for more than 1 hour
-                Log::info("Session refreshed");
                 //Create new user session
                 $session = UserSession::create([
                     'id' => UserSession::generateUlid(), //Generate a new ULID
