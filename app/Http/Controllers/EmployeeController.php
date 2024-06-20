@@ -307,6 +307,17 @@ public function submitQuiz(Request $request, $quizId)
         $request->merge(['itemId' => $quiz->item_id]);
         $markCompletedResponse = $this->markCompleted($request, $quiz->item_id);
 
+        // Log quiz completion activity
+        activity()
+            ->causedBy(auth()->user())
+            ->withProperties([
+                'chapter' => $quiz->item->chapter->id,
+                'quiz' => $quizId,
+                'module' => $quiz->item->chapter->module->title,
+            ])
+            ->event('Quiz Completion')
+            ->log('Quiz Completion');
+
         if ($markCompletedResponse instanceof \Illuminate\Http\JsonResponse) {
             $markCompletedData = $markCompletedResponse->getData(true);
             $markCompletedData['feedback'] = $feedback;
@@ -362,6 +373,7 @@ public function submitQuiz(Request $request, $quizId)
         if ($chapterProgress) {
             $chapterProgress->IsCompleted = 1;
             $chapterProgress->save();
+
         }
 
         // Move to the next chapter if available
@@ -380,6 +392,25 @@ public function submitQuiz(Request $request, $quizId)
                                             ->whereNull('IsCompleted')
                                             ->orderBy('order')
                                             ->first();
+        }else {
+            // If no more chapters, check if all chapters are completed to log module completion
+            $allChaptersCompleted = ChapterProgress::where('UserID', $user->id)
+                                                   ->where('CompanyID', $companyId)
+                                                   ->where('ModuleID', $moduleId)
+                                                   ->whereNull('IsCompleted')
+                                                   ->count() == 0;
+
+            if ($allChaptersCompleted) {
+                // Log module completion activity
+                activity()
+                    ->causedBy($user)
+                    ->withProperties([
+                        'moduleid' => $moduleId,
+                        'module' => Module::find($moduleId)->title,
+                    ])
+                    ->event('Flow Completion')
+                    ->log('Flow Completion');
+            }
         }
     }
 

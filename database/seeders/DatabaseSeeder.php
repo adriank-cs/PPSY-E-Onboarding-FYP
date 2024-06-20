@@ -517,6 +517,38 @@ class DatabaseSeeder extends Seeder
                 'pdf_attachments' => null,
                 'order' => 3,
             ],
+            [
+                'id' => 4,
+                'chapter_id' => 2,
+                'title' => 'Page 1: Introduction to Orientation and Training',
+                'description' => '<p>Welcome to Chapter 2 of your onboarding journey at People Psyence. This chapter is designed to ensure you have the knowledge, skills, and resources you need to succeed in your role. 
+                                    We believe that a thorough orientation and comprehensive training are essential for your success and satisfaction at our organization.</p>',
+                'content' => '<h4>What to Expect from This Module</h4>
+                                <p>In this Orientation and Training module, you will:</p>
+                                <ol>
+                                <li>
+                                <p><strong>Orientation Session</strong>: Participate in an in-depth orientation session that will introduce you to our organizational culture, values, and expectations. You will get a clear understanding of how we operate and what we stand for.</p>
+                                </li>
+                                <li>
+                                <p><strong>Role-Specific Training</strong>: Receive specialized training tailored to your specific role. This will include practical skills and knowledge necessary to perform your job effectively and confidently.</p>
+                                </li>
+                                <li>
+                                <p><strong>Systems and Tools</strong>: Learn about the various systems and tools you will be using in your daily tasks. This includes an introduction to our software, databases, and communication platforms.</p>
+                                </li>
+                                <li>
+                                <p><strong>Policies and Compliance</strong>: Gain an understanding of our key policies and compliance requirements. Ensuring you are familiar with these policies is crucial for maintaining our standards and integrity.</p>
+                                </li>
+                                <li>
+                                <p><strong>Health and Safety</strong>: Participate in training focused on health and safety protocols. This will help ensure that you and your colleagues work in a safe and secure environment.</p>
+                                </li>
+                                </ol>
+                                <p>By the end of this module, you will have a solid foundation to start your journey with us, equipped with the essential knowledge and tools to thrive at People Psyence. Let us get started on building your path to success together!</p>',
+                'created_at' => '2024-06-16 05:05:45',
+                'updated_at' => '2024-06-16 05:05:45',
+                'deleted_at' => null,
+                'pdf_attachments' => '[]',
+                'order' => 1,
+            ],
         ];
 
         DB::table('item')->insert($items);

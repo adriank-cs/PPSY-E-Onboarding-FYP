@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Manage Pages')
 @section('content')
 
 <div class="container-fluid">
