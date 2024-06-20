@@ -13,7 +13,7 @@ class AnswerHistory extends Model
 
     protected $primaryKey = 'HistoryID';
 
-    protected $fillable = ['AnswerID', 'UserID', 'CompanyID', 'PostID', 'content'];
+    protected $fillable = ['AnswerID', 'UserID', 'CompanyID', 'PostID', 'content', 'is_anonymous'];
 
     // Define relationships with other models
     public function answer()
