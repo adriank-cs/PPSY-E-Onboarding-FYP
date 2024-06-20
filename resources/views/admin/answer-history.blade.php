@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Answer History')
 @section('content')
 <div class="container-fluid">
     <div class="row mb-3">

@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Profile Page')
 @section('content')
 <div class="container-fluid">
     <div class="card">

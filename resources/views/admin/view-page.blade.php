@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Modules')
 @section('content')
 
 <style>
