@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Discussion')
 @section('content')
 
 <!-- Include the TinyMCE configuration component -->
