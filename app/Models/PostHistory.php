@@ -15,7 +15,7 @@ class PostHistory extends Model
 
     protected $fillable = [
         'PostID', 'UserID', 'CompanyID', 'title', 'content', 
-        'is_answered', 'is_locked', 'is_archived'
+        'is_answered', 'is_locked', 'is_archived', 'is_anonymous'
     ];
 
     // Define relationships with other models

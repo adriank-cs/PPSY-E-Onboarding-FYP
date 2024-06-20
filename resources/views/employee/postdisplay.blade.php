@@ -8,17 +8,19 @@
 <div class="container-fluid">
     <div class="card mb-3">
         <div class="card-body">
-            <h5>@if($post->is_anonymous)
-                    <img src="http://localhost:8000/storage/profile_pictures/anonymous.png" alt="Profile Picture"
-                        class="img-fluid rounded-circle profile-picture-small">
-                    Your Friendly Colleague
+            <h5>
+                @if($post->is_anonymous)
+                    <img src="{{ asset('storage/profile_pictures/anonymous.png') }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
+                    @if(Auth::id() == $post->UserID)
+                        Your Friendly Colleague (You)
+                    @else
+                        Your Friendly Colleague
+                    @endif
                 @elseif(Auth::id() == $post->UserID)
-                    <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture"
-                        class="img-fluid rounded-circle profile-picture-small">
+                    <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
                     You
                 @else
-                    <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture"
-                        class="img-fluid rounded-circle profile-picture-small">
+                    <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
                     {{ $user->name }}
                 @endif
             </h5>
@@ -34,6 +36,7 @@
                         @endif
                     </div>
                 </div>
+                @if(Auth::id() == $post->UserID)
                 <div class="dropdown" style="padding-right: 20px; padding-top: 10px;">
                     <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-ellipsis-v"></i>
@@ -46,6 +49,7 @@
                         <li><a class="dropdown-item text-dark" href="{{ route('employee.viewHistory', ['PostID' => $post->PostID]) }}"><i class="fas fa-history"></i> View History</a></li>
                     </ul>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -61,20 +65,18 @@
                         <div>
                             <p class="card-text">
                                 <strong>
-                                    @if($answer->UserID == Auth::id())
-                                    <img src="{{ Storage::url($profile->profile_picture) }}"
-                                                alt="Profile Picture"
-                                                class="img-fluid rounded-circle profile-picture-small">
+                                    @if($answer->is_anonymous)
+                                        <img src="{{ asset('storage/profile_pictures/anonymous.png') }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
+                                        @if($answer->UserID == Auth::id())
+                                            Your Friendly Colleague (You)
+                                        @else
+                                            Your Friendly Colleague
+                                        @endif
+                                    @elseif($answer->UserID == Auth::id())
+                                        <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
                                         You
-                                    @elseif($answer->is_anonymous)
-                                    <img src="http://localhost:8000/storage/profile_pictures/anonymous.png"
-                                                alt="Profile Picture"
-                                                class="img-fluid rounded-circle profile-picture-small">
-                                        Your Friendly Colleague
                                     @else
-                                    <img src="{{ Storage::url($profile->profile_picture) }}"
-                                                alt="Profile Picture"
-                                                class="img-fluid rounded-circle profile-picture-small">
+                                        <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
                                         {{ $users[$answer->UserID] ?? 'Unknown' }}
                                     @endif
                                 </strong>
@@ -84,6 +86,7 @@
                                 <span>Posted at: {{ $answer->created_at->format('M d, Y') }}</span>
                             </div>
                         </div>
+                        @if(Auth::id() == $answer->UserID)
                         <div class="dropdown" style="padding-right: 20px; padding-top: 10px;">
                             <button class="btn btn-link text-dark" type="button" id="dropdownMenuButton{{ $answer->AnswerID }}" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -96,6 +99,7 @@
                                 <li><a class="dropdown-item text-dark" href="{{ route('employee.viewAnswerHistory', ['AnswerID' => $answer->AnswerID]) }}"><i class="fas fa-history"></i> View History</a></li>
                             </ul>
                         </div>
+                        @endif
                     </div>
                 </div>
             @endforeach

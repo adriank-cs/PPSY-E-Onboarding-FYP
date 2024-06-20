@@ -16,7 +16,16 @@
                         <a href="{{ route('employee.postDisplay', ['PostID' => $post->PostID]) }}" class="text-decoration-none text-dark">
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">
-                                Asked by: You
+                                Asked by:
+                                @if($post->is_anonymous)
+                                    @if(Auth::id() == $post->UserID)
+                                        Your Friendly Colleague (You)
+                                    @else
+                                        Your Friendly Colleague
+                                    @endif
+                                @else
+                                    {{ Auth::id() == $post->UserID ? 'You' : $users[$post->UserID] ?? 'Unknown' }}
+                                @endif
                             </p>
                             <p class="card-text">Number of answers: {{ $post->answers_count }}</p>
                         </a>
@@ -29,7 +38,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                 @if($post->UserID == Auth::id() && is_null($post->deleted_at))
                                     <li><a class="dropdown-item text-dark" href="{{ route('employee.editPost', ['PostID' => $post->PostID]) }}"><i class="fas fa-edit"></i> Edit</a></li>
-                                    <li><a class="dropdown-item text-dark" href="#" onclick="confirmDelete('{{ $post->PostID }}')"><i class="fas fa-trash-alt"></i> Delete</a></li>
+                                    <li><a class="dropdown-item text-dark" href="#" onclick="confirmDelete('{{ $post->PostID }}', '{{ Auth::id() == $post->UserID ? 'You' : ($post->is_anonymous ? 'Your Friendly Colleague' : $users[$post->UserID] ?? 'Unknown') }}')"><i class="fas fa-trash-alt"></i> Delete</a></li>
                                 @endif
                                 <li><a class="dropdown-item text-dark" href="{{ route('employee.viewHistory', ['PostID' => $post->PostID]) }}"><i class="fas fa-history"></i> View History</a></li>
                             </ul>
@@ -52,8 +61,8 @@
 </div>
 
 <script>
-function confirmDelete(postId) {
-    if (confirm(`Are you sure you want to delete this question? This action is not reversible and no edits can be made to the post after deletion.`)) {
+function confirmDelete(postId, userName) {
+    if (confirm(`Are you sure you want to delete this question asked by ${userName}? This action is not reversible and no edits can be made to the post after deletion.`)) {
         window.location.href = '/employee/discussion/delete-post/' + postId;
     }
 }
