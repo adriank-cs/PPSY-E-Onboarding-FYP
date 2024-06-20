@@ -1,5 +1,5 @@
 @extends('admin-layout')
-@section('title', 'Admin | Discussion')
+@section('title', 'Admin | Discussion')@section('title', 'Admin | Discussion')
 @section('content')
 
 <!-- Include the TinyMCE configuration component -->
@@ -141,22 +141,73 @@
     @endif
 </div>
 
+<!-- Modal for post delete confirmation -->
+<div class="modal fade" id="deletePostConfirmationModal" tabindex="-1" aria-labelledby="deletePostConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePostConfirmationModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this question asked by <span id="postUserName"></span>? This action is not reversible and no edits can be made to the post after deletion.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmDeletePostButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for answer delete confirmation -->
+<div class="modal fade" id="deleteAnswerConfirmationModal" tabindex="-1" aria-labelledby="deleteAnswerConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAnswerConfirmationModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this answer provided by <span id="answerUserName"></span>? This action is not reversible and no edits can be made to the answer after deletion.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmDeleteAnswerButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    let postIdToDelete = '';
+    let answerIdToDelete = '';
+
     function confirmDeletePost(postId, userName) {
-        if (confirm(
-                `Are you sure you want to delete this question asked by ${userName}? This action is not reversible and no edits can be made to the post after deletion.`
-                )) {
-            window.location.href = '/admin/discussion/delete-post/' + postId;
-        }
+        postIdToDelete = postId;
+        document.getElementById('postUserName').textContent = userName;
+        var deletePostConfirmationModal = new bootstrap.Modal(document.getElementById('deletePostConfirmationModal'), {
+            keyboard: false
+        });
+        deletePostConfirmationModal.show();
     }
 
+    document.getElementById('confirmDeletePostButton').addEventListener('click', function() {
+        window.location.href = '/admin/discussion/delete-post/' + postIdToDelete;
+    });
+
     function confirmDeleteAnswer(answerId, userName) {
-        if (confirm(
-                `Are you sure you want to delete this answer provided by ${userName}? This action is not reversible and no edits can be made to the answer after deletion.`
-                )) {
-            window.location.href = '/admin/discussion/delete-answer/' + answerId;
-        }
+        answerIdToDelete = answerId;
+        document.getElementById('answerUserName').textContent = userName;
+        var deleteAnswerConfirmationModal = new bootstrap.Modal(document.getElementById('deleteAnswerConfirmationModal'), {
+            keyboard: false
+        });
+        deleteAnswerConfirmationModal.show();
     }
+
+    document.getElementById('confirmDeleteAnswerButton').addEventListener('click', function() {
+        window.location.href = '/admin/discussion/delete-answer/' + answerIdToDelete;
+    });
 </script>
 
 @endsection

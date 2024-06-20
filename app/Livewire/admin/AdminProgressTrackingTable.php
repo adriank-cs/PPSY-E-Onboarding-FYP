@@ -46,12 +46,12 @@ class AdminProgressTrackingTable extends DataTableComponent
         $this->setFilterLayoutPopover();
 
         //Row URL
-        $this->setTableRowUrl(function($row) {
-            return route('admin.colleague_details', $row->UserID);
-        })
-        ->setTableRowUrlTarget(function($row) {
-            return '_blank';
-        });
+        // $this->setTableRowUrl(function($row) {
+        //     return route('admin.colleague_details', $row->UserID);
+        // })
+        // ->setTableRowUrlTarget(function($row) {
+        //     return '_blank';
+        // });
     }
 
     public function columns(): array
