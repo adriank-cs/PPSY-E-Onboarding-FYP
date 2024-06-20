@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
+//To retrieve document
+use App\Models\Item;
+
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
@@ -60,30 +63,17 @@ class ChatBotController extends Controller
             $bot->reply('Hello, I hope you are doing well! How can I assist you today?');
         });
 
-        $botman->hears('Retrieve Document', function (BotMan $bot) {
+        // $botman->hears('Retrieve Document', function (BotMan $bot) {
 
-            //Create attachment
-            $url = Storage::url('pdf_attachments/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf');
-            $filename = 'test.pdf';
-
-            //Build message object
-            $message = OutgoingMessage::create("[" . $filename . "] " . "File: " . $url);
-
-            //Reply message
-            $bot->reply("Here's the file you requested!");
-            $bot->reply($message);
-        });
-
-        // $botman->hears('Navigate to XXX', function (BotMan $bot) {
-
-        //     //Create attachmentURL
-        //     $url = route('employee.profile_page', [], false);
+        //     //Create attachment
+        //     $url = Storage::url('pdf_attachments/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf');
+        //     $filename = 'test.pdf';
 
         //     //Build message object
-        //     $message = OutgoingMessage::create("Link: " . $url);
+        //     $message = OutgoingMessage::create("[" . $filename . "] " . "File: " . $url);
 
         //     //Reply message
-        //     $bot->reply("Here's the page you requested!");
+        //     $bot->reply("Here's the file you requested!");
         //     $bot->reply($message);
         // });
 
@@ -95,6 +85,10 @@ class ChatBotController extends Controller
         //DIRECT PROMPTS
         $botman->hears('Navigate to Page', function (BotMan $bot) {
             $bot->startConversation(new NavigationConversation());
+        });
+
+        $botman->hears('Retrieve Document', function (BotMan $bot) {
+            $bot->startConversation(new FileRetrieveConversation());
         });
 
         $botman->fallback(function($bot) {
@@ -309,6 +303,98 @@ class FileRetrieveConversation extends Conversation {
         protected $keyword;
 
         public function askDocument() {
+
+            $this->ask('Which document would you like retrieve?', function (Answer $answer) {
+                //If keyword is empty
+                if ($answer->getText() == "") {
+                    $this->say('Please provide me with a keyword for a document to retrieve.');
+    
+                    return true;
+                }
+                
+                //Get keyword
+                $this->keyword = strtolower($answer->getText());
+    
+                //Default URL
+                $pdfURL = "";
+                $pdfName = "";
+
+                //Get all attachments of the user's company
+                $items = Item::whereRelation('chapter.module.company', 'CompanyID', $this->user->companyUser->CompanyID)->select('pdf_attachments')->get();
+    
+                //Loop through pdf attachment rows
+                foreach ($items as $item) {
+                    //Loop through each individual document
+                    $pdfs = json_decode($item->pdf_attachments, true);
+
+                    if (!empty($pdfs)|| $pdfs != []) {
+
+                        //Only loop if there are documents
+                        foreach ($pdfs as $pdf) {
+
+                            $smText = similar_text($pdf['name'], $this->keyword, $percent);
+
+                            //Find similar documents
+                            if ($percent > 60) {
+                                $pdfURL = $pdf['url'];
+                                $pdfName = $pdf['name'];
+
+                                break;
+                            }
+
+                        }
+                    }
+
+                }
+    
+                if ($pdfURL == "") {
+                    $this->say('Sorry, I could not find the document you requested. Please try again! (' . $this->keyword . ")");
+    
+                    $similarKeys = collect([]);
+
+                    //Loop through pdf attachment rows
+                    foreach ($items as $item) {
+                        //Loop through each individual document
+                        $pdfs = json_decode($item->pdf_attachments, true);
+
+                        if (!empty($pdfs)|| $pdfs != []) {
+                            //Only loop if there are documents
+                            foreach ($pdfs as $pdf) {
+
+                                Log::info("Checking similar PDFs");
+
+                                $smText = similar_text($pdf['name'], $this->keyword, $percent);
+
+                                //Find similar documents
+                                if ($percent > 25) {
+                                    $similarKeys->push($pdf['name']);
+                                }
+
+                            }
+                        }
+
+                        //Capped at 5 similar documents
+                        if ($similarKeys->count() >= 5) {
+                            break;
+                        }
+                    }
+    
+                    if ($similarKeys->count() > 0) {
+                        $this->say('Did you mean: ' . $similarKeys->implode(', '));
+                    }
+    
+                    return true;
+                }
+                else {
+                    //Reply with requested link
+                    $this->say('Here is the file you requested! (' . $pdfName . ")");
+                    $this->say("[" . $pdfName . "] " . "File: " . $pdfURL);
+
+                    //Stop conversation
+                    return true;
+                }
+    
+            });
 
         }
 
