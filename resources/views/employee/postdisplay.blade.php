@@ -1,5 +1,5 @@
 @extends('employee-layout')
-
+@section('title', 'Employee | Discussion')
 @section('content')
 
 <!-- Include the TinyMCE configuration component -->

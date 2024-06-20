@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Login Leaderboard')
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">

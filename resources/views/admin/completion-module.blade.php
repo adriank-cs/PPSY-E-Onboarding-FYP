@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Completed Module')
 @section('content')
 
 <div class="custom-container-fluid">

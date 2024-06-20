@@ -1,5 +1,5 @@
 @extends('employee-layout')
-
+@section('title', 'Employee | Modules')
 @section('content')
 
 <div class="custom-container-fluid">
