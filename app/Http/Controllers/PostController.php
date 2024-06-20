@@ -133,6 +133,7 @@ class PostController extends Controller
             'is_answered' => false, // Set default value for is_answered
             'is_locked' => false, // Set default value for is_locked
             'is_archived' => false, // Set default value for is_archived
+            'is_anonymous' => $isAnonymous, // Set default value for is_anonymous
             'created_at' => $createdAt, // Set created_at to the current system time
             'updated_at' => null, // Set updated_at to null
             'deleted_at' => null, // Set deleted_at to null
@@ -142,7 +143,7 @@ class PostController extends Controller
         // Optionally, you can return a response or redirect the user to a different page
         return redirect()->route('admin.postDisplay', ['PostID' => $postID]);
     }
-
+    
     public function postDisplay($PostID)
     {
         // Fetch the post details including soft-deleted posts
@@ -184,7 +185,7 @@ class PostController extends Controller
             'content' => $answer,
             'created_at' => $createdAt,
             'updated_at' => null,
-            'is_anonymous' => $isAnonymous,
+            'is_anonymous' => $isAnonymous, // Set default value for is_anonymous
         ]);
     
         // Get the created answer's ID
@@ -202,12 +203,13 @@ class PostController extends Controller
             'created_at' => $createdAt,
             'updated_at' => null,
             'deleted_at' => null,
+            'is_anonymous' => $isAnonymous, // Set default value for is_anonymous
         ]);
     
         // Optionally, you can return a response or redirect the user
         return redirect()->back()->with('success', 'Your answer has been submitted.');
-    }    
-
+    }
+    
     public function deletePost($PostID)
     {
         $post = Post::withTrashed()->where('PostID', $PostID)->firstOrFail();
@@ -272,24 +274,24 @@ class PostController extends Controller
     {
         // Retrieve user information
         $userInfo = $this->getDetails();
-
+    
         // Retrieve title and content from the request
         $title = $request->input('title');
         $content = $request->input('content');
-
+    
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
+    
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagePath = $image->store('uploads', 'public');
         }
-
+    
         // Fetch the post details including soft-deleted posts
         $post = Post::withTrashed()->where('PostID', $PostID)->firstOrFail();
-
+    
         // Update the post
         $post->title = $title;
         $post->content = $content;
@@ -298,7 +300,7 @@ class PostController extends Controller
         }
         $post->updated_at = Carbon::now();
         $post->save();
-
+    
         // Create a new entry in the post history
         PostHistory::create([
             'PostID' => $post->PostID,
@@ -309,16 +311,17 @@ class PostController extends Controller
             'is_answered' => $post->is_answered,
             'is_locked' => $post->is_locked,
             'is_archived' => $post->is_archived,
+            'is_anonymous' => $post->is_anonymous, // Copy is_anonymous value from post
             'created_at' => $post->created_at,
             'updated_at' => $post->updated_at,
             'deleted_at' => $post->deleted_at,
             'image' => $imagePath ? Storage::url($imagePath) : $post->image
         ]);
-
+    
         // Redirect back to the post display page
         return redirect()->route('admin.postDisplay', ['PostID' => $post->PostID]);
     }
-
+    
     public function editAnswer($AnswerID)
     {
         // Fetch the answer details including soft-deleted answers
@@ -354,6 +357,7 @@ class PostController extends Controller
             'CompanyID' => $userInfo['CompanyID'],
             'PostID' => $answer->PostID,
             'content' => $content,
+            'is_anonymous' => $answer->is_anonymous, // Copy is_anonymous value from answer
             'created_at' => $answer->created_at,
             'updated_at' => $answer->updated_at,
             'deleted_at' => $answer->deleted_at,
@@ -362,7 +366,7 @@ class PostController extends Controller
         // Redirect back to the post display page
         return redirect()->route('admin.postDisplay', ['PostID' => $answer->PostID]);
     }
-    
+        
     public function deleteAnswer($AnswerID)
     {
         $answer = Answer::withTrashed()->where('AnswerID', $AnswerID)->firstOrFail();

@@ -21,6 +21,7 @@ class CreateAnswerHistoryTable extends Migration
             $table->unsignedBigInteger('PostID');
             $table->mediumText('content'); //text only
             $table->string('image')->nullable(); //image only
+            $table->boolean('is_anonymous')->default(false)->nullable();
             $table->timestamps();
             //Soft Delete Column
             $table->softDeletes();

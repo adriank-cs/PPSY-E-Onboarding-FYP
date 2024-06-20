@@ -189,20 +189,6 @@
             });
         }
 
-        function onPlayerReady(event) {
-            const player = event.target;
-            document.addEventListener('keydown', function(event) {
-                if (event.code === 'Space') {
-                    event.preventDefault();
-                    if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                        player.pauseVideo();
-                    } else {
-                        player.playVideo();
-                    }
-                }
-            });
-        }
-
         document.addEventListener('keydown', function(event) {
             const carousel = document.getElementById('tutorial-carousel');
             if (event.code === 'ArrowLeft') {

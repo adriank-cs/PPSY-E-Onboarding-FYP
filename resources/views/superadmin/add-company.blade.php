@@ -1,4 +1,5 @@
 @extends('superadmin-layout')
+@section('title', 'SuperAdmin | Manage Company')
 @section('content')
 
 <head>
