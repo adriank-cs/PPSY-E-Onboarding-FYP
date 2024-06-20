@@ -307,6 +307,17 @@ public function submitQuiz(Request $request, $quizId)
         $request->merge(['itemId' => $quiz->item_id]);
         $markCompletedResponse = $this->markCompleted($request, $quiz->item_id);
 
+        // Log quiz completion activity
+        activity()
+            ->causedBy(auth()->user())
+            ->withProperties([
+                'quiz' => $quizId,
+                'score' => $score,
+                'passed' => $passed
+            ])
+            ->event('Quiz Completion')
+            ->log('Quiz completed by user ' . auth()->user()->name);
+
         if ($markCompletedResponse instanceof \Illuminate\Http\JsonResponse) {
             $markCompletedData = $markCompletedResponse->getData(true);
             $markCompletedData['feedback'] = $feedback;
@@ -362,6 +373,16 @@ public function submitQuiz(Request $request, $quizId)
         if ($chapterProgress) {
             $chapterProgress->IsCompleted = 1;
             $chapterProgress->save();
+
+            // Log chapter completion activity
+            activity()
+                ->causedBy($user)
+                ->withProperties([
+                    'chapter' => $chapterId,
+                    'module' => $moduleId
+                ])
+                ->event('Chapter Completion')
+                ->log('Chapter completed by user ' . $user->name);
         }
 
         // Move to the next chapter if available
@@ -380,6 +401,24 @@ public function submitQuiz(Request $request, $quizId)
                                             ->whereNull('IsCompleted')
                                             ->orderBy('order')
                                             ->first();
+        }else {
+            // If no more chapters, check if all chapters are completed to log module completion
+            $allChaptersCompleted = ChapterProgress::where('UserID', $user->id)
+                                                   ->where('CompanyID', $companyId)
+                                                   ->where('ModuleID', $moduleId)
+                                                   ->whereNull('IsCompleted')
+                                                   ->count() == 0;
+
+            if ($allChaptersCompleted) {
+                // Log module completion activity
+                activity()
+                    ->causedBy($user)
+                    ->withProperties([
+                        'module' => $moduleId
+                    ])
+                    ->event('Module Completion')
+                    ->log('Module completed by user ' . $user->name);
+            }
         }
     }
 
