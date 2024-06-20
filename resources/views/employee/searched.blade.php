@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="text-left">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12 mb-3"> 
                 <h1>Search Results</h1>
             </div>
         </div>
@@ -30,6 +30,18 @@
         </div>
     </div>
 
+    <!-- Added by Alda to display create question if not found button-->
+    <!-- Type your own question button -->
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <a href="{{ route('employee.create-post') }}">
+                <button type="submit" class="btn btn-primary btn-sm" style="width: 100%; padding: 10px;">
+                    <i class="bi bi-search"></i> Cannot find your questions? Write your own now!
+                </button>
+            </a>
+        </div>
+    </div>
+
     <!-- Matching Questions header -->
     <div class="row mt-3">
         <div class="col-md-12 mb-3">
@@ -47,7 +59,7 @@
                         <a href="{{ route('employee.postDisplay', ['PostID' => $post->PostID]) }}">
                             <div class="card twoxtwo-gray-card border-gray">
                                 <div class="card-body">
-                                    @php $userId = $post->UserID; @endphp
+                                    @php        $userId = $post->UserID; @endphp
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h5 class="card-title truncate-text" style="width: 70%;">
                                             <strong>Asked By:</strong> 
