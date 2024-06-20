@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | All Posts')
 @section('content')
 <div class="container-fluid">
     <div class="row mb-3">
@@ -28,10 +28,14 @@
                             <h5 class="card-title">{{ $post->title }}</h5>
                             <p class="card-text">
                                 Asked by: 
-                                @if($post->UserID == Auth::id())
+                                @if($post->is_anonymous)
+                                    @if($post->UserID == Auth::id())
+                                        Your Friendly Colleague (You)
+                                    @else
+                                        Your Friendly Colleague
+                                    @endif
+                                @elseif($post->UserID == Auth::id())
                                     You
-                                @elseif($post->is_anonymous)
-                                    Your Friendly Colleague
                                 @else
                                     {{ $users[$post->UserID] ?? 'Unknown' }}
                                 @endif

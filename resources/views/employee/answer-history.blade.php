@@ -1,5 +1,5 @@
 @extends('employee-layout')
-
+@section('title', 'Employee | Discussion')
 @section('content')
 <div class="container-fluid">
     <div class="row mb-3">
@@ -14,7 +14,18 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <p class="card-text">{!! $history->content !!}</p>
-                        <p class="card-text">Answered by: {{ Auth::id() == $history->UserID ? 'You' : $history->user->name }}</p>
+                        <p class="card-text">
+                            Answered by:
+                            @if($history->is_anonymous)
+                                @if(Auth::id() == $history->UserID)
+                                    Your Friendly Colleague (You)
+                                @else
+                                    Your Friendly Colleague
+                                @endif
+                            @else
+                                {{ Auth::id() == $history->UserID ? 'You' : $history->user->name }}
+                            @endif
+                        </p>
                         <p class="card-text">Edited At: {{ $history->updated_at ? $history->updated_at->format('M d, Y') : '-' }}</p>
                     </div>
                 </div>

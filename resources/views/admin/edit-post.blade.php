@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Manage Discussion')
 @section('content')
 
 <style>

@@ -1,5 +1,5 @@
 @extends('superadmin-layout')
-
+@section('title', 'SuperAdmin | Manage Account')
 @section('content')
 
 <div class="container-fluid">

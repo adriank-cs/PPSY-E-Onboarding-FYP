@@ -76,6 +76,10 @@ class AdminProgressTrackingTable extends DataTableComponent
                             $numberCompleted++;
                         }
 
+                        if ($numberCompleted == "") {
+                            $numberCompleted = 0;
+                        }
+
                         return $numberCompleted;
                     }) / (ItemProgress::where('UserID', $value)->where('ModuleID', $row->ModuleID)->get()->count() > 0 ? ItemProgress::where('UserID', $value)->where('ModuleID', $row->ModuleID)->get()->count() : 1) * 100, 0) . '%'
                 ]),
@@ -83,6 +87,10 @@ class AdminProgressTrackingTable extends DataTableComponent
             ->format(fn ($value, $row, Column $column) => ItemProgress::where('UserID', $value)->where('ModuleID', $row->ModuleID)->get()->reduce(function ($numberCompleted, $data) use ($row) {
                 if ($data->IsCompleted) {
                     $numberCompleted++;
+                }
+
+                if ($numberCompleted == "") {
+                    $numberCompleted = 0;
                 }
 
                 return $numberCompleted;

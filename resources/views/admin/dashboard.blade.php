@@ -4,7 +4,7 @@
 @section('content')
 
 <!-- AI Chatbot Script -->
-<script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+<script src='{{ asset('js/chatbot-widget.js') }}'></script>
 <!-- AI Chatbot Script End -->
 
 <div class="container-fluid">

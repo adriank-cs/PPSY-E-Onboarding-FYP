@@ -63,6 +63,7 @@ class SuperAdminDashboardTable extends DataTableComponent
                 ->attributes(fn ($value, $row, Column $column) => 
                 [
                     $percentage = round(now()->diffInDays($row->subscription_starts_at) / $row->durationDays * 100, 0),
+                    $percentage >= 100 ? $percentage = 100 : $percentage,
                     'progress' => "{$percentage}%",
                 ]),
         ];

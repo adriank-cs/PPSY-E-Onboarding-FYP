@@ -1,5 +1,5 @@
 @extends('employee-layout')
-
+@section('title', 'Employee | Leaderboard')
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">

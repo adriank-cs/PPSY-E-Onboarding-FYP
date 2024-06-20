@@ -1,5 +1,5 @@
 @extends('admin-layout')
-
+@section('title', 'Admin | Create Post')
 @section('content')
 
 <style>
