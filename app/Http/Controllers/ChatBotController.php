@@ -300,16 +300,24 @@ class NavigationConversation extends Conversation {
         
 }
 
-// class FileRetrieveConversation extends Conversation {
+class FileRetrieveConversation extends Conversation {
 
-//         //Current user
-//         protected $user;
+        //Current user
+        protected $user;
 
-//         //Page keyword
-//         protected $keyword;
+        //Page keyword
+        protected $keyword;
 
-//         public function askDocument() {
+        public function askDocument() {
 
-//         }
+        }
 
-// }
+        public function run() {
+            //Assign user property first
+            $this->user = auth()->user();
+
+            //Run function
+            $this->askDocument();
+        }
+
+}
