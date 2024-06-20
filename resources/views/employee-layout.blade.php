@@ -83,6 +83,7 @@ $company_logo = $company->company_logo;
             aboutText: company,
             placeholderText: 'Send a message...',
             mainColor: primaryColor,
+            headerTextColor: '#fff',
             bubbleBackground: primaryColor,
             bubbleAvatarUrl: bubbleAvatar,
             aboutLink: companyWebsite,
