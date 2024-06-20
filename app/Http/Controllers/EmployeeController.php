@@ -311,12 +311,12 @@ public function submitQuiz(Request $request, $quizId)
         activity()
             ->causedBy(auth()->user())
             ->withProperties([
+                'chapter' => $quiz->item->chapter->id,
                 'quiz' => $quizId,
-                'score' => $score,
-                'passed' => $passed
+                'module' => $quiz->item->chapter->module->title,
             ])
             ->event('Quiz Completion')
-            ->log('Quiz completed by user ' . auth()->user()->name);
+            ->log('Quiz Completion');
 
         if ($markCompletedResponse instanceof \Illuminate\Http\JsonResponse) {
             $markCompletedData = $markCompletedResponse->getData(true);
@@ -374,15 +374,6 @@ public function submitQuiz(Request $request, $quizId)
             $chapterProgress->IsCompleted = 1;
             $chapterProgress->save();
 
-            // Log chapter completion activity
-            activity()
-                ->causedBy($user)
-                ->withProperties([
-                    'chapter' => $chapterId,
-                    'module' => $moduleId
-                ])
-                ->event('Chapter Completion')
-                ->log('Chapter completed by user ' . $user->name);
         }
 
         // Move to the next chapter if available
@@ -414,10 +405,11 @@ public function submitQuiz(Request $request, $quizId)
                 activity()
                     ->causedBy($user)
                     ->withProperties([
-                        'module' => $moduleId
+                        'moduleid' => $moduleId,
+                        'module' => Module::find($moduleId)->title,
                     ])
-                    ->event('Module Completion')
-                    ->log('Module completed by user ' . $user->name);
+                    ->event('Flow Completion')
+                    ->log('Flow Completion');
             }
         }
     }
