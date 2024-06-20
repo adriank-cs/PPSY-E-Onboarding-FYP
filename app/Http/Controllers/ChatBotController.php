@@ -51,48 +51,54 @@ class ChatBotController extends Controller
 
     public function handle()
     {
+
+        //Assign user property first
+        $user = auth()->user();
+
         //Load driver
         DriverManager::loadDriver(\BotMan\Drivers\Web\WebDriver::class);
         $botman = BotManFactory::create($this->config, new LaravelCache());
 
-        $botman->hears('Hi', function (BotMan $bot) {
-            $bot->reply('Hey, I hope you are doing well! How can I assist you today?');
+        $botman->hears('Hi', function (BotMan $bot) use ($user) {
+            $bot->reply('Hey '. $user->name . ', I hope you are doing well! How can I assist you today?');
         });
 
-        $botman->hears('Hello', function (BotMan $bot) {
-            $bot->reply('Hello, I hope you are doing well! How can I assist you today?');
+        $botman->hears('Hello', function (BotMan $bot) use ($user) {
+            $bot->reply('Hello ' . $user->name . ', I hope you are doing well! How can I assist you today?');
         });
 
-        // $botman->hears('Retrieve Document', function (BotMan $bot) {
+        $botman->hears('Hey', function (BotMan $bot) use ($user) {
+            $bot->reply('Hey ' . $user->name . ', I hope you are doing well! How can I assist you today?');
+        });
 
-        //     //Create attachment
-        //     $url = Storage::url('pdf_attachments/ih7pxrY3KI6G0oscNbWLzcNT11h2njxqslIr4HxG.pdf');
-        //     $filename = 'test.pdf';
+        $botman->hears('Who is the project manager?', function (BotMan $bot) use ($user) {
+            $bot->reply('Interesting question, ' . $user->name . '! The project manager of this e-onboarding system is Mr. Kent from People Psyence.');
+        });
 
-        //     //Build message object
-        //     $message = OutgoingMessage::create("[" . $filename . "] " . "File: " . $url);
-
-        //     //Reply message
-        //     $bot->reply("Here's the file you requested!");
-        //     $bot->reply($message);
-        // });
-
-        //HELP COMMAND FOR USER
+        /////////////////////////
+        //HELP COMMAND FOR USER//
+        /////////////////////////
         $botman->hears('Help', function (BotMan $bot) {
             $bot->reply('Here is a list of commands I understand: <br>1. Navigate to Page<br>2. Retrieve Document');
         });
 
-        //DIRECT PROMPTS
+        //////////////////
+        //DIRECT PROMPTS//
+        //////////////////
+
+        //Navigate to page
         $botman->hears('Navigate to Page', function (BotMan $bot) {
             $bot->startConversation(new NavigationConversation());
         });
 
+        //Retrieve document
         $botman->hears('Retrieve Document', function (BotMan $bot) {
             $bot->startConversation(new FileRetrieveConversation());
         });
 
+        //Default fallback
         $botman->fallback(function($bot) {
-            $bot->reply('Sorry, I did not understand your commands.<br><br>Here is a list of commands I understand: <br>1. Navigate to Page<br>2. Retrieve Document');
+            $bot->reply('Sorry, I did not understand your commands.<br><br>Type "help" to see the list of commands.');
         });
 
         $botman->listen();

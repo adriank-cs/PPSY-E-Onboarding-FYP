@@ -129,15 +129,16 @@
     <!-- AI Chatbot Script -->
     <script>
         let primaryColor = "{{ $buttonColor }}";
-        let company = "{{ $company->Name }}"
-        let companyWebsite = "{{ $company->Website }}"
-        let userId = "{{ $user->id }}"
-        let bubbleAvatar = "{{ Storage::url("res/message-chatbot.png") }}"
+        let company = "{{ $company->Name }}";
+        let companyWebsite = "{{ $company->Website }}";
+        let userId = "{{ $user->id }}";
+        let userName = "{{ $user->name }}";
+        let bubbleAvatar = "{{ Storage::url("res/message-chatbot.png") }}";
 
         var botmanWidget = {
             frameEndpoint: '/botman/chat',
             title: 'Onboarding Assistant 💬',
-            introMessage: 'Hey! I am your Onboarding Assistant. How can I help you today?<br><br>Type "help" to see the list of commands.',
+            introMessage: 'Hey ' + userName + ', I am your Onboarding Assistant. How can I help you today?<br><br>Type "help" to see the list of commands.',
             aboutText: company,
             placeholderText: 'Send a message...',
             mainColor: primaryColor,
