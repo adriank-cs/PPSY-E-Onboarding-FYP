@@ -48,8 +48,6 @@
                             @endif
                         </p>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -57,6 +55,26 @@
 
 </div>
 
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this company?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 <script>
     $(document).ready(function () {
         $('#searchField').on('input', function () {
@@ -73,12 +91,16 @@
         });
     });
 
+    var deleteUrl = '';
+    
     function confirmDelete(url) {
-        if (confirm('Are you sure you want to delete this company?')) {
-        // If the user clicks "OK", redirect to the delete URL
-            window.location.href = url;
-        }
+        deleteUrl = url;
+        $('#confirmDeleteModal').modal('show');
     }
+
+    $('#confirmDeleteButton').click(function() {
+        window.location.href = deleteUrl;
+    });
 </script>
 
 @endsection

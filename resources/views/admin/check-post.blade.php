@@ -73,12 +73,38 @@
     </div>
 </div>
 
+<!-- Modal for delete confirmation -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this question asked by <span id="postUserName"></span>? This action is not reversible and no edits can be made to the post after deletion.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-function confirmDelete(postId, userName) {
-    if (confirm(`Are you sure you want to delete this question asked by ${userName}? This action is not reversible and no edits can be made to the post after deletion.`)) {
-        window.location.href = '/admin/discussion/delete-post/' + postId;
+    let postIdToDelete = '';
+
+    function confirmDelete(postId, userName) {
+        postIdToDelete = postId;
+        document.getElementById('postUserName').textContent = userName;
+        var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        deleteModal.show();
     }
-}
+
+    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+        window.location.href = '/admin/discussion/delete-post/' + postIdToDelete;
+    });
 </script>
 
 @endsection

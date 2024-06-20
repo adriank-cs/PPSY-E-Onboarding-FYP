@@ -71,7 +71,7 @@
             </div>
         @endforeach
 
-        <        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitConfirmationModal">Submit Answers</button>
+        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitConfirmationModal">Submit Answers</button>
     </form>
 
     <div class="mt-4">

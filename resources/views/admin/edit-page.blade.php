@@ -10,7 +10,7 @@
     <!-- <div class="card-body"> -->
     <x-head.tinymce-config />
 
-    <form action="{{ route('admin.edit_page.post', $page->id) }}" method="POST"
+    <form id="editPageForm" action="{{ route('admin.edit_page.post', $page->id) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         @if($errors->any())
@@ -116,28 +116,26 @@
         </div>
 
         <div class="col-md-12">
-            <button type="submit" class="btn btn-primary float-end marg-btm-cus">Update</button>
+            <button type="button" class="btn btn-primary float-end marg-btm-cus" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">Update</button>
         </div>
     </form>
-
-    <!-- </div> -->
-    <!-- </div> -->
 </div>
 
-<!-- Confirmation Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
+<!-- Confirmation Modal for Update -->
+<div class="modal fade confirmation-modal" id="confirmUpdateModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirm Overwrite</h5>
+                <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 Are you sure you would like to overwrite the content?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmUploadButton">Confirm</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
             </div>
         </div>
     </div>
@@ -232,6 +230,11 @@
 
                 event.target.closest('.existing-pdf-attachment').remove();
             }
+        });
+
+        // Update confirmation button
+        document.getElementById('confirmUpdateButton').addEventListener('click', function () {
+            document.getElementById('editPageForm').submit();
         });
     });
 

@@ -4,34 +4,26 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-
-            <!-- <div class="text-center"> -->
             <div class="row">
-                <!-- <div class="col-md-3"></div> -->
                 <div class="col-md-6">
                     <div class="d-flex justify-content-end">
-                        <img src="{{ $user->profile->profilePictureUrl }}" alt="Employee Photo"
-                            class="profile-photo">
+                        <img src="{{ $user->profile->profilePictureUrl }}" alt="Employee Photo" class="profile-photo">
                     </div>
                 </div>
                 <div class="col-md-6" style="margin-top:5%">
                     <h2>Hello {{ $admin->name }}</h2>
                 </div>
-                <!-- <div class="col-md-3"></div> -->
-
             </div>
-            <!-- </div> -->
 
-            <form method="post" action="{{ route('admin.update-profile') }}" enctype="multipart/form-data">
-            @csrf
+            <form id="updateProfileForm" method="post" action="{{ route('admin.update-profile') }}" enctype="multipart/form-data">
+                @csrf
                 <div class="row">
                     <div class="col-md-6">
-
                         <fieldset disabled>
                             <div class="mb-3">
                                 <label for="employeeid" class="form-label">Employee ID:</label>
                                 <input type="text" class="form-control" id="employeeid" placeholder="Employee ID"
-                                    value="{{ $admin->employee_id}}">
+                                    value="{{ $admin->employee_id }}">
                             </div>
                         </fieldset>
 
@@ -69,7 +61,6 @@
                     </div>
 
                     <div class="col-md-6">
-
                         <fieldset disabled>
                             <div class="mb-3">
                                 <label for="department" class="form-label">Department:</label>
@@ -98,16 +89,45 @@
                             <textarea class="form-control" id="biography" name="bio" rows="10"
                                 placeholder="Enter biography">{{ $admin->bio }}</textarea>
                         </div>
-
-
                     </div>
                 </div>
                 <input type="hidden" name="user_id" value="{{ $admin->user_id }}">
-                <button type="submit" class="btn btn-primary float-end">Save</button>
+                <button type="button" class="btn btn-primary float-end" id="saveButton">Save</button>
             </form>
-
         </div>
     </div>
 </div>
+
+<!-- Modal for update confirmation -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the profile information?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('saveButton').addEventListener('click', function() {
+        var updateConfirmationModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {
+            keyboard: false
+        });
+        updateConfirmationModal.show();
+    });
+
+    document.getElementById('confirmUpdateButton').addEventListener('click', function() {
+        document.getElementById('updateProfileForm').submit();
+    });
+</script>
 
 @endsection

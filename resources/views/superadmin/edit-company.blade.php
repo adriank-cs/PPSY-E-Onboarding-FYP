@@ -6,13 +6,12 @@
     <div class="card">
         <div class="card-body">
             <h2>Edit Company</h2>
-            <form action="{{ route('superadmin.edit_company.post', ['id' => $company->CompanyID]) }}" method="POST" enctype="multipart/form-data">
+            <form id="editCompanyForm" action="{{ route('superadmin.edit_company.post', ['id' => $company->CompanyID]) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Company Name:</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter company name" value="{{ $company->Name }}" required>
-
                 </div>
 
                 <div class="mb-3">
@@ -82,7 +81,7 @@
                         value="{{ $company->subscription_ends_at ? \Carbon\Carbon::parse($company->subscription_ends_at)->format('Y-m-d') : '' }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-primary" id="updateButton">Update</button>
             </form>
         </div>
     </div>
@@ -100,8 +99,27 @@
                 <img id="logo-preview" src="" alt="Logo Preview" class="img-fluid">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" id="confirm-logo">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for confirmation message -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the company information?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Confirm</button>
             </div>
         </div>
     </div>
@@ -130,6 +148,17 @@
         document.getElementById('current-logo').style.maxHeight = '200px';
         var logoPreviewModal = bootstrap.Modal.getInstance(document.getElementById('logoPreviewModal'));
         logoPreviewModal.hide();
+    });
+
+    document.getElementById('updateButton').addEventListener('click', function() {
+        var updateConfirmationModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {
+            keyboard: false
+        });
+        updateConfirmationModal.show();
+    });
+
+    document.getElementById('confirmUpdateButton').addEventListener('click', function() {
+        document.getElementById('editCompanyForm').submit();
     });
 </script>
 

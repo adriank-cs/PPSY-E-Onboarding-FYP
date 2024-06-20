@@ -38,25 +38,48 @@
 
                 <br>
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary float-end" onclick="validateAndSubmit(event)">Submit</button>
+                <button type="button" class="btn btn-primary float-end" id="submitButton">Submit</button>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal for update confirmation -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you are done with editing the answer?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    function validateAndSubmit(event) {
-        event.preventDefault();
+    document.getElementById('submitButton').addEventListener('click', function() {
         const content = tinymce.get('content').getContent().trim();
         
         if (content) {
-            if (confirm('Are you sure you are done with editing the answer?')) {
-                document.getElementById('editAnswerForm').submit();
-            }
+            var updateConfirmationModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {
+                keyboard: false
+            });
+            updateConfirmationModal.show();
         } else {
             alert('Please fill out the content field.');
         }
-    }
+    });
+
+    document.getElementById('confirmUpdateButton').addEventListener('click', function() {
+        document.getElementById('editAnswerForm').submit();
+    });
 </script>
 
 @endsection
