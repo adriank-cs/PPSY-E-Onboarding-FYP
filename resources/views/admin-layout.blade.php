@@ -128,6 +128,12 @@
                                 <div class="carousel-caption d-none d-md-block">
                                 </div>
                             </div>
+                            <div class="carousel-item">
+                                <h5>AI Chatbot</h5>
+                                <iframe class="carousel-video" width="100%" height="400" src="https://www.youtube.com/embed/d7AOJzZ0VVw?enablejsapi=1" title="AI Chatbot" frameborder="0" allowfullscreen></iframe>
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#tutorial-carousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
