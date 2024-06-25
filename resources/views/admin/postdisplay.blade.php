@@ -75,11 +75,11 @@
                                                 Your Friendly Colleague
                                             @endif
                                         @elseif($answer->UserID == Auth::id())
-                                            <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
+                                            <img src="{{ Storage::url($users[$answer->UserID]->profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
                                             You
                                         @else
-                                            <img src="{{ Storage::url($profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
-                                            {{ $users[$answer->UserID] ?? 'Unknown' }}
+                                        <img src="{{ Storage::url($users[$answer->UserID]->profile->profile_picture) }}" alt="Profile Picture" class="img-fluid rounded-circle profile-picture-small">
+                                        {{ $users[$answer->UserID]->name ?? 'Unknown' }}
                                         @endif
                                     </strong>
                                 </p>
