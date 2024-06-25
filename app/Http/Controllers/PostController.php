@@ -159,7 +159,8 @@ class PostController extends Controller
         
         // Get user names for answers
         $userIds = $answers->pluck('UserID')->unique()->toArray();
-        $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
+        // $users = User::whereIn('id', $userIds)->pluck('name', 'id')->toArray();
+        $users = User::whereIn('id', $userIds)->with('profile')->get()->keyBy('id');
         
         // Pass the post details to the blade view
         return view('admin.postdisplay', compact('post', 'answers', 'user', 'users', 'profile'));
