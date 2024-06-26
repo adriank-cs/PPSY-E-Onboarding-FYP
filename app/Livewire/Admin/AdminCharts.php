@@ -140,6 +140,8 @@ class AdminCharts extends Component
 
             $day = $data['DayOfWeek'];
 
+            //Check if total hours is not zero
+            if ($totalHours != 0) {
             //Engagement Percentage
             $value = round(Carbon::parse($data['total_duration'])->floatDiffInHours('00:00:00'), 2) / $totalHours * 100;
             $value = round($value, 0);
@@ -149,6 +151,10 @@ class AdminCharts extends Component
 
             //Add to average session length
             $avgSessionLength += Carbon::parse($data['total_duration'])->diffInMilliseconds('00:00:00') / $numberOfEmployees;
+            
+            } else {
+            $value = 0; // Handle appropriately if totalHours is zero
+            }
 
             //Add engagement level
             $lineChartModel->addSeriesPoint("Engagement (%)", $day, $value, $this->dayColors[$day]);
