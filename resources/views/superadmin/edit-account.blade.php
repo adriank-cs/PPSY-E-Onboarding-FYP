@@ -8,13 +8,13 @@
 
         <div class="card-body">
 
-            <form action="{{route('superadmin.edit_account.post', $user->id)}}" method="POST" enctype="multipart/form-data">
+            <form id="editAccountForm" action="{{ route('superadmin.edit_account.post', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if($errors->any())
                 <div class="col-12">
                     @foreach($errors->all() as $error)
                     <div class="alert alert-danger" role="alert">
-                        {{$error}}
+                        {{ $error }}
                     </div>
                     @endforeach
                 </div>
@@ -22,13 +22,13 @@
 
                 @if(session()->has('error'))
                 <div class="alert alert-danger" role="alert">
-                    {{session('error')}}
+                    {{ session('error') }}
                 </div>
                 @endif
 
                 @if(session()->has('success'))
                 <div class="alert alert-success" role="alert">
-                    {{session('success')}}
+                    {{ session('success') }}
                 </div>
                 @endif
 
@@ -42,8 +42,6 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-
-
                         <div class="mb-3">
                             <label for="employeeid" class="form-label">Employee ID:</label>
                             <input type="text" class="form-control" id="employeeid" name="employeeID"
@@ -56,13 +54,11 @@
                                 placeholder="Enter department" value="{{ $profile->dept }}">
                         </div>
 
-
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone No:</label>
                             <input type="tel" class="form-control" id="phone" name="phoneNo"
                                 placeholder="Enter phone number" value="{{ $profile->phone_no }}">
                         </div>
-
 
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth:</label>
@@ -98,7 +94,6 @@
                     </div>
 
                     <div class="col-md-6">
-
                         <div class="mb-3">
                             <label for="name" class="form-label">Name: </label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ $profile->name }}">
@@ -126,17 +121,45 @@
                                 Admin Status
                             </label>
                             <input class="form-check-input" type="checkbox" value="1" id="isAdmin" name="isAdmin" {{ $user->companyUser->isAdmin ? 'checked' : '' }}>
-
                         </div>
-
-
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary float-end">Update</button>
+                <button type="button" class="btn btn-primary float-end" id="updateButton">Update</button>
             </form>
-
         </div>
     </div>
 </div>
+
+<!-- Modal for update confirmation -->
+<div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="updateConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateConfirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the account information?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('updateButton').addEventListener('click', function() {
+        var updateConfirmationModal = new bootstrap.Modal(document.getElementById('updateConfirmationModal'), {
+            keyboard: false
+        });
+        updateConfirmationModal.show();
+    });
+
+    document.getElementById('confirmUpdateButton').addEventListener('click', function() {
+        document.getElementById('editAccountForm').submit();
+    });
+</script>
 
 @endsection

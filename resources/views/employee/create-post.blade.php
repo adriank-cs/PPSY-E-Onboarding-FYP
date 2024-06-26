@@ -56,6 +56,24 @@
     </div>
 </div>
 
+<!-- Modal for validation message -->
+<div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="validationModalLabel">Validation Error</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Please fill out both the title and content fields.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function validateAndSubmit(event) {
         event.preventDefault();
@@ -63,11 +81,12 @@
         const content = tinymce.get('content').getContent().trim();
         
         if (title && content) {
-            if (confirm('Are you sure you are done with creating the post?')) {
-                document.getElementById('createPostForm').submit();
-            }
+            document.getElementById('createPostForm').submit();
         } else {
-            alert('Please fill out both the title and content fields.');
+            var validationModal = new bootstrap.Modal(document.getElementById('validationModal'), {
+                keyboard: false
+            });
+            validationModal.show();
         }
     }
 </script>

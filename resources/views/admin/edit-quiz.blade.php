@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.update_quiz', ['id' => $quiz->id]) }}" method="POST" enctype="multipart/form-data">
+    <form id="editQuizForm" action="{{ route('admin.update_quiz', ['id' => $quiz->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -54,54 +54,71 @@
             </div>
             <div class="page-content">
 
-            <div id="question-fields">
-                @foreach($quizQuestions as $index => $question)
-                    <div class="mb-4 question-block" id="question-block-{{ $index }}">
-                        <div class="input-group mb-2">
-                            <label for="question-{{ $index }}" class="form-label" style="font-size: 15px; font-weight: bold;">Question {{ $index + 1 }}:&nbsp;&nbsp;</label>
-                            <input type="text" class="form-control" id="question-{{ $index }}" name="questions[]" value="{{ $question->question }}" placeholder="Enter question" required>
-                            <select class="form-control" id="question_type-{{ $index }}" name="question_types[]" onchange="changeQuestionType(this)" required>
-                                <option value="multiple_choice" {{ $question->type == 'multiple_choice' ? 'selected' : '' }}>Multiple Choice</option>
-                                <option value="short_answer" {{ $question->type == 'short_answer' ? 'selected' : '' }}>Text Field</option>
-                                <option value="checkbox" {{ $question->type == 'checkbox' ? 'selected' : '' }}>Checkbox</option>
-                            </select>
-                            <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
-                        </div>
-                        <div id="answer-container-{{ $index }}">
-                            @php
-                                $answerOptions = is_string($question->answer_options) ? json_decode($question->answer_options) : $question->answer_options;
-                                $correctAnswers = is_string($question->correct_answers) ? json_decode($question->correct_answers) : $question->correct_answers;
-                            @endphp
-                            @if($question->type == 'multiple_choice' || $question->type == 'checkbox')
-                                @foreach($answerOptions as $optIndex => $option)
+                <div id="question-fields">
+                    @foreach($quizQuestions as $index => $question)
+                        <div class="mb-4 question-block" id="question-block-{{ $index }}">
+                            <div class="input-group mb-2">
+                                <label for="question-{{ $index }}" class="form-label" style="font-size: 15px; font-weight: bold;">Question {{ $index + 1 }}:&nbsp;&nbsp;</label>
+                                <input type="text" class="form-control" id="question-{{ $index }}" name="questions[]" value="{{ $question->question }}" placeholder="Enter question" required>
+                                <select class="form-control" id="question_type-{{ $index }}" name="question_types[]" onchange="changeQuestionType(this)" required>
+                                    <option value="multiple_choice" {{ $question->type == 'multiple_choice' ? 'selected' : '' }}>Multiple Choice</option>
+                                    <option value="short_answer" {{ $question->type == 'short_answer' ? 'selected' : '' }}>Text Field</option>
+                                    <option value="checkbox" {{ $question->type == 'checkbox' ? 'selected' : '' }}>Checkbox</option>
+                                </select>
+                                <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div id="answer-container-{{ $index }}">
+                                @php
+                                    $answerOptions = is_string($question->answer_options) ? json_decode($question->answer_options) : $question->answer_options;
+                                    $correctAnswers = is_string($question->correct_answers) ? json_decode($question->correct_answers) : $question->correct_answers;
+                                @endphp
+                                @if($question->type == 'multiple_choice' || $question->type == 'checkbox')
+                                    @foreach($answerOptions as $optIndex => $option)
+                                        <div class="input-group mt-2">
+                                            @if($question->type == 'checkbox')
+                                                <input type="checkbox" class="form-check-input" name="correct_answers[{{ $index }}][]" value="{{ $optIndex }}" {{ in_array($optIndex, $correctAnswers) ? 'checked' : '' }}>
+                                            @else
+                                                <input type="radio" class="form-check-input" name="correct_answers[{{ $index }}]" value="{{ $optIndex }}" {{ $correctAnswers == $optIndex ? 'checked' : '' }}>
+                                            @endif
+                                            <input type="text" class="form-control consistent-width-input" id="answer_text-{{ $index }}-{{ $optIndex }}" name="answers[{{ $index }}][]" value="{{ $option }}" placeholder="Enter answer option">
+                                            <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, {{ $index }})" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    @endforeach
+                                    <button type="button" class="btn btn-primary add-option-btn" onclick="addAnswerOption({{ $index }})">Add Option</button>
+                                @else
                                     <div class="input-group mt-2">
-                                        @if($question->type == 'checkbox')
-                                            <input type="checkbox" class="form-check-input" name="correct_answers[{{ $index }}][]" value="{{ $optIndex }}" {{ in_array($optIndex, $correctAnswers) ? 'checked' : '' }}>
-                                        @else
-                                            <input type="radio" class="form-check-input" name="correct_answers[{{ $index }}]" value="{{ $optIndex }}" {{ $correctAnswers == $optIndex ? 'checked' : '' }}>
-                                        @endif
-                                        <input type="text" class="form-control consistent-width-input" id="answer_text-{{ $index }}-{{ $optIndex }}" name="answers[{{ $index }}][]" value="{{ $option }}" placeholder="Enter answer option">
-                                        <button type="button" class="btn btn-danger" onclick="removeAnswerOption(this, {{ $index }})" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
+                                        <input type="text" class="form-control consistent-width-input" id="answer_text-{{ $index }}" name="correct_answers[{{ $index }}][]" value="{{ $correctAnswers }}" placeholder="Enter correct answer">
                                     </div>
-                                @endforeach
-                                <button type="button" class="btn btn-primary add-option-btn" onclick="addAnswerOption({{ $index }})">Add Option</button>
-                            @else
-                                <div class="input-group mt-2">
-                                    <input type="text" class="form-control consistent-width-input" id="answer_text-{{ $index }}" name="correct_answers[{{ $index }}][]" value="{{ $correctAnswers }}" placeholder="Enter correct answer">
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
                 </div>
                 <button type="button" class="btn btn-primary" onclick="addQuestionField()">Add Question</button>
             </div>
-            
         </div>
 
-        <button type="submit" class="confirm-quiz-button float-end marg-btm-cus">Update Quiz</button>
+        <button type="button" class="btn btn-primary float-end marg-btm-cus" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">Update Quiz</button>
     </form>
+</div>
 
+<!-- Modal for update confirmation -->
+<div class="modal fade" id="confirmUpdateModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered confirmation-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the quiz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -128,6 +145,12 @@
     .input-group {
         align-items: center;
     }
+
+    .confirmation-modal {
+        border-radius: 10px;
+        border: none;
+        width: 40%;
+    }
 </style>
 
 <script>
@@ -146,7 +169,6 @@
                         <option value="short_answer">Text Field</option>
                         <option value="checkbox">Checkbox</option>
                     </select>
-
                     <button type="button" class="btn btn-danger" onclick="removeQuestionField(this)" style="border-radius: 10px; height: 38px; margin-left: 10px;"><i class="fas fa-trash"></i></button>
                 </div>
                 <div id="answer-container-${currentQuestionCount}"></div>
@@ -276,6 +298,10 @@
             }
         }
     }
+
+    // Handle the confirmation modal for updating the quiz
+    document.getElementById('confirmUpdateButton').addEventListener('click', function () {
+        document.getElementById('editQuizForm').submit();
+    });
 </script>
 @endsection
-

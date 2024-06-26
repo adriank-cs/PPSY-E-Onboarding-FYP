@@ -18,6 +18,13 @@
         overflow: hidden;
     }
 
+    /* Custom styles for confirmation modal */
+    .confirmation-modal .modal-dialog {
+        width: 30%;
+        max-width: none;
+        margin: auto;
+    }
+   
 </style>
 
 <div class="container-fluid">
@@ -48,7 +55,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.edit_module.post', $module->id) }}" method="POST" enctype="multipart/form-data">
+    <form id="editModuleForm" action="{{ route('admin.edit_module.post', $module->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -76,7 +83,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary float-end marg-btm-cus">Update</button>
+        <button type="button" class="btn btn-primary float-end marg-btm-cus" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">Update</button>
     </form>
 
 </div>
@@ -100,6 +107,26 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for update confirmation -->
+<div class="modal fade confirmation-modal" id="confirmUpdateModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the module?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const imageInput = document.getElementById('image');
@@ -128,7 +155,7 @@
 
             cropper = new Cropper(imagePreview, {
                 dragMode: 'none',
-                aspectRatio: 470/ 250,
+                aspectRatio: 470 / 250,
                 autoCropArea: 1,
                 restore: false,
                 guides: false,
@@ -194,6 +221,11 @@
                 cropper.destroy();
                 cropper = null;
             }
+        });
+
+        // Update confirmation button
+        document.getElementById('confirmUpdateButton').addEventListener('click', function () {
+            document.getElementById('editModuleForm').submit();
         });
     });
 

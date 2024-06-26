@@ -32,7 +32,7 @@
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
     --bs-primary: var(--custom-button-color,#6A1043);/*TODO: ALLOW TENANT TO CHANGE THEME COLOURS NEED TO ADJUST ELEMENTS TO USE VARIABLES*/
-    --bs-secondary: var(--custom-sidebar-color, #6A1043);
+    --bs-secondary: var(--custom-sidebar-color, #a6708e);
     --bs-success: #13DEB9;
     --bs-info: #539BFF;
     --bs-warning: #FFAE1F;
@@ -4135,12 +4135,12 @@ fieldset:disabled .btn {
     --bs-btn-bg: var(--bs-primary);
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #4f73d9;
-    --bs-btn-hover-border-color: #4a6ccc;
+    --bs-btn-hover-bg: var(--bs-secondary);
+    --bs-btn-hover-border-color: var(--bs-secondary);
     --bs-btn-focus-shadow-rgb: 117, 153, 255;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #4a6ccc;
-    --bs-btn-active-border-color: #4665bf;
+    --bs-btn-active-bg: var(--bs-primary);
+    --bs-btn-active-border-color: var(--bs-primary);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: var(--bs-primary);
@@ -4166,20 +4166,19 @@ fieldset:disabled .btn {
 
 .btn-success {
     --bs-btn-color: #fff;
-    /* --bs-btn-bg: #13DEB9; */
     --bs-btn-bg:var(--bs-primary);
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: var(--bs-primary);
-    --bs-btn-hover-border-color: #0fb294;
+    --bs-btn-hover-border-color: var(--bs-secondary);
     --bs-btn-focus-shadow-rgb: 54, 227, 196;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0fb294;
-    --bs-btn-active-border-color: #0ea78b;
+    --bs-btn-active-bg: var(--bs-secondary);
+    --bs-btn-active-border-color: var(--bs-secondary);
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #13DEB9;
-    --bs-btn-disabled-border-color: #13DEB9
+    --bs-btn-disabled-bg: var(--bs-primary);
+    --bs-btn-disabled-border-color: var(--bs-primary);
 }
 
 .btn-info {
@@ -20391,7 +20390,7 @@ ul {
 }
 
 .module-buttons > a:hover{
-    color: blue;
+    color: var(--bs-secondary);
 }
 
 .module-box-icons .ti{
@@ -20607,7 +20606,7 @@ i.ti.ti-checklist{
 }
 
 i.ti.ti-checklist:hover{
-    color: blue;
+    color: var(--bs-secondary);
 }
 
 .profile-picture-colleagues {

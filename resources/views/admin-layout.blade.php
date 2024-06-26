@@ -128,6 +128,12 @@
                                 <div class="carousel-caption d-none d-md-block">
                                 </div>
                             </div>
+                            <div class="carousel-item">
+                                <h5>AI Chatbot</h5>
+                                <iframe class="carousel-video" width="100%" height="400" src="https://www.youtube.com/embed/d7AOJzZ0VVw?enablejsapi=1" title="AI Chatbot" frameborder="0" allowfullscreen></iframe>
+                                <div class="carousel-caption d-none d-md-block">
+                                </div>
+                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#tutorial-carousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -147,18 +153,20 @@
     <!-- AI Chatbot Script -->
     <script>
         let primaryColor = "{{ $buttonColor }}";
-        let company = "{{ $company->Name }}"
-        let companyWebsite = "{{ $company->Website }}"
-        let userId = "{{ $user->id }}"
-        let bubbleAvatar = "{{ Storage::url("res/message-chatbot.png") }}"
+        let company = "{{ $company->Name }}";
+        let companyWebsite = "{{ $company->Website }}";
+        let userId = "{{ $user->id }}";
+        let userName = "{{ $user->name }}";
+        let bubbleAvatar = "{{ Storage::url("res/message-chatbot.png") }}";
 
         var botmanWidget = {
             frameEndpoint: '/botman/chat',
             title: 'Onboarding Assistant 💬',
-            introMessage: 'Hey! I am your Onboarding Assistant. How can I help you today?',
+            introMessage: 'Hey ' + userName + ', I am your Onboarding Assistant. How can I help you today?<br><br>Type "help" to see the list of commands.',
             aboutText: company,
             placeholderText: 'Send a message...',
             mainColor: primaryColor,
+            headerTextColor: '#fff',
             bubbleBackground: primaryColor,
             bubbleAvatarUrl: bubbleAvatar,
             aboutLink: companyWebsite,

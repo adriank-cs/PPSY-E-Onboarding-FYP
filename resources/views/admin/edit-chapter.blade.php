@@ -30,7 +30,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.edit_chapter.post', $chapter->id) }}" method="POST" enctype="multipart/form-data">
+    <form id="editChapterForm" action="{{ route('admin.edit_chapter.post', $chapter->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -55,9 +55,36 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary float-end marg-btm-cus">Update</button>
+        <button type="button" class="btn btn-primary float-end marg-btm-cus" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">Update</button>
     </form>
 
 </div>
+
+<!-- Modal for update confirmation -->
+<div class="modal fade confirmation-modal" id="confirmUpdateModal" tabindex="-1" role="dialog" aria-labelledby="confirmUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update the chapter?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('confirmUpdateButton').addEventListener('click', function () {
+            document.getElementById('editChapterForm').submit();
+        });
+    });
+</script>
 
 @endsection

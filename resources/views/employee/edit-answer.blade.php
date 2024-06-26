@@ -38,23 +38,67 @@
 
                 <br>
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary float-end" onclick="validateAndSubmit(event)">Submit</button>
+                <button type="button" class="btn btn-primary float-end" onclick="showConfirmationModal()">Submit</button>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal for confirmation message -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Submission</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you are done with editing the answer?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSubmitButton">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for alert message -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">Alert</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Please fill out the content field.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    function validateAndSubmit(event) {
-        event.preventDefault();
+    function showConfirmationModal() {
         const content = tinymce.get('content').getContent().trim();
         
         if (content) {
-            if (confirm('Are you sure you are done with editing the answer?')) {
+            var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'), {
+                keyboard: false
+            });
+            confirmationModal.show();
+
+            document.getElementById('confirmSubmitButton').addEventListener('click', function() {
                 document.getElementById('editAnswerForm').submit();
-            }
+            });
         } else {
-            alert('Please fill out the content field.');
+            var alertModal = new bootstrap.Modal(document.getElementById('alertModal'), {
+                keyboard: false
+            });
+            alertModal.show();
         }
     }
 </script>

@@ -26,7 +26,7 @@ class ReminderCalendar extends LivewireCalendar
             $module = Module::find($model->ModuleID);
 
             return [
-                'id' => $model->ModuleID,
+                'id' => "MD" . $model->ModuleID,
                 'title' => 'Module Due 📚',
                 'description' => $module->title,
                 'date' => $model->due_date,
@@ -77,6 +77,16 @@ class ReminderCalendar extends LivewireCalendar
     public function currentMonth()
     {
         $this->goToCurrentMonth();
+    }
+
+    public function onEventClick($eventId)
+    {
+        if (str_contains($eventId, 'MD')) {
+            $moduleID = str_replace('MD', '', $eventId);
+            $module = Module::find($moduleID);
+            
+            return redirect()->route('employee.check_item_progress', ['moduleId' => $module->id]);
+        }
     }
 
 }
