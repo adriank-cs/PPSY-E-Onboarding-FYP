@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="col-md-6" style="margin-top:5%">
-                    <h2>Hello {{ $admin->name }}</h2>
+                    <h2>Hello, {{ $admin->name }}</h2>
                 </div>
             </div>
 

@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="col-md-6" style="margin-top:5%">
-                    <h2>Hello {{ $employee->name }}</h2>
+                    <h2>Hello, {{ $employee->name }}</h2>
                 </div>
             </div>
 

@@ -111,6 +111,10 @@
                                 <h5>Login Streak Gamification</h5>
                                 <iframe class="carousel-video" width="100%" height="400" src="https://www.youtube.com/embed/xONkjleN64s?enablejsapi=1" title="Login Streak Gamification" frameborder="0" allowfullscreen></iframe>
                             </div>
+                            <div class="carousel-item">
+                                <h5>AI Chatbot</h5>
+                                <iframe class="carousel-video" width="100%" height="400" src="https://www.youtube.com/embed/s2V1UMrGXjM?enablejsapi=1" title="AI Chatbot" frameborder="0" allowfullscreen></iframe>
+                            </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#tutorial-carousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -170,7 +174,7 @@
                 });
             });
         }
-        
+
         document.addEventListener('keydown', function(event) {
             const carousel = document.getElementById('tutorial-carousel');
             if (event.code === 'ArrowLeft') {
