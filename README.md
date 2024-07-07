@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Get Started
 
 1. Clone Repository
@@ -17,3 +18,6 @@ Note: Make sure your function is done and working well before pushing. <br> DO N
 3. Push the changes into that branch
 4. Create a pull request into the main branch
 
+=======
+Readme
+>>>>>>> 84ebdc1d599c86510996d53f629d7fa33aeb2843
